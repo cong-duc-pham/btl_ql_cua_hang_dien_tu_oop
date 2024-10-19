@@ -7,6 +7,7 @@ using namespace std;
 class NhanVien {
     protected:
         static int IDNV;
+        static int IDQL;
         string maNV;
         string hoTen;
         string namSinh;
@@ -22,16 +23,55 @@ class NhanVien {
         string getPass();
         string getChucVu();
         string getHoTen();
+
 };
+class HangHoa{
+    private:
+        static int maHH;
+        string IDHH;
+        int soLuong;
+        string nameSP;
+        long long giaSP;
+        string loaiSP;
+    public:
+        virtual void nhapThongTinSP();
+        friend ostream& operator << (ostream& out, HangHoa a);
+        string getNameSP();
+        long long getGiaSP();
+        string getLoaiSP();
+        string getIDHH();
+        int getSoLuong();
+        void setLoaiSP(string loai);
+};
+
 
 // Khởi tạo biến static
 int NhanVien::IDNV = 0;
 
-void NhanVien::nhapThongTin() {
-    ++IDNV;
+int NhanVien::IDQL = 0;
+
+int HangHoa ::maHH = 0;
+
+void HangHoa::setLoaiSP(string loai) {
+    loaiSP = loai;
+}
+
+void HangHoa::nhapThongTinSP(){
+    cout << "Nhap ten hang hoa: "; 
+    cin.ignore();
+    getline(cin, nameSP);
+    cout << "Nhap so luong hang nhap ve: ";
+    cin >> soLuong;
+    cout << "Nhap gia thanh: ";
+    cin >> giaSP;
+    ++maHH;
     stringstream ss;
-    ss << "NV" << setw(3) << setfill('0') << IDNV;  // Định dạng thành "NV" + 3 chữ số
-    maNV = ss.str();
+    ss << "HH" << setw(3) << setfill('0') << maHH;  
+    IDHH = ss.str();  // Gán ID cho sản phẩm
+}
+
+void NhanVien::nhapThongTin() {
+
     cout << "Nhap ho ten nhan vien: "; cin.ignore();
     getline(cin, hoTen);
     cout << "Nhap mat khau: ";
@@ -43,6 +83,26 @@ void NhanVien::nhapThongTin() {
 ostream& operator << (ostream& out, NhanVien& a) {
     out << a.maNV << "\t" << a.hoTen << "\t" << a.namSinh << "\t" << a.chucVu << "\t" << a.mucLuong << endl;
     return out;
+}
+
+string HangHoa::getNameSP() {
+    return nameSP;
+}
+
+long long HangHoa::getGiaSP() {
+    return giaSP;
+}
+
+string HangHoa::getLoaiSP() {
+    return loaiSP;
+}
+
+string HangHoa::getIDHH() {
+    return IDHH;
+}
+
+int HangHoa::getSoLuong() {
+    return soLuong;
 }
 
 string NhanVien::getMaNV() {
@@ -65,6 +125,10 @@ public:
     void setChucVuVaLuong() override {
         chucVu = "Le tan";
         mucLuong = 2000000;
+        ++IDNV;
+        stringstream ss;
+        ss << "NV" << setw(3) << setfill('0') << IDNV;  
+        maNV = ss.str();
     }
 };
 
@@ -73,6 +137,10 @@ public:
     void setChucVuVaLuong() override {
         chucVu = "Thu ngan";
         mucLuong = 4000000;
+        ++IDNV;
+        stringstream ss;
+        ss << "NV" << setw(3) << setfill('0') << IDNV;  
+        maNV = ss.str();
     }
 };
 
@@ -81,6 +149,10 @@ public:
     void setChucVuVaLuong() override {
         chucVu = "Ban hang";
         mucLuong = 12000000;
+        ++IDNV;
+        stringstream ss;
+        ss << "NV" << setw(3) << setfill('0') << IDNV;  
+        maNV = ss.str();
     }
 };
 
@@ -89,6 +161,10 @@ public:
     void setChucVuVaLuong() override {
         chucVu = "Ky thuat";
         mucLuong = 20000000;
+        ++IDNV;
+        stringstream ss;
+        ss << "NV" << setw(3) << setfill('0') << IDNV;
+        maNV = ss.str();
     }
 };
 
@@ -97,6 +173,10 @@ public:
     void setChucVuVaLuong() override {
         chucVu = "Bao tri";
         mucLuong = 20000000;
+        ++IDNV;
+        stringstream ss;
+        ss << "NV" << setw(3) << setfill('0') << IDNV;  
+        maNV = ss.str();
     }
 };
 
@@ -105,10 +185,14 @@ public:
     void setChucVuVaLuong() override {
         chucVu = "Quan ly";
         mucLuong = 30000000;
+        ++IDQL;  // Tăng ID quản lý
+        stringstream ss;
+        ss << "QL" << setw(3) << setfill('0') << IDQL;  // Định dạng thành "QL" + 3 chữ số
+        maNV = ss.str();
     }
 };
 
-// Cấu trúc danh sách liên kết đơn
+// Cấu trúc danh sách liên kết đơn cho nhân viên
 struct node {
     NhanVien* info;
     node* next;
@@ -142,11 +226,52 @@ void addTail(List& l, NhanVien* nv) {
 void printList(List l) {
     node* p = l.phead;
     while (p != NULL) {
-        cout << *(p->info);
+        if (p->info->getChucVu() != "Quan ly"){
+            cout << *(p->info);
+        }
+        p = p->next;
+    }
+}
+// Cấu trúc danh sách liên kết đơn cho sản phẩm
+struct nodeSP {
+    HangHoa* info;
+    nodeSP* next;
+};
+
+struct ListSP {
+    nodeSP* phead, * ptail;
+};
+
+void initSP(ListSP& L) {
+    L.phead = L.ptail = NULL;
+}
+
+nodeSP* createNodeSP(HangHoa* sp) {
+    nodeSP* p = new nodeSP;
+    p->info = sp;
+    p->next = NULL;
+    return p;
+}
+
+void addTailSP(ListSP& l, HangHoa* sp) {
+    nodeSP* p = createNodeSP(sp);
+    if (l.phead == NULL) {
+        l.phead = l.ptail = p;
+    } else {
+        l.ptail->next = p;
+        l.ptail = p;
+    }
+}
+
+void printListSP(ListSP l) {
+    nodeSP* p = l.phead;
+    while (p != NULL) {
+        cout << *(p->info);  
         p = p->next;
     }
 }
 
+  
 NhanVien* checkLogin(List l, string ID, string pass){
     node* p = l.phead;
     while (p != NULL) {
@@ -171,13 +296,35 @@ NhanVien* createNhanVien(int chuc) {
     nv->setChucVuVaLuong();
     return nv;
 }
+HangHoa* createHangHoa(int loai) {
+    HangHoa* sp = new HangHoa();
+    sp->nhapThongTinSP();
+
+    switch(loai) {
+        case 1: sp->setLoaiSP("Dien Thoai di dong"); break;
+        case 2: sp->setLoaiSP("Laptop-may tinh bang"); break;
+        case 3: sp->setLoaiSP("Gia dung"); break;
+        case 4: sp->setLoaiSP("Tu lanh"); break;
+        case 5: sp->setLoaiSP("Noi dien"); break;
+    }
+    return sp;
+}
+ostream& operator << (ostream& out, HangHoa a) {
+    out << a.getIDHH() << "\t" << a.getLoaiSP() << "\t" << a.getNameSP() << "\t" << a.getSoLuong() << "\t" << a.getGiaSP() << endl; 
+    return out;
+}
 
 // Hàm chính
 int main() {
     List dsNV;
     init(dsNV);
+
     List dsQL;
     init(dsQL);
+
+    ListSP dsSP;
+    initSP(dsSP);
+
     int login;
     do {
         cout << "**Chao mung den voi cua hang dien thoai di dong va thiet bi dien tu tieu dung DTL**\n";
@@ -232,60 +379,195 @@ int main() {
             
             if (user != NULL) {
                 cout << "Dang nhap thanh cong!!\n";
-                cout << "Xin chao " << user->getHoTen() << "!\n";  // Hiển thị tên người dùng
-                
-                // Hiển thị menu tương ứng với chức vụ
+                cout << "Xin chao " << user->getHoTen() << "!\n"; 
+
                 if (user->getChucVu() == "Le tan") {
-                    int choose;
+                    int choose = 0;
                     cout << "Ban da dang nhap voi chuc vu Le Tan\n";
-                    cout << "=================MENU===================\n";
-                    cout << "               (Le tan)                 \n";
-                    cout << "1. Xem so luong khach hang hien tai\n";
-                    cout << "2. Quay lai\n";
+                    do{
+                        cout << "=================MENU===================\n";
+                        cout << "               (Le tan)                 \n";
+                        cout << "1. Xem so luong khach hang hien tai\n";
+                        cout << "2. Dang suat";
+                        cin >> choose ;
+                        switch(choose){
+                            case 1:
+                                //printListKH
+                                break;
+                            case 2:
+                                cout << "Dang xuat...\n";
+                                break;
+                        }
+                    }while(choose != 2);
 
                 } 
                 else if (user->getChucVu() == "Thu ngan") {
+                    int choose = 0;
                     cout << "Ban da dang nhap voi chuc vu Thu Ngan\n";
-                    cout << "=================MENU===================\n";
-                    cout << "              (Thu ngan)                \n";
-                    cout << "1. Xem danh sach cac san pham ban ra\n";
-                    cout << "2. Xem tong so tien thu duoc\n";
-                    cout << "2. Quay lai\n";
+                    do{
+                        cout << "=================MENU===================\n";
+                        cout << "              (Thu ngan)                \n";
+                        cout << "1. Xem danh sach cac san pham ban ra\n";
+                        cout << "2. Xem tong so tien thu duoc\n";
+                        cout << "3. Dang suat";
+                        cin >> choose;
+                        switch(choose){
+                            case 1:
+                                //printfListHH->buyed
+                                break;
+                            case 2:
+                                //printmoneyBuyed
+                                break;
+                            case 3: 
+                                cout << "Dang xuat...\n";
+                                break;
+                        }
+                    }while(choose != 3);
                 }
                 else if (user->getChucVu() == "Ban hang") {
+                    int choose = 0;
                     cout << "Ban da dang nhap voi chuc vu Ban Hang\n";
-                    cout << "=================MENU===================\n";
-                    cout << "              (Ban hang)                \n";
-                    cout << "1. Xem so luong khach hang hien tai\n";
-                    cout << "2. Xem so luong san pham con hang\n";
-                    cout << "3. Xem so luong san pham ban ra\n";
+                    do{
+                        cout << "=================MENU===================\n";
+                        cout << "              (Ban hang)                \n";
+                        cout << "1. Xem so luong khach hang hien tai\n";
+                        cout << "2. Xem so luong san pham con hang\n";
+                        cout << "3. Xem so luong san pham ban ra\n";
+                        cout << "4. Dang suat";
+                        cin >> choose;
+                        switch(choose){
+                            case 1:
+                                //PrintListKH;
+                                break;
+                            case 2:
+                                cout << "ID" << "\t" << "Loai san pham" << "\t" << "Ten san pham" << "\t" << "So luong" << "\t" << "Gia" << endl; 
+                                printListSP(dsSP);
+                                break;
+                            case 3:
+                                //PrintListHHBuyed
+                                break;
+                            case 4:
+                                cout << "Dang xuat...\n";
+                                break;
+                        }
+                    }while(choose != 4);
                 }
                 else if (user->getChucVu() == "Ky thuat") {
+                    int choose = 0;
                     cout << "Ban da dang nhap voi chuc vu Ky Thuat\n";
-                    cout << "=================MENU===================\n";
-                    cout << "              (Ki thuat)                \n";
-                    cout << "1. xem so luong khach hang hien tai\n";
-                    cout << "2. Xem so luong san pham ban ra\n";
-                    cout << "3. quay lai\n";
+                    do{
+                        cout << "=================MENU===================\n";
+                        cout << "              (Ki thuat)                \n";
+                        cout << "1. xem danh sach khach hang hien tai\n";
+                        cout << "2. Xem danh sach san pham ban ra\n";
+                        cout << "3. Xem danh sach san pham con lai"
+                        cout << "4. Dang suat";
+                        cin >> choose;
+                        switch(choose){
+                            case 1:
+                                //printListKH
+                                break;
+                            case 2:
+                                //printListSPBuyed
+                                break;
+                            case 3:
+                                cout << "ID" << "\t" << "Loai san pham" << "\t" << "Ten san pham" << "\t" << "So luong" << "\t" << "Gia" << endl; 
+                                printListSP(dsSP);
+                                break;
+                            case 4:
+                                cout << "Dang xuat...\n";
+                                break;
+                        }
+                    }while(choose =! 3);
                 }
                 else if (user->getChucVu() == "Bao tri") {
+                    int choose = 0;
                     cout << "Ban da dang nhap voi chuc vu Bao Tri\n";
-                    cout << "=================MENU===================\n";
-                    cout << "               (Bao tri)                \n";
-                    cout << "1. xem so luong khach hang hien tai\n";
-                    cout << "2. Xem so luong san pham ban ra\n";
-                    cout << "3. quay lai\n";
+                    do{
+                        cout << "=================MENU===================\n";
+                        cout << "               (Bao tri)                \n";
+                        cout << "1. xem so luong khach hang hien tai\n";
+                        cout << "2. Xem so luong san pham ban ra\n";
+                        cout << "3. Dang suat";
+                        cin >> choose;
+                        switch(choose){
+                            case 1: 
+                                //printListKH
+                                break;
+                            case 2:
+                                //printlistSPBuyed
+                                break;
+                            case 3:
+                                cout << "Dang xuat...\n";
+                                break;
+                        }
+                    }while(choose != 3);
                 }
                 else {
+                    int chose = 0;  
                     cout << "Ban da dang nhap voi chuc vu Quan Ly\n";
-                    cout << "=================MENU===================\n";
-                    cout << "               (Quan ly)                \n";
-                    cout << "1. xem so luong khach hang hien tai\n";
-                    cout << "2. Xem danh sach nhan vien\n";
-                    cout << "3. Xem danh sach cac mat hang con lai\n";
-                    cout << "4. xem danh sach cac mat hang duoc ban\n";
-                    cout << "5. Xem tong so tien thu duoc\n";
-                    cout << "6. quay lai\n";
+                    do {
+                        
+                        cout << "=================MENU===================\n";
+                        cout << "               (Quan ly)                \n";
+                        cout << "1. Xem so luong khach hang hien tai\n";
+                        cout << "2. Xem danh sach nhan vien\n";
+                        cout << "3. Xem danh sach cac mat hang con lai\n";
+                        cout << "4. Xem danh sach cac mat hang duoc ban\n";
+                        cout << "5. Xem tong so tien thu duoc\n";
+                        cout << "6. Them mat hang\n";
+                        cout << "7. Dang xuat\n"; 
+                        cout << "Nhap lua chon cua ban: ";
+                        cin >> chose;
+
+                        switch(chose) {
+                            case 1:
+                                
+                                break;
+                            case 2:
+                                printList(dsNV);
+                                break;
+                            case 3:
+                                cout << "ID" << "\t" << "Loai san pham" << "\t" << "Ten san pham" << "\t" << "So luong" << "\t" << "Gia" << endl; 
+                                printListSP(dsSP);
+                                break;
+                            case 4:
+                                // Code xử lý mục 4
+                                break;
+                            case 5:
+                                // Code xử lý mục 5
+                                break;
+                            case 6: {
+                                cout << "Them mat hang:\n";
+                                int sp;
+                                cout << "Loai san pham:\n";
+                                cout << "1. Dien Thoai di dong\n";
+                                cout << "2. Laptop-may tinh bang\n";
+                                cout << "3. Gia dung\n";
+                                cout << "4. Tu lanh\n";
+                                cout << "5. Noi dien\n";
+                                cout << "Nhap lua chon cua ban: ";
+                                cin >> sp;
+
+                                while (sp < 1 || sp > 5) {
+                                    cout << "Hay chon 1 trong cac muc nay!\n";
+                                    cout << "Nhap lua chon cua ban: ";
+                                    cin >> sp;
+                                }
+
+                                HangHoa* h = createHangHoa(sp); // Truyền tham số "sp" để xác định loại sản phẩm
+                                addTailSP(dsSP, h);
+                                cout << "Da them thanh cong!!\n";
+                                break;
+                            }
+                            case 7:
+                                cout << "Dang xuat...\n";  // Thoát khỏi vòng lặp menu quản lý để quay về menu chính
+                                break;
+                            default:
+                                cout << "Lua chon khong hop le!\n";
+                                break;
+                        }
+                    } while (chose != 7);  // Vòng lặp cho đến khi người dùng chọn đăng xuất
                 }
             } else {
                 cout << "ID hoac mat khau khong dung!\n";
