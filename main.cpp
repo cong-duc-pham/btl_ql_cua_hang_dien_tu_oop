@@ -314,6 +314,139 @@ ostream& operator << (ostream& out, HangHoa a) {
     return out;
 }
 
+
+//Khach hang
+class KhachHang {
+    protected:
+        static int IDKH;
+        string maKH;
+        string hoTenKH;
+        string namSinhKH;
+        string passKH;
+        long long soDienThoaiKH;
+    public:
+        virtual void nhapThongTinKH();  
+        friend ostream& operator << (ostream& out, KhachHang& a);
+        string getMaKH();
+        string getPassKH();
+        string getHoTenKH();
+        long long getsoDienThoaiKH();
+};
+
+// khoi tao bien static cho khach hang
+int KhachHang::IDKH = 0;
+
+void KhachHang::nhapThongTinKH() {
+    ++IDKH;
+    stringstream ss;
+    ss << "KH" << setw(3) << setfill('0') << IDKH;  // Định dạng thành "KH" + 3 chữ số
+    maKH = ss.str();
+    cout << "Nhap ho ten khach hang: "; cin.ignore();
+    getline(cin, hoTenKH);
+    cout << "Nhap mat khau: ";
+    cin >> passKH;
+    cout << "Nhap nam sinh: ";
+    cin >> namSinhKH;
+    cout << "Nhap so dien thoai: ";
+    cin >> soDienThoaiKH;
+}
+
+ostream &operator << (ostream &out, KhachHang &a) {
+    out << a.maKH << "\t" << a.hoTenKH << "\t" << a.namSinhKH << "\t" << endl;
+    return out;
+}
+
+string KhachHang::getMaKH() {
+    return maKH;
+}
+
+string KhachHang::getPassKH() {
+    return passKH;
+}
+string KhachHang::getHoTenKH() {
+    return hoTenKH;
+}
+
+long long KhachHang::getsoDienThoaiKH(){
+	return soDienThoaiKH;
+}
+struct nodeKH{
+	KhachHang *info;
+	nodeKH *next;
+};
+
+struct ListKH{
+	nodeKH *phead, *ptail;
+};
+
+void initKH(ListKH &L){
+	L.phead=L.ptail=NULL;
+}
+
+nodeKH* createNodeKH(KhachHang *kh) {
+    nodeKH *p = new nodeKH;
+    p->info = kh;
+    p->next = NULL;
+    return p;
+}
+
+void addTailKH(ListKH& l, KhachHang *kh) {
+    nodeKH *p = createNodeKH(kh);
+    if (l.phead == NULL) {
+        l.phead = l.ptail = p;
+    } else {
+        l.ptail->next = p;
+        l.ptail = p;
+    }
+}
+
+void printListKH(ListKH l) {
+    nodeKH *p = l.phead;
+    while (p != NULL) {
+        cout << *(p->info);
+        p = p->next;
+    }
+}
+
+class KhachHangThanThiet : public KhachHang {
+private:
+    int diemTichLuy;
+public:
+    KhachHangThanThiet() : diemTichLuy(0) {}
+
+    virtual void nhapThongTinKH() {  // Phương thức này vẫn là ảo (virtual) vì lớp cơ sở đã khai báo nó là virtual
+        KhachHang::nhapThongTinKH();  
+        cout << "Nhap diem tich luy: ";
+        cin >> diemTichLuy;
+    }
+
+    int getDiemTichLuy() {
+        return diemTichLuy;
+    }
+
+    friend ostream& operator << (ostream& out, KhachHangThanThiet& a) {
+        out << a.maKH << "\t" << a.hoTenKH << "\t" << a.namSinhKH << "\t" 
+            << a.soDienThoaiKH << "\t" << "Diem tich luy: " << a.diemTichLuy
+            << "\t" << "Loai khach hang: " << a.getLoaiKH() << endl;
+        return out;
+    }
+
+    string getLoaiKH() {
+        if (diemTichLuy >= 1500) {
+            return "Kim Cuong";
+        } else if (diemTichLuy >= 1000) {
+            return "Vang";
+        } else if (diemTichLuy >= 500) {
+            return "Bac";
+        } else if (diemTichLuy >= 100) {
+            return "Dong";
+        } else {
+            return "Thong thuong";
+        }
+    }
+};
+
+
 // Hàm chính
 int main() {
     List dsNV;
@@ -325,8 +458,20 @@ int main() {
     ListSP dsSP;
     initSP(dsSP);
 
+    ListKH dsKH;
+    initKH(dsKH);
+
     int login;
-    do {
+    int chon;
+    cout<<"  Moi xac nhan danh tinh" << endl;
+	cout<<"==========================" << endl;
+	cout<<"1. Nhan vien" << endl;
+	cout<<"2. Khach hang" << endl;
+	cout<<"Moi nhap: ";
+	cin>>chon;
+    switch(chon){
+        case 1:{
+             do {
         cout << "**Chao mung den voi cua hang dien thoai di dong va thiet bi dien tu tieu dung DTL**\n";
         cout << "-1. Dang ky\n";
         cout << "-2. Dang nhap\n";
@@ -460,7 +605,7 @@ int main() {
                         cout << "              (Ki thuat)                \n";
                         cout << "1. xem danh sach khach hang hien tai\n";
                         cout << "2. Xem danh sach san pham ban ra\n";
-                        cout << "3. Xem danh sach san pham con lai"
+                        cout << "3. Xem danh sach san pham con lai";
                         cout << "4. Dang suat";
                         cin >> choose;
                         switch(choose){
@@ -576,5 +721,82 @@ int main() {
         cout << "\nBan co muon quay lai trang chu khong? (1: Co, 0: Khong): ";
         cin >> login;
     } while (login == 1);
+            break;
+        }
+        case 2:{
+            do {
+                    cout << "**Chao mung den voi cua hang dien thoai di dong va thiet bi dien tu tieu dung DTL**\n";
+                    cout << "-1. Dang ky\n";
+                    cout << "-2. Dang nhap\n";
+                    cout << "Nhap lua chon cua ban: ";
+                    cin >> login;
+
+                    while (login < 1 || login > 2) {
+                        cout << "Hay chon 1 trong cac muc nay!\n";
+                        cout << "1. Dang ky\n";
+                        cout << "2. Dang nhap\n";
+                        cout << "Nhap lua chon cua ban: ";
+                        cin >> login;
+                    }
+
+                    if (login == 1) {
+                        int loaiKH;
+                        cout << "============Dang ki=============\n";
+                        cout << "Loai khach hang: \n";
+                        cout << "1. Khach hang thuong\n";
+                        cout << "2. Khach hang than thiet\n";
+                        cout << "Nhap lua chon cua ban: ";
+                        cin >> loaiKH;
+
+                        while (loaiKH < 1 || loaiKH > 2) {
+                            cout << "Hay chon 1 trong cac muc nay!\n";
+                            cout << "Nhap lua chon cua ban: ";
+                            cin >> loaiKH;
+                        }
+
+                        if (loaiKH == 1) {
+                            KhachHang* kh = new KhachHang();
+                            kh->nhapThongTinKH();
+                            addTailKH(dsKH, kh);
+                            cout << "Da dang ki thanh cong!!\n";
+                            cout << *kh;
+                        } else {
+                            KhachHangThanThiet* kh = new KhachHangThanThiet();
+                            kh->nhapThongTinKH();
+                            addTailKH(dsKH, kh);
+                            cout << "Da dang ki thanh cong!!\n";
+                            cout << *kh;
+                        }
+
+                    } else if (login == 2) {
+                        string ID_current, pass_current;
+                        cout << "============Dang Nhap===========\n";
+                        cout << "Nhap ID: ";
+                        cin.ignore();
+                        getline(cin, ID_current);
+                        cout << "Nhap mat khau: ";
+                        getline(cin, pass_current);
+
+                        nodeKH* p = dsKH.phead;
+                        while (p != NULL) {
+                            if (p->info->getMaKH() == ID_current && p->info->getPassKH() == pass_current) {
+                                cout << "Dang nhap thanh cong!!\n";
+                                cout << "Xin chao " << p->info->getHoTenKH() << "!\n";
+                                break;
+                            }
+                            p = p->next;
+                        }
+                        if (p == NULL) {
+                            cout << "ID hoac mat khau khong dung!\n";
+                        }
+                    }
+
+                    cout << "\nBan co muon quay lai trang chu khong? (1: Co, 0: Khong): ";
+                    cin >> login;
+                } while (login == 1);
+                break;
+            }
+        }
+   
     system("pause");
-}
+ }
