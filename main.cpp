@@ -724,7 +724,7 @@ int main() {
             break;
         }
         case 2:{
-             do {
+            do {
                     cout << "**Chao mung den voi cua hang dien thoai di dong va thiet bi dien tu tieu dung DTL**\n";
                     cout << "-1. Dang ky\n";
                     cout << "-2. Dang nhap\n";
@@ -799,4 +799,4 @@ int main() {
         }
    
     system("pause");
-}
+ }
