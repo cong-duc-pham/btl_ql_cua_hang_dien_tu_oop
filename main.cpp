@@ -460,7 +460,7 @@ int main() {
                         cout << "              (Ki thuat)                \n";
                         cout << "1. xem danh sach khach hang hien tai\n";
                         cout << "2. Xem danh sach san pham ban ra\n";
-                        cout << "3. Xem danh sach san pham con lai"
+                        cout << "3. Xem danh sach san pham con lai";
                         cout << "4. Dang suat";
                         cin >> choose;
                         switch(choose){
