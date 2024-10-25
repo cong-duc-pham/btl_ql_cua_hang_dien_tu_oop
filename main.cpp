@@ -35,8 +35,11 @@ private:
     string nameSP;
     long long giaSP;
     string loaiSP;
+    int soLuongBanRa;
+    float soTienBanRa;
 
 public:
+    HangHoa(): soLuongBanRa(0), soTienBanRa(0) {}
     virtual void nhapThongTinSP();
     friend ostream &operator<<(ostream &out, HangHoa a);
     string getNameSP();
@@ -45,6 +48,7 @@ public:
     string getIDHH();
     int getSoLuong();
     void setLoaiSP(string loai);
+
 };
 
 // Khởi tạo biến static
@@ -379,6 +383,7 @@ HangHoa *createHangHoa(int loai)
     }
     return sp;
 }
+
 ostream &operator<<(ostream &out, HangHoa a)
 {
     out << a.getIDHH() << "\t" << a.getLoaiSP() << "\t" << a.getNameSP() << "\t" << a.getSoLuong() << "\t" << a.getGiaSP() << endl;
@@ -395,7 +400,7 @@ protected:
     string namSinhKH;
     string passKH;
     long long soDienThoaiKH;
-
+   
 public:
     virtual void nhapThongTinKH();
     friend ostream &operator<<(ostream &out, KhachHang &a);
@@ -403,6 +408,7 @@ public:
     string getPassKH();
     string getHoTenKH();
     long long getsoDienThoaiKH();
+
 };
 
 // khoi tao bien static cho khach hang
@@ -569,6 +575,7 @@ void printCentered(string text, int screenWidth) {
     int padding = (screenWidth - text.length()) / 2;  // Tính số khoảng trắng cần thêm vào để canh giữa
     cout << string(padding, ' ') << text << endl;  // In ra khoảng trắng trước khi in chuỗi
 }
+
 // Hàm chính
 int main()
 {
@@ -590,6 +597,7 @@ int main()
     int chon;
     bool returnMain;
     bool loggedOut = false;
+    
     do{
         returnMain = false;
         cout << "\033[1;31m**Sieu thi dien may DTL**\033[0m\n";
@@ -824,7 +832,7 @@ int main()
                             // printListSP
                             break;
                         case 2:
-                            // Mua san pham
+                            
                             break;
                         }
                     } while (chooseKH != 3);
