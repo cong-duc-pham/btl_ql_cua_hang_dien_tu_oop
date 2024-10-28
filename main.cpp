@@ -37,6 +37,8 @@ private:
     string nameSP;
     long long giaSP;
     string loaiSP;
+    int soLuongBanRa;
+    float soTienBanRa;
 
 public:
     virtual void nhapThongTinSP();
@@ -47,6 +49,12 @@ public:
     string getIDHH();
     int getSoLuong();
     void setLoaiSP(string loai);
+    void setSoLuong(int x);
+    void capNhatBanHang(int slBanRa, float tienBanRa);
+    int getSoLuongBanRa(); 
+    float getSoTienBanRa();
+    void setSoLuongBanRa(int slBanRa);
+    void setSoTienBanRa(float tienBanRa);
 };
 
 // Khởi tạo biến static
@@ -198,6 +206,31 @@ string HangHoa::getIDHH()
 int HangHoa::getSoLuong()
 {
     return soLuong;
+}
+
+void HangHoa::setSoLuong(int soLuongMoi) { 
+	soLuong = soLuongMoi;
+} 
+    
+int HangHoa::getSoLuongBanRa() { 
+	return soLuongBanRa; 
+}
+
+float HangHoa::getSoTienBanRa() {
+	return soTienBanRa;
+}
+
+void HangHoa::setSoLuongBanRa(int slBanRa) {
+	soLuongBanRa = slBanRa; 
+}
+
+void HangHoa::setSoTienBanRa(float tienBanRa) {
+	 soTienBanRa = tienBanRa; 
+}
+
+void HangHoa::capNhatBanHang(int slBanRa, float tienBanRa) {
+    soLuongBanRa += slBanRa;
+    soTienBanRa += tienBanRa;
 }
 
 string NhanVien::getMaNV()
@@ -726,6 +759,84 @@ void printTemplateKH(ListKH &dsKH) {
         temp = temp->next;
     }
 }
+
+void muaSanPham(ListSP &dsSP, bool laKhachHangThanThiet, int &diemTichLuy, float &tongDoanhThu) {
+    nodeSP *p = dsSP.phead;
+    HangHoa *sanPham = nullptr;
+	string tenSanPham;
+	cout << "nhap san pham muon mua: ";
+	cin.ignore();
+	getline(cin,tenSanPham);
+    
+    while (p != nullptr) {
+        if (p->info->getNameSP() == tenSanPham) {
+            sanPham = p->info;
+            break;
+        }
+        p = p->next;
+    }
+
+    if (sanPham == nullptr) {
+        cout << "Khong tim thay san pham co ten '" << tenSanPham << "'." << endl;
+        return;
+    }
+
+    int soLuongMua;
+    cout << "Nhap so luong muon mua: ";
+    cin >> soLuongMua;
+
+    if (sanPham->getSoLuong() < soLuongMua) {
+        cout << "Khong du so luong de mua." << endl;
+        return;
+    }
+
+    float thanhTien = soLuongMua * sanPham->getGiaSP();
+    tongDoanhThu += thanhTien;
+
+    sanPham->setSoLuong(sanPham->getSoLuong() - soLuongMua);
+
+    sanPham->capNhatBanHang(soLuongMua, thanhTien);
+
+    if (laKhachHangThanThiet) {
+        diemTichLuy += 100;
+        if (thanhTien > 1000000) diemTichLuy += 100;
+    }
+
+    cout << "Da mua thanh cong " << soLuongMua << " san pham: " << sanPham->getNameSP() << endl;
+    cout << "So tien phai tra: " << fixed << setprecision(0) << thanhTien << " VND" << endl;
+    cout << "Diem tich luy hien tai: " << diemTichLuy << endl;
+    cout << "Tong doanh thu cua thu ngan: " << fixed << setprecision(0) << tongDoanhThu << " VND" << endl;
+    cout << "Ten san pham: " << sanPham->getNameSP() << endl;
+    cout << "So luong da mua: " << soLuongMua << endl;
+}
+
+void xemSanPham(const ListSP &dsSP) {
+    if (dsSP.phead == NULL) {
+        cout << "Danh sach san pham trong." << endl;
+        return;
+    }
+    nodeSP *p = dsSP.phead;
+     bool found=false;
+    cout << left << setw(15) << "ID" << setw(30) << "Ten san pham" << setw(10) << "So luong" 
+         << setw(15) << "Gia (VND)" << setw(20) << "Loai san pham" << endl;
+    cout << "-------------------------------------------------------------------------------" << endl;
+    
+    while (p != NULL) {
+        if(p->info->getSoLuong()>0){
+             found = true;
+             cout << left << setw(15) << p->info->getIDHH() 
+             << setw(30) << p->info->getNameSP() 
+             << setw(10) << p->info->getSoLuong()
+             << setw(15) << fixed << setprecision(0) << p->info->getGiaSP()
+             << setw(20) << p->info->getLoaiSP() << endl;
+        }
+        p = p->next;
+        if(!found){
+            cout << "Danh sach san pham trong" << endl;
+        }
+    }
+}
+
 // Hàm chính
 int main()
 {
@@ -740,6 +851,11 @@ int main()
 
     ListKH dsKH;
     initKH(dsKH);
+
+    HangHoa sp;
+    int diemTichLuy = 0;
+    float tongDoanhThu = 0.0;
+    bool khachHangThanThiet = true;
 
     int screenWidth = 80;
 
@@ -985,10 +1101,10 @@ int main()
                         cin >> chooseKH;
                         switch (chooseKH) {
                         case 1:
-                            // printListSP
+                            xemSanPham(dsSP);
                             break;
                         case 2:
-                            // Mua san pham
+                            muaSanPham(dsSP, true, diemTichLuy, tongDoanhThu);
                             break;
                         }
                     } while (chooseKH != 3);
