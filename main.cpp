@@ -781,7 +781,6 @@ void printTemplateKH(ListKH &dsKH) {
     }
 }
 
-
 // Hàm tìm kiếm thông tin nhân viên
 NhanVien* timKiemNhanVien(List& dsNV, const string& maNV) {
     node* p = dsNV.phead;
@@ -804,9 +803,10 @@ HangHoa* timKiemSanPham(ListSP& dsSP, const string& idSP) {
         }
         p = p->next;
     }
-    cout << "Khong tim thay san pham co ma" << idSP << endl;
+    cout << "Khong tim thay san pham co ma " << idSP << endl;
     return nullptr;
 }
+
 // Hàm xóa sản phẩm khỏi danh sách dựa trên ID sản phẩm
 bool xoaSanPham(ListSP &dsSP, const string &idSP) {
     nodeSP *prev = nullptr;
@@ -935,6 +935,7 @@ bool xoaKhachHang(ListKH& dsKH, const string& maKH) {
     cout << "Khong tim thay khach hang de xoa." << endl;
     return false;
 }
+
 void muaSanPham(ListSP &dsSP, bool laKhachHangThanThiet, int &diemTichLuy, float &tongDoanhThu) {
     nodeSP *p = dsSP.phead;
     HangHoa *sanPham = nullptr;
