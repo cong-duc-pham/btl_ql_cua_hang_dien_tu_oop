@@ -1039,6 +1039,7 @@ int main()
     int chon;
     bool returnMain;
     bool loggedOut = false;
+    int luaChon;
     do{
         returnMain = false;
         int padding = (screenWidth - 24) / 2; // 24 là độ dài tiêu đề
@@ -1148,8 +1149,8 @@ int main()
                 cout << "Ban da dang nhap voi chuc vu " << user->getChucVu() << "\n";
                 do {
                     // Menu cho nhân viên
-                    cout << "=================MENU===================\n";
                     if (user->getChucVu() == "Le tan") {
+                        cout << "=================MENU===================\n";
                         cout << "               (Le tan)                 \n";
                         cout << "0. Dang xuat\n";
                         cout << "1. Xem so luong khach hang hien tai\n";
@@ -1158,12 +1159,14 @@ int main()
                         cout << "Moi ban nhap lua chon: ";
                         
                     } else if (user->getChucVu() == "Thu ngan") {
+                        cout << "=================MENU===================\n";
                         cout << "              (Thu ngan)                \n";
                         cout << "0. Dang xuat\n";
                         cout << "1. Xem danh sach cac san pham ban ra\n";
                         cout << "2. Xem tong so tien thu duoc\n";
                         cout << "Moi ban nhap lua chon: ";
                     } else if (user->getChucVu() == "Ban hang") {
+                        cout << "=================MENU===================\n";
                         cout << "              (Ban hang)                \n";
                         cout << "0. Dang xuat\n";
                         cout << "1. Xem so luong khach hang hien tai\n";
@@ -1172,6 +1175,7 @@ int main()
                         cout << "4.";
                         cout << "Moi ban nhap lua chon: ";
                     } else if (user->getChucVu() == "Ky thuat") {
+                        cout << "=================MENU===================\n";
                         cout << "              (Ky thuat)                \n";
                         cout << "0. Dang xuat\n";
                         cout << "1. Xem danh sach khach hang hien tai\n";
@@ -1179,6 +1183,7 @@ int main()
                         cout << "3. Xem danh sach san pham ban ra\n";
                         cout << "Moi ban nhap lua chon: ";
                     } else if (user->getChucVu() == "Bao tri") {
+                        cout << "=================MENU===================\n";
                         cout << "               (Bao tri)                \n";
                         cout << "0. Dang xuat\n";
                         cout << "1. Xem so luong khach hang hien tai\n";
@@ -1199,11 +1204,11 @@ int main()
                         cout << "|| 11. Xoa thong tin nhan vien trong cua hang.                                             ||\n"; 
                         cout << "|| 12. Xoa thong tin khach hang trong cua hang.                                            ||\n";
                         cout << "|| 13. Xoa thong tin san pham trong cua hang.                                              ||\n";
-                        cout << "|| 14. Chinh cua thong tin quan ly (*note: Khong the sua thogn tin cac quan ly khac!).     ||\n";
-                        cout << "|| 15. Chinh sua thong tin nhanh vien trong cua hang.                                      ||\n";
-                        cout << "|| 17. Chinh sua thong tin san pham trong cua hang.                                        ||\n";
+                        cout << "|| 14. Thay doi thong tin ca nhan.                                                         ||\n";
+                        cout << "|| 15. Chinh sua thong tin nhanh vien.                                                     ||\n";
+                        cout << "|| 17. Chinh sua thong tin san pham.                                                       ||\n";
                         cout << "|| 0. Dang xuat.                                                                           ||\n";      
-                        cout << "<<=====================================*.*.*.*.*===========================================>>\n";
+                        cout << "<<=======================================*.*.*.*.*=========================================>>\n";
                         cout << "======>>>>  Moi ban nhap lua chon: ";
                     }
                     cin >> choose;
@@ -1426,13 +1431,13 @@ int main()
             }
         }
         }
-        int luaChon;
+        
         cout << "\nBan co muon quay lai trang chu khong? (1: Co, 0: Khong): ";
         cin >> luaChon;
         if (luaChon == 0)
         {
             returnMain = true;
         }
-    }while(returnMain);
+    }while(returnMain && luaChon != 0);
     system("pause");
 }
