@@ -936,7 +936,7 @@ bool xoaKhachHang(ListKH& dsKH, const string& maKH) {
     return false;
 }
 
-void muaSanPham(ListSP &dsSP, bool laKhachHangThanThiet, int &diemTichLuy, float &tongDoanhThu) {
+void muaSanPham(ListSP &dsSP,ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &diemTichLuy, float &tongDoanhThu) {
     nodeSP *p = dsSP.phead;
     HangHoa *sanPham = nullptr;
 	string tenSanPham;
@@ -970,20 +970,43 @@ void muaSanPham(ListSP &dsSP, bool laKhachHangThanThiet, int &diemTichLuy, float
     tongDoanhThu += thanhTien;
 
     sanPham->setSoLuong(sanPham->getSoLuong() - soLuongMua);
-
-    sanPham->capNhatBanHang(soLuongMua, thanhTien);
+    
 
     if (laKhachHangThanThiet) {
         diemTichLuy += 100;
         if (thanhTien > 1000000) diemTichLuy += 100;
     }
+    HangHoa* sanPhamMua = new HangHoa(*sanPham);
+    sanPhamMua->setSoLuong(soLuongMua);
+    nodeSP *newNode = new nodeSP;
+    newNode->info = sanPhamMua; 
+    newNode->next = dsSPBuyed.phead;
+    dsSPBuyed.phead = newNode;
 
     cout << "Da mua thanh cong " << soLuongMua << " san pham: " << sanPham->getNameSP() << endl;
     cout << "So tien phai tra: " << fixed << setprecision(0) << thanhTien << " VND" << endl;
     cout << "Diem tich luy hien tai: " << diemTichLuy << endl;
-    cout << "Tong doanh thu cua thu ngan: " << fixed << setprecision(0) << tongDoanhThu << " VND" << endl;
+    // cout << "Tong doanh thu cua thu ngan: " << fixed << setprecision(0) << tongDoanhThu << " VND" << endl;
     cout << "Ten san pham: " << sanPham->getNameSP() << endl;
     cout << "So luong da mua: " << soLuongMua << endl;
+}
+
+void printListSPBuyed(ListSP &dsSPBuyed){
+    nodeSP *p = dsSPBuyed.phead;
+    cout << "******San pham da mua********" << endl;
+    cout << left 
+        << setw(15) << "Ma HH" 
+        << setw(20) << "Loai SP" 
+        << setw(25) << "Ten SP" 
+        << setw(10) << "So Luong" 
+        << setw(15) << "Gia SP" 
+        << endl;
+    cout << string(85, '-') << endl; // Dòng gạch ngang ngăn cách
+    // In danh sách sản phẩm
+    while (p != NULL) {
+        cout << *(p->info); // Gọi toán tử << của HangHoa để in
+        p = p->next;
+    }
 }
 
 void xemSanPham(const ListSP &dsSP) {
@@ -1027,6 +1050,8 @@ int main()
 
     ListKH dsKH;
     initKH(dsKH);
+
+    ListSP dsSPBuyed;
 
     HangHoa sp;
     int diemTichLuy = 0;
@@ -1172,7 +1197,6 @@ int main()
                         cout << "1. Xem so luong khach hang hien tai\n";
                         cout << "2. Xem so luong san pham con hang\n";
                         cout << "3. Xem so luong san pham ban ra\n";
-                        cout << "4.";
                         cout << "Moi ban nhap lua chon: ";
                     } else if (user->getChucVu() == "Ky thuat") {
                         cout << "=================MENU===================\n";
@@ -1194,7 +1218,7 @@ int main()
                         cout << "|| 1. Xem so luong khach hang hien tai.                                                    ||\n";
                         cout << "|| 2. Xem danh sach nhan vien.                                                             ||\n";
                         cout << "|| 3. Xem danh sach cac mat hang con lai.                                                  ||\n";
-                        cout << "|| 4. Xem danh sach cac mat hang duoc ban.                                                 ||\n";
+                        cout << "|| 4. Xem danh sach cac mat hang da ban.                                                   ||\n";
                         cout << "|| 5. Xem tong so tien thu duoc.                                                           ||\n";
                         cout << "|| 6. Them mat hang.                                                                       ||\n";
                         cout << "|| 7. Tim kiem thong tin nhan vien trong cua hang.                                         ||\n";
@@ -1223,7 +1247,7 @@ int main()
                             if (user->getChucVu() == "Le tan") {
                                 printTemplateKH(dsKH);
                             } else if (user->getChucVu() == "Thu ngan") {
-                                // printfListHH->buyed
+                                printListSPBuyed(dsSPBuyed);
                             } else if (user->getChucVu() == "Ban hang") {
                                 printTemplateKH(dsKH);
                             } else if (user->getChucVu() == "Ky thuat") {
@@ -1235,7 +1259,12 @@ int main()
                             }
                             break;
                         case 2:
-                            if (user->getChucVu() == "Thu ngan") {
+                            if (user->getChucVu() == "Le tan"){
+                                themKhachHang(dsKH);
+                                cout << "Them khach hang moi thanh cong!\n";
+                                break;
+                            }
+                            else if (user->getChucVu() == "Thu ngan") {
                                 // printmoneyBuyed
                             } else if (user->getChucVu() == "Ban hang") {
                                 cout << "ID" << "\t" << "Loai san pham" << "\t" << "Ten san pham" << "\t" << "So luong" << "\t" << "Gia" << endl;
@@ -1244,18 +1273,22 @@ int main()
                                 cout << "ID" << "\t" << "Loai san pham" << "\t" << "Ten san pham" << "\t" << "So luong" << "\t" << "Gia" << endl;
                                 printListSP(dsSP);
                             } else if (user->getChucVu() == "Bao tri") {
-                                // printlistSPBuyed
+                                printListSPBuyed(dsSPBuyed);
                             }
                             else{
 
                                 printList(dsNV);
                             }
                             break;
+
                         case 3:
-                            if (user->getChucVu() == "Ban hang") {
-                                // PrintListHHBuyed
+                            if(user->getChucVu() == "Le tan"){
+                                //tìm kiếm khách hàng
+                            }
+                            else if (user->getChucVu() == "Ban hang") {
+                                printListSPBuyed(dsSPBuyed);
                             } else if (user->getChucVu() == "Ky thuat") {
-                                // printListSPBuyed
+                                printListSPBuyed(dsSPBuyed);
                             } 
                             else {
                                 printListSP(dsSP);
@@ -1263,12 +1296,12 @@ int main()
                             break;
                         case 4:
                             if (user->getChucVu() == "Quan ly") {
-                                // Code xử lý mục 5
+                               printListSPBuyed(dsSPBuyed);
                             }
                             break;
                         case 5:
                             if (user->getChucVu() == "Quan ly") {
-                                
+                                // in tổng tiền thu được
                             }
                             break;
                         case 6:
@@ -1409,19 +1442,29 @@ int main()
                     do {
                         // Menu cho khách hàng
                         cout << "=================MENU===================\n";
+                        cout << "0. Dang xuat\n";
                         cout << "1. Xem san pham\n";
                         cout << "2. Mua san pham\n";
-                        cout << "3. Dang xuat\n";
+                        cout << "3. San pham da mua\n";
+                        
                         cin >> chooseKH;
                         switch (chooseKH) {
-                        case 1:
-                            xemSanPham(dsSP);
-                            break;
-                        case 2:
-                            muaSanPham(dsSP, true, diemTichLuy, tongDoanhThu);
-                            break;
+                            case 0:
+                                cout << "Dang xuat...\n";
+                                returnMain = true;
+                                break;
+                            case 1:
+                                xemSanPham(dsSP);
+                                break;
+                            case 2:
+                                muaSanPham(dsSP, dsSPBuyed, true, diemTichLuy, tongDoanhThu);   
+                                break;
+                            case 3:
+                                printListSPBuyed(dsSPBuyed);
+                                break ;
+                            
                         }
-                    } while (chooseKH != 3);
+                    } while (chooseKH != 0);
                 } else {
                     cout << "Dang nhap khong thanh cong! Vui long kiem tra lai!\n";
                     returnMain = true;
