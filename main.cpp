@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -687,10 +688,8 @@ public:
     KhachHangThanThiet() : diemTichLuy(0) {}
 
     virtual void nhapThongTinKH()
-    { // Phương thức này vẫn là ảo (virtual) vì lớp cơ sở đã khai báo nó là virtual
+    { 
         KhachHang::nhapThongTinKH();
-        cout << "Nhap diem tich luy: ";
-        cin >> diemTichLuy;
     }
 
     int getDiemTichLuy()
@@ -936,7 +935,7 @@ bool xoaKhachHang(ListKH& dsKH, const string& maKH) {
     return false;
 }
 
-void muaSanPham(ListSP &dsSP,ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &diemTichLuy, float &tongDoanhThu) {
+void muaSanPham(ListSP &dsSP,ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &diemTichLuy, float &tongDoanhThu, const string &tenNguoiMua) {
     nodeSP *p = dsSP.phead;
     HangHoa *sanPham = nullptr;
 	string tenSanPham;
@@ -973,9 +972,11 @@ void muaSanPham(ListSP &dsSP,ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &
     
 
     if (laKhachHangThanThiet) {
-        diemTichLuy += 100;
-        if (thanhTien > 1000000) diemTichLuy += 100;
+        if (thanhTien > 1000000) {
+            diemTichLuy += (thanhTien / 1000000) * 100;
+        }     
     }
+    
     HangHoa* sanPhamMua = new HangHoa(*sanPham);
     sanPhamMua->setSoLuong(soLuongMua);
     nodeSP *newNode = new nodeSP;
@@ -989,6 +990,24 @@ void muaSanPham(ListSP &dsSP,ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &
     // cout << "Tong doanh thu cua thu ngan: " << fixed << setprecision(0) << tongDoanhThu << " VND" << endl;
     cout << "Ten san pham: " << sanPham->getNameSP() << endl;
     cout << "So luong da mua: " << soLuongMua << endl;
+
+    ofstream fileOut("lich_su_mua_hang_hoa.txt", ios::app);
+    if (fileOut.is_open()) {
+        fileOut << "=========================== LICH SU MUA HANG ===========================\n";
+        fileOut << setw(25) << left << "Ten nguoi mua:" << tenNguoiMua << endl;
+        fileOut << setw(25) << left << "San pham:" << sanPham->getNameSP() << endl;
+        fileOut << setw(25) << left << "So luong mua:" << soLuongMua << endl;
+        fileOut << setw(25) << left << "Thanh tien:" << fixed << setprecision(0) << thanhTien << " VND" << endl;
+        
+        if (laKhachHangThanThiet) {
+            fileOut << setw(25) << left << "Diem tich luy hien tai:" << diemTichLuy << endl;
+        }
+        fileOut << "=======================================================================\n\n";
+        
+        fileOut.close();
+    } else {
+        cout << "Khong the mo file de ghi." << endl;
+    }
 }
 
 void printListSPBuyed(ListSP &dsSPBuyed){
@@ -1054,6 +1073,7 @@ int main()
     ListSP dsSPBuyed;
 
     HangHoa sp;
+    string tenNguoiMua; 
     int diemTichLuy = 0;
     float tongDoanhThu = 0.0;
     bool khachHangThanThiet = true;
@@ -1435,11 +1455,11 @@ int main()
             }
             else {
                 KhachHang *kh = checkLoginKH(dsKH, sdt_current, pass_current);
+                tenNguoiMua = kh->getHoTenKH();
                 if (kh != NULL) {
                     cout << "Dang nhap thanh cong!!\n";
-                    cout << "Xin chao " << kh->getHoTenKH() << "!\n";
-                    int chooseKH = 0;
-                    do {
+                    cout << "Xin chao " << tenNguoiMua << "!\n";
+                    int chooseKH = 0;                    do {
                         // Menu cho khách hàng
                         cout << "=================MENU===================\n";
                         cout << "0. Dang xuat\n";
@@ -1457,7 +1477,7 @@ int main()
                                 xemSanPham(dsSP);
                                 break;
                             case 2:
-                                muaSanPham(dsSP, dsSPBuyed, true, diemTichLuy, tongDoanhThu);   
+                                muaSanPham(dsSP, dsSPBuyed, true, diemTichLuy, tongDoanhThu, tenNguoiMua);   
                                 break;
                             case 3:
                                 printListSPBuyed(dsSPBuyed);
