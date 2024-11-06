@@ -52,7 +52,7 @@ public:
     void setLoaiSP(string loai);
     void setSoLuong(int x);
     void capNhatBanHang(int slBanRa, float tienBanRa);
-    int getSoLuongBanRa(); 
+    int getSoLuongBanRa();
     float getSoTienBanRa();
     void setSoLuongBanRa(int slBanRa);
     void setSoTienBanRa(float tienBanRa);
@@ -76,7 +76,8 @@ void HangHoa::nhapThongTinSP()
     cin.ignore();
     getline(cin, nameSP);
     int pick = 0;
-    do {
+    do
+    {
         cout << "Chon loai san pham: " << endl;
         cout << "1. Dien Thoai di dong" << endl;
         cout << "2. Laptop-may tinh bang" << endl;
@@ -86,7 +87,7 @@ void HangHoa::nhapThongTinSP()
         cout << "Moi ban nhap lua chon: ";
         cin >> pick;
     } while (pick < 1 || pick > 5);
-    
+
     switch (pick)
     {
     case 1:
@@ -105,17 +106,21 @@ void HangHoa::nhapThongTinSP()
         setLoaiSP("Noi dien");
         break;
     }
-    do {
+    do
+    {
         cout << "Nhap so luong hang nhap ve: ";
         cin >> soLuong;
-        if (soLuong <= 0) {
+        if (soLuong <= 0)
+        {
             cout << "So luong phai la so duong. Vui long nhap lai." << endl;
         }
     } while (soLuong <= 0);
-    do {
+    do
+    {
         cout << "Nhap gia thanh: ";
         cin >> giaSP;
-        if (giaSP <= 0) {
+        if (giaSP <= 0)
+        {
             cout << "Gia thanh phai la so duong. Vui long nhap lai." << endl;
         }
     } while (giaSP <= 0);
@@ -131,42 +136,51 @@ void NhanVien::nhapThongTin()
     cout << "Nhap ho ten nhan vien: ";
     cin.ignore();
     getline(cin, hoTen);
-    do {
+    do
+    {
         cout << "Nhap mat khau (4 ky tu tro len): ";
         cin >> pass;
-        if (pass.length() < 4) {
+        if (pass.length() < 4)
+        {
             cout << "Mat khau phai co it nhat 4 ky tu. Vui long nhap lai.\n";
         }
     } while (pass.length() < 4);
     int namHienTai = 2024;
-    do {
+    do
+    {
         cout << "Nhap nam sinh: ";
         cin >> namSinh;
         int tuoi = namHienTai - namSinh;
-        if (tuoi < 18 || tuoi > 70) {
+        if (tuoi < 18 || tuoi > 70)
+        {
             cout << "Nam sinh khong hop le. Vui long nhap lai.\n";
         }
     } while (namHienTai - namSinh < 18 || namHienTai - namSinh > 70);
 
     bool soDienThoaiHopLe = false;
-    do {
+    do
+    {
         cout << "Nhap so dien thoai: ";
         cin >> soDienThoai;
 
         // Kiểm tra độ dài và ký tự đầu tiên của số điện thoại
-        if (soDienThoai.length() == 10 && soDienThoai[0] == '0') {
+        if (soDienThoai.length() == 10 && soDienThoai[0] == '0')
+        {
             soDienThoaiHopLe = true;
-            
+
             // Kiểm tra các ký tự còn lại có phải là số không
-            for (int i = 1; i < 10; i++) {
-                if (soDienThoai[i] < '0' || soDienThoai[i] > '9') {
+            for (int i = 1; i < 10; i++)
+            {
+                if (soDienThoai[i] < '0' || soDienThoai[i] > '9')
+                {
                     soDienThoaiHopLe = false;
                     break;
                 }
             }
         }
 
-        if (!soDienThoaiHopLe) {
+        if (!soDienThoaiHopLe)
+        {
             cout << "So dien thoai khong hop le. Vui long nhap so 0 + 9 chu so.\n";
         }
     } while (!soDienThoaiHopLe);
@@ -174,12 +188,12 @@ void NhanVien::nhapThongTin()
 
 ostream &operator<<(ostream &out, NhanVien &a)
 {
-    out << left << setw(10) << a.maNV      
-        << setw(20) << a.hoTen            
-        << setw(10) << a.namSinh          
-        << setw(15) << a.soDienThoai     
-        << setw(15) << a.chucVu            
-        << setw(15) << a.mucLuong          
+    out << left << setw(10) << a.maNV
+        << setw(20) << a.hoTen
+        << setw(10) << a.namSinh
+        << setw(15) << a.soDienThoai
+        << setw(15) << a.chucVu
+        << setw(15) << a.mucLuong
         << endl;
     return out;
 }
@@ -209,27 +223,33 @@ int HangHoa::getSoLuong()
     return soLuong;
 }
 
-void HangHoa::setSoLuong(int soLuongMoi) { 
-	soLuong = soLuongMoi;
-} 
-    
-int HangHoa::getSoLuongBanRa() { 
-	return soLuongBanRa; 
+void HangHoa::setSoLuong(int soLuongMoi)
+{
+    soLuong = soLuongMoi;
 }
 
-float HangHoa::getSoTienBanRa() {
-	return soTienBanRa;
+int HangHoa::getSoLuongBanRa()
+{
+    return soLuongBanRa;
 }
 
-void HangHoa::setSoLuongBanRa(int slBanRa) {
-	soLuongBanRa = slBanRa; 
+float HangHoa::getSoTienBanRa()
+{
+    return soTienBanRa;
 }
 
-void HangHoa::setSoTienBanRa(float tienBanRa) {
-	 soTienBanRa = tienBanRa; 
+void HangHoa::setSoLuongBanRa(int slBanRa)
+{
+    soLuongBanRa = slBanRa;
 }
 
-void HangHoa::capNhatBanHang(int slBanRa, float tienBanRa) {
+void HangHoa::setSoTienBanRa(float tienBanRa)
+{
+    soTienBanRa = tienBanRa;
+}
+
+void HangHoa::capNhatBanHang(int slBanRa, float tienBanRa)
+{
     soLuongBanRa += slBanRa;
     soTienBanRa += tienBanRa;
 }
@@ -327,10 +347,12 @@ public:
     }
 };
 
-class QuanLy : public NhanVien{
+class QuanLy : public NhanVien
+{
 
 public:
-    void setChucVuVaLuong() override{
+    void setChucVuVaLuong() override
+    {
         chucVu = "Quan ly";
         mucLuong = 30000000;
         ++IDQL; // Tăng ID quản lý
@@ -382,18 +404,18 @@ void addTail(List &l, NhanVien *nv)
 void printList(List &l)
 {
     node *p = l.phead;
-    
+
     // In tiêu đề
-    cout << left 
-         << setw(10) << "Ma NV" 
-         << setw(20) << "Ho Ten" 
-         << setw(10) << "Nam Sinh" 
-         << setw(15) << "So DT" 
-         << setw(15) << "Chuc Vu" 
-         << setw(15) << "Muc Luong" 
+    cout << left
+         << setw(10) << "Ma NV"
+         << setw(20) << "Ho Ten"
+         << setw(10) << "Nam Sinh"
+         << setw(15) << "So DT"
+         << setw(15) << "Chuc Vu"
+         << setw(15) << "Muc Luong"
          << endl;
-    cout << string(85, '-') << endl; 
-   
+    cout << string(85, '-') << endl;
+
     while (p != NULL)
     {
         if (p->info->getChucVu() != "Quan ly")
@@ -449,6 +471,7 @@ struct nodeSP
 struct ListSP
 {
     nodeSP *phead, *ptail;
+    ListSP() : phead(NULL){}
 };
 
 void initSP(ListSP &L)
@@ -478,20 +501,22 @@ void addTailSP(ListSP &l, HangHoa *sp)
     }
 }
 
-void printListSP(ListSP &l) {
+void printListSP(ListSP &l)
+{
     // In tiêu đề
-    cout << left 
-         << setw(15) << "Ma HH" 
-         << setw(20) << "Loai SP" 
-         << setw(25) << "Ten SP" 
-         << setw(10) << "So Luong" 
-         << setw(15) << "Gia SP" 
+    cout << left
+         << setw(15) << "Ma HH"
+         << setw(20) << "Loai SP"
+         << setw(25) << "Ten SP"
+         << setw(10) << "So Luong"
+         << setw(15) << "Gia SP"
          << endl;
     cout << string(85, '-') << endl; // Dòng gạch ngang ngăn cách
 
     // In danh sách sản phẩm
     nodeSP *p = l.phead;
-    while (p != NULL) {
+    while (p != NULL)
+    {
         cout << *(p->info); // Gọi toán tử << của HangHoa để in
         p = p->next;
     }
@@ -506,13 +531,13 @@ HangHoa *createHangHoa(int loai)
 ostream &operator<<(ostream &out, HangHoa a)
 {
     out << left;
-    out << setw(15) << a.getIDHH() 
-        << setw(20) << a.getLoaiSP() 
-        << setw(25) << a.getNameSP() 
-        << setw(10) << a.getSoLuong() 
+    out << setw(15) << a.getIDHH()
+        << setw(20) << a.getLoaiSP()
+        << setw(25) << a.getNameSP()
+        << setw(10) << a.getSoLuong()
         << setw(15) << a.getGiaSP() << endl;
     return out;
-} 
+}
 
 // Khach hang
 class KhachHang
@@ -546,43 +571,52 @@ void KhachHang::nhapThongTinKH()
     cout << "Nhap ho ten khach hang: ";
     cin.ignore();
     getline(cin, hoTenKH);
-    do {
+    do
+    {
         cout << "Nhap mat khau (4 ky tu tro len): ";
         cin >> passKH;
-        if (passKH.length() < 4) {
+        if (passKH.length() < 4)
+        {
             cout << "Mat khau phai co it nhat 4 ky tu. Vui long nhap lai.\n";
         }
     } while (passKH.length() < 4);
     int namHienTai = 2024;
-        
-    do {
+
+    do
+    {
         cout << "Nhap nam sinh: ";
         cin >> namSinhKH;
         int tuoi = namHienTai - namSinhKH;
-        if (tuoi < 16 || tuoi > 70) {
+        if (tuoi < 16 || tuoi > 70)
+        {
             cout << "Nam sinh khong hop le. Tuoi khong duoc nho hon 16 va khong duoc qua 70. Vui long nhap lai.\n";
         }
     } while (namHienTai - namSinhKH < 16 || namHienTai - namSinhKH > 70);
 
     bool soDienThoaiHopLe = false;
-    do {
+    do
+    {
         cout << "Nhap so dien thoai: ";
         cin >> soDienThoaiKH;
 
         // Kiểm tra độ dài và ký tự đầu tiên của số điện thoại
-        if (soDienThoaiKH.length() == 10 && soDienThoaiKH[0] == '0') {
+        if (soDienThoaiKH.length() == 10 && soDienThoaiKH[0] == '0')
+        {
             soDienThoaiHopLe = true;
-            
+
             // Kiểm tra các ký tự còn lại có phải là số không
-            for (int i = 1; i < 10; i++) {
-                if (soDienThoaiKH[i] < '0' || soDienThoaiKH[i] > '9') {
+            for (int i = 1; i < 10; i++)
+            {
+                if (soDienThoaiKH[i] < '0' || soDienThoaiKH[i] > '9')
+                {
                     soDienThoaiHopLe = false;
                     break;
                 }
             }
         }
 
-        if (!soDienThoaiHopLe) {
+        if (!soDienThoaiHopLe)
+        {
             cout << "So dien thoai khong hop le. Vui long nhap so 0 + 9 chu so.\n";
         }
     } while (!soDienThoaiHopLe);
@@ -591,10 +625,10 @@ void KhachHang::nhapThongTinKH()
 ostream &operator<<(ostream &out, KhachHang &a)
 {
     out << left;
-    out << setw(20) << a.maKH 
-        << setw(20) << a.hoTenKH 
-        << setw(15) << a.namSinhKH 
-        << setw(20) << a.soDienThoaiKH 
+    out << setw(20) << a.maKH
+        << setw(20) << a.hoTenKH
+        << setw(15) << a.namSinhKH
+        << setw(20) << a.soDienThoaiKH
         << setw(20) << "N/A"
         << setw(20) << "Khach hang thuong" << endl;
 
@@ -612,6 +646,7 @@ string KhachHang::getPassKH()
 }
 string KhachHang::getHoTenKH()
 {
+    // return hoTenKH;
     return hoTenKH;
 }
 
@@ -666,7 +701,7 @@ public:
     KhachHangThanThiet() : diemTichLuy(0) {}
 
     virtual void nhapThongTinKH()
-    { 
+    {
         KhachHang::nhapThongTinKH();
     }
 
@@ -678,12 +713,12 @@ public:
     friend ostream &operator<<(ostream &out, KhachHangThanThiet &a)
     {
         out << left; // Căn trái cho tất cả các cột
-        
-        out << setw(20) << a.maKH 
-            << setw(20) << a.hoTenKH 
-            << setw(15) << a.namSinhKH 
-            << setw(20) << a.soDienThoaiKH 
-            << setw(15) << a.diemTichLuy 
+
+        out << setw(20) << a.maKH
+            << setw(20) << a.hoTenKH
+            << setw(15) << a.namSinhKH
+            << setw(20) << a.soDienThoaiKH
+            << setw(15) << a.diemTichLuy
             << setw(20) << a.getLoaiKH() << endl;
 
         return out;
@@ -716,11 +751,11 @@ public:
 
 KhachHang *checkLoginKH(ListKH l, string sdt, string pass)
 {
-    long long int sdtNV = stoll(sdt);
+    long long int sdtKH = stoll(sdt);
     nodeKH *p = l.phead;
     while (p != NULL)
     {
-        if (p->info->getsoDienThoaiKH() == sdtNV && p->info->getPassKH() == pass)
+        if (p->info->getsoDienThoaiKH() == sdtKH && p->info->getPassKH() == pass)
         {
             return p->info;
         }
@@ -729,27 +764,32 @@ KhachHang *checkLoginKH(ListKH l, string sdt, string pass)
     return NULL;
 }
 
-void printTemplateKH(ListKH &dsKH) {
+void printTemplateKH(ListKH &dsKH)
+{
     // In tiêu đề
-    cout << left 
-         << setw(20) << "Ma KH" 
-         << setw(20) << "Ho Ten" 
-         << setw(15) << "Nam Sinh" 
-         << setw(20) << "So DT" 
-         << setw(15) << "Diem TL" 
-         << setw(20) << "Loai KH" 
+    cout << left
+         << setw(20) << "Ma KH"
+         << setw(20) << "Ho Ten"
+         << setw(15) << "Nam Sinh"
+         << setw(20) << "So DT"
+         << setw(15) << "Diem TL"
+         << setw(20) << "Loai KH"
          << endl;
     cout << string(110, '-') << endl; // Dòng gạch ngang ngăn cách
-    
+
     nodeKH *temp = dsKH.phead;
-    while (temp != NULL) {
+    while (temp != NULL)
+    {
         KhachHang *kh = temp->info;
-        KhachHangThanThiet *khtt = dynamic_cast<KhachHangThanThiet*>(kh);
-        
-        if (khtt != NULL) {
+        KhachHangThanThiet *khtt = dynamic_cast<KhachHangThanThiet *>(kh);
+
+        if (khtt != NULL)
+        {
             // Là khách hàng thân thiết
             cout << *khtt;
-        } else {
+        }
+        else
+        {
             // Là khách hàng thường
             cout << *kh;
         }
@@ -759,10 +799,13 @@ void printTemplateKH(ListKH &dsKH) {
 }
 
 // Hàm tìm kiếm thông tin nhân viên
-NhanVien* timKiemNhanVien(List& dsNV, const string& maNV) {
-    node* p = dsNV.phead;
-    while (p != NULL) {
-        if (p->info->getMaNV() == maNV) {
+NhanVien *timKiemNhanVien(List &dsNV, const string &maNV)
+{
+    node *p = dsNV.phead;
+    while (p != NULL)
+    {
+        if (p->info->getMaNV() == maNV)
+        {
             return p->info;
         }
         p = p->next;
@@ -772,10 +815,13 @@ NhanVien* timKiemNhanVien(List& dsNV, const string& maNV) {
 }
 
 // Hàm tìm kiếm sản phẩm
-HangHoa* timKiemSanPham(ListSP& dsSP, const string& idSP) {
-    nodeSP* p = dsSP.phead;
-    while (p != NULL) {
-        if (p->info->getIDHH() == idSP) {
+HangHoa *timKiemSanPham(ListSP &dsSP, const string &idSP)
+{
+    nodeSP *p = dsSP.phead;
+    while (p != NULL)
+    {
+        if (p->info->getIDHH() == idSP)
+        {
             return p->info;
         }
         p = p->next;
@@ -783,10 +829,13 @@ HangHoa* timKiemSanPham(ListSP& dsSP, const string& idSP) {
     cout << "Khong tim thay san pham co ma " << idSP << endl;
     return NULL;
 }
-KhachHang* timKiemKhachHang(ListKH& dsKH, const string& maKH) {
-    nodeKH* p = dsKH.phead;
-    while (p != NULL) {
-        if (p->info->getMaKH() == maKH) {
+KhachHang *timKiemKhachHang(ListKH &dsKH, const string &maKH)
+{
+    nodeKH *p = dsKH.phead;
+    while (p != NULL)
+    {
+        if (p->info->getMaKH() == maKH)
+        {
             return p->info;
         }
         p = p->next;
@@ -795,21 +844,28 @@ KhachHang* timKiemKhachHang(ListKH& dsKH, const string& maKH) {
     return NULL;
 }
 // Hàm xóa sản phẩm khỏi danh sách dựa trên ID sản phẩm
-bool xoaSanPham(ListSP &dsSP, const string &idSP) {
+bool xoaSanPham(ListSP &dsSP, const string &idSP)
+{
     nodeSP *prev = NULL;
     nodeSP *curr = dsSP.phead;
 
-    while (curr != NULL) {
-        if (curr->info->getIDHH() == idSP) {
-            if (prev == NULL) {
+    while (curr != NULL)
+    {
+        if (curr->info->getIDHH() == idSP)
+        {
+            if (prev == NULL)
+            {
                 // Xóa phần tử đầu danh sách
                 dsSP.phead = curr->next;
-            } else {
+            }
+            else
+            {
                 // Xóa phần tử ở giữa hoặc cuối danh sách
                 prev->next = curr->next;
             }
             // Nếu phần tử cần xóa là phần tử cuối cùng
-            if (curr == dsSP.ptail) {
+            if (curr == dsSP.ptail)
+            {
                 dsSP.ptail = prev;
             }
 
@@ -825,30 +881,35 @@ bool xoaSanPham(ListSP &dsSP, const string &idSP) {
     return false;
 }
 // Hàm thêm nhân viên mới
-void themNhanVien(List& dsNV) {
+void themNhanVien(List &dsNV)
+{
     int chuc;
     cout << "Nhap chuc vu cua nhan vien moi:\n";
     cout << "1. Le tan\n2. Thu ngan\n3. Ban hang\n4. Ky thuat\n5. Bao tri\n";
     cout << "Lua chon cua ban la: ";
     cin >> chuc;
 
-    NhanVien* nv = createNhanVien(chuc);
+    NhanVien *nv = createNhanVien(chuc);
     addTail(dsNV, nv);
     cout << "Da them nhan vien moi thanh cong!" << endl;
 }
 // Hàm thêm khách hàng mới
-void themKhachHang(ListKH& dsKH) {
+void themKhachHang(ListKH &dsKH)
+{
     int loaiKH;
     cout << "Loai khach hang:\n1. Khang hang thuong\n2. Khach hang than thiett\n";
     cout << "Lua chon cua ban la: ";
     cin >> loaiKH;
 
-    if (loaiKH == 1) {
-        KhachHang* kh = new KhachHang();
+    if (loaiKH == 1)
+    {
+        KhachHang *kh = new KhachHang();
         kh->nhapThongTinKH();
         addTailKH(dsKH, kh);
-    } else {
-        KhachHangThanThiet* kh = new KhachHangThanThiet();
+    }
+    else
+    {
+        KhachHangThanThiet *kh = new KhachHangThanThiet();
         kh->nhapThongTinKH();
         addTailKH(dsKH, kh);
     }
@@ -856,14 +917,20 @@ void themKhachHang(ListKH& dsKH) {
 }
 
 // Hàm xóa nhân viên khỏi danh sách
-bool xoaNhanVien(List& dsNV, const string& maNV) {
-    node* prev = NULL;
-    node* curr = dsNV.phead;
-    while (curr != NULL) {
-        if (curr->info->getMaNV() == maNV) {
-            if (prev == NULL) {
+bool xoaNhanVien(List &dsNV, const string &maNV)
+{
+    node *prev = NULL;
+    node *curr = dsNV.phead;
+    while (curr != NULL)
+    {
+        if (curr->info->getMaNV() == maNV)
+        {
+            if (prev == NULL)
+            {
                 dsNV.phead = curr->next;
-            } else {
+            }
+            else
+            {
                 prev->next = curr->next;
             }
             delete curr;
@@ -877,9 +944,11 @@ bool xoaNhanVien(List& dsNV, const string& maNV) {
     return false;
 }
 // Hàm chỉnh sửa thông tin nhân viên
-bool chinhSuaNhanVien(List& dsNV, const string& maNV) {
-    NhanVien* nv = timKiemNhanVien(dsNV, maNV);
-    if (nv == NULL) {
+bool chinhSuaNhanVien(List &dsNV, const string &maNV)
+{
+    NhanVien *nv = timKiemNhanVien(dsNV, maNV);
+    if (nv == NULL)
+    {
         return false;
     }
     cout << "Nhap thong tin moi cho nhan vien:" << endl;
@@ -887,9 +956,11 @@ bool chinhSuaNhanVien(List& dsNV, const string& maNV) {
     return true;
 }
 // Hàm chỉnh sửa thông tin sản phẩm
-bool chinhSuaSanPham(ListSP& dsSP, const string& idSP) {
-    HangHoa* sp = timKiemSanPham(dsSP, idSP);
-    if (sp == NULL) {
+bool chinhSuaSanPham(ListSP &dsSP, const string &idSP)
+{
+    HangHoa *sp = timKiemSanPham(dsSP, idSP);
+    if (sp == NULL)
+    {
         return false;
     }
     cout << "Nhap thong tin moi cho san pham:" << endl;
@@ -897,14 +968,20 @@ bool chinhSuaSanPham(ListSP& dsSP, const string& idSP) {
     return true;
 }
 // Hàm xóa khách hàng
-bool xoaKhachHang(ListKH& dsKH, const string& maKH) {
-    nodeKH* prev = NULL;
-    nodeKH* curr = dsKH.phead;
-    while (curr != NULL) {
-        if (curr->info->getMaKH() == maKH) {
-            if (prev == NULL) {
+bool xoaKhachHang(ListKH &dsKH, const string &maKH)
+{
+    nodeKH *prev = NULL;
+    nodeKH *curr = dsKH.phead;
+    while (curr != NULL)
+    {
+        if (curr->info->getMaKH() == maKH)
+        {
+            if (prev == NULL)
+            {
                 dsKH.phead = curr->next;
-            } else {
+            }
+            else
+            {
                 prev->next = curr->next;
             }
             delete curr;
@@ -917,23 +994,27 @@ bool xoaKhachHang(ListKH& dsKH, const string& maKH) {
     cout << "Khong tim thay khach hang de xoa." << endl;
     return false;
 }
-void muaSanPham(ListSP &dsSP,ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &diemTichLuy, float &tongDoanhThu, const string &tenNguoiMua) {
+void muaSanPham(ListSP &dsSP, ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &diemTichLuy, float &tongDoanhThu, const string &tenNguoiMua)
+{
     nodeSP *p = dsSP.phead;
     HangHoa *sanPham = NULL;
-	string tenSanPham;
-	cout << "nhap san pham muon mua: ";
-	cin.ignore();
-	getline(cin,tenSanPham);
-    
-    while (p != NULL) {
-        if (p->info->getNameSP() == tenSanPham) {
+    string tenSanPham;
+    cout << "nhap san pham muon mua: ";
+    cin.ignore();
+    getline(cin, tenSanPham);
+
+    while (p != NULL)
+    {
+        if (p->info->getNameSP() == tenSanPham)
+        {
             sanPham = p->info;
             break;
         }
         p = p->next;
     }
 
-    if (sanPham == NULL) {
+    if (sanPham == NULL)
+    {
         cout << "Khong tim thay san pham co ten '" << tenSanPham << "'." << endl;
         return;
     }
@@ -942,7 +1023,8 @@ void muaSanPham(ListSP &dsSP,ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &
     cout << "Nhap so luong muon mua: ";
     cin >> soLuongMua;
 
-    if (sanPham->getSoLuong() < soLuongMua) {
+    if (sanPham->getSoLuong() < soLuongMua)
+    {
         cout << "Khong du so luong de mua." << endl;
         return;
     }
@@ -951,18 +1033,19 @@ void muaSanPham(ListSP &dsSP,ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &
     tongDoanhThu += thanhTien;
 
     sanPham->setSoLuong(sanPham->getSoLuong() - soLuongMua);
-    
 
-    if (laKhachHangThanThiet) {
-        if (thanhTien > 1000000) {
+    if (laKhachHangThanThiet)
+    {
+        if (thanhTien > 1000000)
+        {
             diemTichLuy += (thanhTien / 1000000) * 100;
-        }     
+        }
     }
-    
-    HangHoa* sanPhamMua = new HangHoa(*sanPham);
+
+    HangHoa *sanPhamMua = new HangHoa(*sanPham);
     sanPhamMua->setSoLuong(soLuongMua);
     nodeSP *newNode = new nodeSP;
-    newNode->info = sanPhamMua; 
+    newNode->info = sanPhamMua;
     newNode->next = dsSPBuyed.phead;
     dsSPBuyed.phead = newNode;
 
@@ -974,62 +1057,84 @@ void muaSanPham(ListSP &dsSP,ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &
     cout << "So luong da mua: " << soLuongMua << endl;
 
     ofstream fileOut("lich_su_mua_hang_hoa.txt", ios::app);
-    if (fileOut.is_open()) {
+    if (fileOut.is_open())
+    {
         fileOut << "=========================== LICH SU MUA HANG ===========================\n";
         fileOut << setw(25) << left << "Ten nguoi mua:" << tenNguoiMua << endl;
         fileOut << setw(25) << left << "San pham:" << sanPham->getNameSP() << endl;
         fileOut << setw(25) << left << "So luong mua:" << soLuongMua << endl;
         fileOut << setw(25) << left << "Thanh tien:" << fixed << setprecision(0) << thanhTien << " VND" << endl;
-        
-        if (laKhachHangThanThiet) {
+
+        if (laKhachHangThanThiet)
+        {
             fileOut << setw(25) << left << "Diem tich luy hien tai:" << diemTichLuy << endl;
         }
         fileOut << "=======================================================================\n\n";
-        
+
         fileOut.close();
-    } else {
+    }
+    else
+    {
         cout << "Khong the mo file de ghi." << endl;
     }
 }
-void printListSPBuyed(ListSP &dsSPBuyed){
+void printListSPBuyed(ListSP &dsSPBuyed)
+{
+    if (dsSPBuyed.phead == NULL) { // Nếu danh sách trống
+        cout << "Danh sach rong!!\n";
+        return;
+    }
+
     nodeSP *p = dsSPBuyed.phead;
     cout << "******San pham da mua********" << endl;
-    cout << left 
-        << setw(15) << "Ma HH" 
-        << setw(20) << "Loai SP" 
-        << setw(25) << "Ten SP" 
-        << setw(10) << "So Luong" 
-        << setw(15) << "Gia SP" 
+    cout << left
+        << setw(15) << "Ma HH"
+        << setw(20) << "Loai SP"
+        << setw(25) << "Ten SP"
+        << setw(10) << "So Luong"
+        << setw(15) << "Gia SP"
         << endl;
     cout << string(85, '-') << endl; // Dòng gạch ngang ngăn cách
+
     // In danh sách sản phẩm
     while (p != NULL) {
-        cout << *(p->info); // Gọi toán tử << của HangHoa để in
+        if (p->info != NULL) { // Kiểm tra p->info không phải NULL
+            cout << *(p->info); // Gọi toán tử << của HangHoa để in
+        } else {
+            cout << "Loi: Thong tin san pham rong!\n";
+        }
         p = p->next;
     }
 }
-void xemSanPham(const ListSP &dsSP) {
-    if (dsSP.phead == NULL) {
+
+
+void xemSanPham(const ListSP &dsSP)
+{
+    if (dsSP.phead == NULL)
+    {
         cout << "Danh sach san pham trong." << endl;
         return;
     }
     nodeSP *p = dsSP.phead;
-     bool found=false;
-    cout << left << setw(15) << "ID" << setw(30) << "Ten san pham" << setw(10) << "So luong" 
+    bool found = false;
+    cout << left << setw(15) << "ID" << setw(30) << "Ten san pham" << setw(10) << "So luong"
          << setw(15) << "Gia (VND)" << setw(20) << "Loai san pham" << endl;
     cout << "-------------------------------------------------------------------------------" << endl;
-    
-    while (p != NULL) {
-        if(p->info->getSoLuong()>0){
-             found = true;
-             cout << left << setw(15) << p->info->getIDHH() 
-             << setw(30) << p->info->getNameSP() 
-             << setw(10) << p->info->getSoLuong()
-             << setw(15) << fixed << setprecision(0) << p->info->getGiaSP()
-             << setw(20) << p->info->getLoaiSP() << endl;
+
+    while (p != NULL)
+    {
+        if (p->info->getSoLuong() > 0)
+        {
+            found = true;
+            cout << left << setw(15) << p->info->getIDHH()
+                 << setw(30) << p->info->getNameSP()
+                 << setw(10) << p->info->getSoLuong()
+                 << setw(15) << fixed << setprecision(0) << p->info->getGiaSP()
+                 << setw(20) << p->info->getLoaiSP() << endl;
         }
         p = p->next;
-        if(!found){
+        if (!found)
+        {
             cout << "Danh sach san pham trong" << endl;
         }
     }
@@ -1053,7 +1158,7 @@ int main()
     ListSP dsSPBuyed;
 
     HangHoa sp;
-    string tenNguoiMua; 
+    string tenNguoiMua;
     int diemTichLuy = 0;
     float tongDoanhThu = 0.0;
     bool khachHangThanThiet = true;
@@ -1065,7 +1170,8 @@ int main()
     bool returnMain;
     bool loggedOut = false;
     int luaChon;
-    do{
+    do
+    {
         returnMain = false;
         int padding = (screenWidth - 24) / 2; // 24 là độ dài tiêu đề
         cout << string(padding, ' ');
@@ -1087,7 +1193,7 @@ int main()
                     cout << endl;
                     cout << "--##Chon tu cach dang ky##--" << endl;
                     cout << "==========================" << endl;
-                    cout << "|| 1. Nhan vien         ||"  << endl;
+                    cout << "|| 1. Nhan vien         ||" << endl;
                     cout << "|| 2. Khach hang        ||" << endl;
                     cout << "==========================" << endl;
                     cout << "==>>Moi nhap: ";
@@ -1105,12 +1211,13 @@ int main()
                     cout << "++ 4. Ky thuat.                 ||\n";
                     cout << "|| 5. Bao tri.                  ++\n";
                     cout << "++ 6. Quan ly.                  ||\n";
-                    cout << "==============*.*.*=============="<< endl;
+                    cout << "==============*.*.*==============" << endl;
                     cout << "==>>Nhap lua chon cua ban: ";
                     cin >> chuc;
 
                     while (chuc < 1 || chuc > 6)
-                    {   cout << "=---------Thong bao---------=\n";
+                    {
+                        cout << "=---------Thong bao---------=\n";
                         cout << "* Hay chon 1 trong cac muc nay!\n";
                         cout << "=>> Nhap lua chon cua ban: ";
                         cin >> chuc;
@@ -1131,40 +1238,45 @@ int main()
                     cout << "||=============================||\n";
                     cout << " ~~~>> Nhap lua chon cua ban: ";
                     cin >> loaiKH;
-                    if (loaiKH == 1){
-                                KhachHang *kh = new KhachHang();
-                                kh->nhapThongTinKH();
-                                addTailKH(dsKH, kh);
-                                cout << "*~*~*~Da dang ki thanh cong*~*~*~\n";
-                                returnMain = true;
-                            }
-                            else if(loaiKH == 2){
-                                KhachHangThanThiet *kh = new KhachHangThanThiet();
-                                kh->nhapThongTinKH();
-                                addTailKH(dsKH, kh);
-                                cout << "*~*~*~Da dang ki thanh cong*~*~*~\n";
-                                returnMain = true;
-                            }
-                    while (loaiKH < 1 || loaiKH > 2){
-                        {   
+                    if (loaiKH == 1)
+                    {
+                        KhachHang *kh = new KhachHang();
+                        kh->nhapThongTinKH();
+                        addTailKH(dsKH, kh);
+                        cout << "*~*~*~Da dang ki thanh cong*~*~*~\n";
+                        returnMain = true;
+                    }
+                    else if (loaiKH == 2)
+                    {
+                        KhachHangThanThiet *kh = new KhachHangThanThiet();
+                        kh->nhapThongTinKH();
+                        addTailKH(dsKH, kh);
+                        cout << "*~*~*~Da dang ki thanh cong*~*~*~\n";
+                        returnMain = true;
+                    }
+                    while (loaiKH < 1 || loaiKH > 2)
+                    {
+                        {
                             cout << "=---------Thong bao---------=\n";
                             cout << "* Hay chon 1 trong cac muc nay!\n";
                             cout << "=>> Nhap lua chon cua ban: ";
                             cin >> loaiKH;
-                            if (loaiKH == 1){
+                            if (loaiKH == 1)
+                            {
                                 KhachHang *kh = new KhachHang();
                                 kh->nhapThongTinKH();
                                 addTailKH(dsKH, kh);
                                 cout << "*~*~*~Da dang ki thanh cong*~*~*~\n";
                                 returnMain = true;
                             }
-                            else if(loaiKH == 2){
+                            else if (loaiKH == 2)
+                            {
                                 KhachHangThanThiet *kh = new KhachHangThanThiet();
                                 kh->nhapThongTinKH();
                                 addTailKH(dsKH, kh);
                                 cout << "*~*~*~Da dang ki thanh cong*~*~*~\n";
                                 returnMain = true;
-                            }   
+                            }
                         }
                     }
                 }
@@ -1180,403 +1292,499 @@ int main()
             getline(cin, sdt_current);
             cout << "~~Nhap mat khau: ";
             getline(cin, pass_current);
-
             NhanVien *user = checkLogin(dsNV, sdt_current, pass_current);
-            if (user != NULL) {
+            KhachHang *khachhang = checkLoginKH(dsKH, sdt_current, pass_current);
+            if (user != NULL)
+            {
                 cout << "*~*~*~Dang nhap thanh cong!!*~*~*~\n";
-                cout << "Xin chao " << user->getHoTen() << "!\n";
-                int choose = 0;
-                cout << "Ban da dang nhap voi chuc vu " << user->getChucVu() << "\n";
-                do {
-                    // Menu cho nhân viên
-                    if (user->getChucVu() == "Le tan") {
-                        cout << "V=======~*.*~*.~*[Le tan]~*.*~*.~*======V\n";
-                        cout << "|| 1. Xem so luong khach hang hien tai.||\n";
-                        cout << "|| 2. Them thong tin khach hang moi.   ||\n";
-                        cout << "|| 3. Tim kiem thong tin khach hang.   ||\n"; 
-                        cout << "|| 4. Them thong tin khach hang.       ||\n"; 
-                        cout << "|| 5. Xoa thong tin khach hang.        ||\n"; 
-                        cout << "|| 0. Dang xuat.                       ||\n";   
-                        cout << "^===============*.*.*.*.*===============^\n";
-                        cout << "======>>>>  Moi ban nhap lua chon: ";
-                    } else if (user->getChucVu() == "Thu ngan") {
-                        cout << "V==========*~*~*~[Thu ngan]*~*~*~===========V\n";
-                        cout << "|| 1. Xem danh sach cac san pham ban ra.   ||\n";
-                        cout << "|| 2. Xem tong so tien thu duoc.           ||\n";
-                        cout << "|| 3. Tim kiem thong tin san pham.         ||\n"; 
-                        cout << "|| 4. Tim kiem thong tin khach hang.       ||\n"; 
-                        cout << "|| 0. Dang xuat.                           ||\n";   
-                        cout << "^=================*.*.*.*.*=================^>\n";
-                        cout << "======>>>>  Moi ban nhap lua chon: ";
-                    } else if (user->getChucVu() == "Ban hang") {
-                        cout << "V==========~*.*~*.~*[Ban hang]~*.*~*.~*==========V";
-                        cout << "|| 1. Xem so luong khach hang hien tai.         ||\n";
-                        cout << "|| 2. Xem so luong san pham con hang.           ||\n";
-                        cout << "|| 3. Xem so luong san pham ban ra.             ||\n";
-                        cout << "|| 4. Them san pham moi vao cua hang.           ||\n"; 
-                        cout << "|| 5. Xoa thong tin san pham trong cua hang.    ||\n"; 
-                        cout << "|| 6. Tim kiem thong tin san pham.              ||\n";
-                        cout << "|| 0. Dang xuat.                                ||\n";   
-                        cout << "^====================*.*.*.*.*===================^\n";
-                        cout << "=====>>>>  Moi ban nhap lua chon: ";
-                    } else if (user->getChucVu() == "Ky thuat") {
-                        cout << "V=========*~*~*~[Ky thuat]*~*~*~=========V\n";
-                        cout << "|| 1. Xem danh sach khach hang hien tai.||\n";
-                        cout << "|| 2. Xem danh sach san pham con hang.  ||\n";
-                        cout << "|| 3. Xem danh sach san pham ban ra.    ||\n"; 
-                        cout << "|| 0. Dang xuat.                        ||\n";   
-                        cout << "^================*.*.*.*.*===============^\n";
-                        cout << "======>>>>  Moi ban nhap lua chon: ";
-                    } else if (user->getChucVu() == "Bao tri") {
-                        cout << "=================MENU===================\n";
-                        cout << "V=============*~*~*~[Bao tri]*~*~*~==============V\n";
-                        cout << "|| 1. Xem so luong khach hang hien tai          ||\n";
-                        cout << "|| 2. Xem so luong san pham ban ra.             ||\n";
-                        cout << "|| 0. Dang xuat.                                ||\n";     
-                        cout << "^====================*.*.*.*.*===================^\n";
-                        cout << "======>>>>  Moi ban nhap lua chon: ";
-                    } else {
-                        cout << "V============================~*.*~*.~*~[Quan ly]~*.*~*.~*~==================================V\n";                                                                    
-                        cout << "|| 1. Xem so luong khach hang hien tai.                                                    ||\n";
-                        cout << "|| 2. Xem danh sach nhan vien.                                                             ||\n";
-                        cout << "|| 3. Xem danh sach cac mat hang con lai.                                                  ||\n";
-                        cout << "|| 4. Xem danh sach cac mat hang da ban.                                                   ||\n";
-                        cout << "|| 5. Xem tong so tien thu duoc.                                                           ||\n";
-                        cout << "|| 6. Tim kiem thong tin nhan vien trong cua hang.                                         ||\n";
-                        cout << "|| 7. Tim kiem thong tin khach hang trong cua hang.                                        ||\n";
-                        cout << "|| 8. Tim kiem thong tin san pham trong cua hang.                                          ||\n";
-                        cout << "|| 9. Them thong tin nhan vien moi.                                                        ||\n";
-                        cout << "|| 10. Them thong tin khach hang moi.                                                      ||\n";
-                        cout << "|| 11. Them thong tin hang hoa moi.                                                        ||\n";
-                        cout << "|| 12. Xoa thong tin nhan vien trong cua hang.                                             ||\n"; 
-                        cout << "|| 13. Xoa thong tin khach hang trong cua hang.                                            ||\n";
-                        cout << "|| 14. Xoa thong tin san pham trong cua hang.                                              ||\n";
-                        cout << "|| 15. Chinh cua thong tin quan ly.                                                        ||\n";
-                        cout << "|| 16. Chinh sua thong tin nhan vien trong cua hang.                                       ||\n";
-                        cout << "|| 17. Chinh sua thong tin san pham trong cua hang.                                        ||\n";
-                        cout << "|| 0. Dang xuat.                                                                           ||\n";      
-                        cout << "^=======================================*.*.*.*.*===========================================^\n";
-                        cout << "======>>>>  Moi ban nhap lua chon: ";
-                    }
-                    cin >> choose;
-                    switch (choose) {
-                        case 0: 
+                NhanVien *nv = dynamic_cast<NhanVien *>(user);
+                if (nv != NULL)
+                {
+                    cout << "Xin chao " << user->getHoTen() << "!\n";
+                    int choose = 0;
+                    cout << "Ban da dang nhap voi chuc vu " << user->getChucVu() << "\n";
+                    do
+                    {
+                        // Menu cho nhân viên
+                        if (user->getChucVu() == "Le tan")
+                        {
+                            cout << "V=======~*.*~*.~*[Le tan]~*.*~*.~*======V\n";
+                            cout << "|| 1. Xem so luong khach hang hien tai.||\n";
+                            cout << "|| 2. Them thong tin khach hang moi.   ||\n";
+                            cout << "|| 3. Tim kiem thong tin khach hang.   ||\n";
+                            cout << "|| 4. Them thong tin khach hang.       ||\n";
+                            cout << "|| 5. Xoa thong tin khach hang.        ||\n";
+                            cout << "|| 0. Dang xuat.                       ||\n";
+                            cout << "^===============*.*.*.*.*===============^\n";
+                            cout << "======>>>>  Moi ban nhap lua chon: ";
+                        }
+                        else if (user->getChucVu() == "Thu ngan")
+                        {
+                            cout << "V==========*~*~*~[Thu ngan]*~*~*~===========V\n";
+                            cout << "|| 1. Xem danh sach cac san pham ban ra.   ||\n";
+                            cout << "|| 2. Xem tong so tien thu duoc.           ||\n";
+                            cout << "|| 3. Tim kiem thong tin san pham.         ||\n";
+                            cout << "|| 4. Tim kiem thong tin khach hang.       ||\n";
+                            cout << "|| 0. Dang xuat.                           ||\n";
+                            cout << "^=================*.*.*.*.*=================^>\n";
+                            cout << "======>>>>  Moi ban nhap lua chon: ";
+                        }
+                        else if (user->getChucVu() == "Ban hang")
+                        {
+                            cout << "V==========~*.*~*.~*[Ban hang]~*.*~*.~*==========V";
+                            cout << "|| 1. Xem so luong khach hang hien tai.         ||\n";
+                            cout << "|| 2. Xem so luong san pham con hang.           ||\n";
+                            cout << "|| 3. Xem so luong san pham ban ra.             ||\n";
+                            cout << "|| 4. Them san pham moi vao cua hang.           ||\n";
+                            cout << "|| 5. Xoa thong tin san pham trong cua hang.    ||\n";
+                            cout << "|| 6. Tim kiem thong tin san pham.              ||\n";
+                            cout << "|| 0. Dang xuat.                                ||\n";
+                            cout << "^====================*.*.*.*.*===================^\n";
+                            cout << "=====>>>>  Moi ban nhap lua chon: ";
+                        }
+                        else if (user->getChucVu() == "Ky thuat")
+                        {
+                            cout << "V=========*~*~*~[Ky thuat]*~*~*~=========V\n";
+                            cout << "|| 1. Xem danh sach khach hang hien tai.||\n";
+                            cout << "|| 2. Xem danh sach san pham con hang.  ||\n";
+                            cout << "|| 3. Xem danh sach san pham ban ra.    ||\n";
+                            cout << "|| 0. Dang xuat.                        ||\n";
+                            cout << "^================*.*.*.*.*===============^\n";
+                            cout << "======>>>>  Moi ban nhap lua chon: ";
+                        }
+                        else if (user->getChucVu() == "Bao tri")
+                        {
+                            cout << "=================MENU===================\n";
+                            cout << "V=============*~*~*~[Bao tri]*~*~*~==============V\n";
+                            cout << "|| 1. Xem so luong khach hang hien tai          ||\n";
+                            cout << "|| 2. Xem so luong san pham ban ra.             ||\n";
+                            cout << "|| 0. Dang xuat.                                ||\n";
+                            cout << "^====================*.*.*.*.*===================^\n";
+                            cout << "======>>>>  Moi ban nhap lua chon: ";
+                        }
+                        else
+                        {
+                            cout << "V============================~*.*~*.~*~[Quan ly]~*.*~*.~*~==================================V\n";
+                            cout << "|| 1. Xem so luong khach hang hien tai.                                                    ||\n";
+                            cout << "|| 2. Xem danh sach nhan vien.                                                             ||\n";
+                            cout << "|| 3. Xem danh sach cac mat hang con lai.                                                  ||\n";
+                            cout << "|| 4. Xem danh sach cac mat hang da ban.                                                   ||\n";
+                            cout << "|| 5. Xem tong so tien thu duoc.                                                           ||\n";
+                            cout << "|| 6. Tim kiem thong tin nhan vien trong cua hang.                                         ||\n";
+                            cout << "|| 7. Tim kiem thong tin khach hang trong cua hang.                                        ||\n";
+                            cout << "|| 8. Tim kiem thong tin san pham trong cua hang.                                          ||\n";
+                            cout << "|| 9. Them thong tin nhan vien moi.                                                        ||\n";
+                            cout << "|| 10. Them thong tin khach hang moi.                                                      ||\n";
+                            cout << "|| 11. Them thong tin hang hoa moi.                                                        ||\n";
+                            cout << "|| 12. Xoa thong tin nhan vien trong cua hang.                                             ||\n";
+                            cout << "|| 13. Xoa thong tin khach hang trong cua hang.                                            ||\n";
+                            cout << "|| 14. Xoa thong tin san pham trong cua hang.                                              ||\n";
+                            cout << "|| 15. Chinh cua thong tin quan ly.                                                        ||\n";
+                            cout << "|| 16. Chinh sua thong tin nhan vien trong cua hang.                                       ||\n";
+                            cout << "|| 17. Chinh sua thong tin san pham trong cua hang.                                        ||\n";
+                            cout << "|| 0. Dang xuat.                                                                           ||\n";
+                            cout << "^=======================================*.*.*.*.*===========================================^\n";
+                            cout << "======>>>>  Moi ban nhap lua chon: ";
+                        }
+                        cin >> choose;
+                        switch (choose)
+                        {
+                        case 0:
                             cout << "            =---------Thong bao---------=             \n";
                             cout << "                     Dang xuat...                    \n";
                             cout << "*~*~*~*~*~*~Hen gap lai quy khach lan sau!*~*~*~*~*~*~\n";
                             loggedOut = true;
                             returnMain = true;
-                            break; 
+                            break;
                         case 1:
                             // Xử lý tùy theo chức vụ
-                            if (user->getChucVu() == "Le tan") {
-                                cout << "V==================================== Danh sach khach hang ==================================V\n";  
-                                printTemplateKH(dsKH);     
+                            if (user->getChucVu() == "Le tan")
+                            {
+                                cout << "V==================================== Danh sach khach hang ==================================V\n";
+                                printTemplateKH(dsKH);
                                 cout << "^============================================================================================^\n";
-                            } else if (user->getChucVu() == "Thu ngan") {
-                                cout << "V================================= Danh sach san pham ban ra ===============================V\n";  
-                                printListSPBuyed(dsSPBuyed);     
+                            }
+                            else if (user->getChucVu() == "Thu ngan")
+                            {
+                                cout << "V================================= Danh sach san pham ban ra ===============================V\n";
+                                printListSPBuyed(dsSPBuyed);
                                 cout << "^===========================================================================================^\n";
-                            } else if (user->getChucVu() == "Ban hang") {
-                                cout << "V================================ So luong khach hang hien tai =============================V\n";  
-                                printTemplateKH(dsKH);     
-                                cout << "^===========================================================================================^\n";
-                            } else if (user->getChucVu() == "Ky thuat") {
+                            }
+                            else if (user->getChucVu() == "Ban hang")
+                            {
                                 cout << "V================================ So luong khach hang hien tai =============================V\n";
-                                printTemplateKH(dsKH);     
+                                printTemplateKH(dsKH);
                                 cout << "^===========================================================================================^\n";
-                            } else if (user->getChucVu() == "Bao tri") {
+                            }
+                            else if (user->getChucVu() == "Ky thuat")
+                            {
                                 cout << "V================================ So luong khach hang hien tai =============================V\n";
-                                printTemplateKH(dsKH);     
+                                printTemplateKH(dsKH);
                                 cout << "^===========================================================================================^\n";
-                            } else {
+                            }
+                            else if (user->getChucVu() == "Bao tri")
+                            {
                                 cout << "V================================ So luong khach hang hien tai =============================V\n";
-                                printTemplateKH(dsKH);     
+                                printTemplateKH(dsKH);
+                                cout << "^===========================================================================================^\n";
+                            }
+                            else
+                            {
+                                cout << "V================================ So luong khach hang hien tai =============================V\n";
+                                printTemplateKH(dsKH);
                                 cout << "^===========================================================================================^\n";
                             }
                             break;
                         case 2:
-                            if (user->getChucVu() == "Le tan"){
+                            if (user->getChucVu() == "Le tan")
+                            {
                                 themKhachHang(dsKH);
                                 cout << "Them khach hang moi thanh cong!\n";
                                 break;
                             }
-                            else if (user->getChucVu() == "Thu ngan") {
-                                cout << "V==================================== Tong so tien thu duoc =================================V\n";  
-                                // printmoneyBuyed     
+                            else if (user->getChucVu() == "Thu ngan")
+                            {
+                                cout << "V==================================== Tong so tien thu duoc =================================V\n";
+                                // printmoneyBuyed
                                 cout << "^============================================================================================^\n";
-                            } else if (user->getChucVu() == "Ban hang") {
-                                cout << "V================================= Danh sach san pham con hang ==============================V\n";  
-                                cout << "ID" << "\t" << "Loai san pham" << "\t" << "Ten san pham" << "\t" << "So luong" << "\t" << "Gia" << endl;
-                                printListSP(dsSP);     
-                                cout << "^============================================================================================^\n";
-                            } else if (user->getChucVu() == "Ky thuat") {
+                            }
+                            else if (user->getChucVu() == "Ban hang")
+                            {
                                 cout << "V================================= Danh sach san pham con hang ==============================V\n";
                                 cout << "ID" << "\t" << "Loai san pham" << "\t" << "Ten san pham" << "\t" << "So luong" << "\t" << "Gia" << endl;
-                                printListSP(dsSP);     
-                                cout << "^===========================================================================================^\n";
-                            } else if (user->getChucVu() == "Bao tri") {
-                                cout << "V================================== Danh sach san pham ban ra ==============================V\n";
-                                printListSPBuyed(dsSPBuyed);     
+                                printListSP(dsSP);
+                                cout << "^============================================================================================^\n";
+                            }
+                            else if (user->getChucVu() == "Ky thuat")
+                            {
+                                cout << "V================================= Danh sach san pham con hang ==============================V\n";
+                                cout << "ID" << "\t" << "Loai san pham" << "\t" << "Ten san pham" << "\t" << "So luong" << "\t" << "Gia" << endl;
+                                printListSP(dsSP);
                                 cout << "^===========================================================================================^\n";
                             }
-                            else{ 
-                                cout << "V==================================== Danh sach nhan vien ==================================V\n";  
-                                printList(dsNV);     
+                            else if (user->getChucVu() == "Bao tri")
+                            {
+                                cout << "V================================== Danh sach san pham ban ra ==============================V\n";
+                                printListSPBuyed(dsSPBuyed);
+                                cout << "^===========================================================================================^\n";
+                            }
+                            else
+                            {
+                                cout << "V==================================== Danh sach nhan vien ==================================V\n";
+                                printList(dsNV);
                                 cout << "^===========================================================================================^\n";
                             }
                             break;
 
                         case 3:
-                            if(user->getChucVu() == "Le tan"){
+                            if (user->getChucVu() == "Le tan")
+                            {
                                 string maKH;
                                 cout << "Nhap ma khach hang can tim: ";
                                 cin >> maKH;
-                                KhachHang* kh = timKiemKhachHang(dsKH, maKH);
-                                if (kh){
+                                KhachHang *kh = timKiemKhachHang(dsKH, maKH);
+                                if (kh)
+                                {
                                     cout << "Thong tin khach hang can tim:\n";
                                     cout << "=========================================================================================\n";
                                     cout << *kh;
                                     cout << "=========================================================================================\n";
-                                    }
-                                else{
-                                    cout<< "KHong tim thay khach hang can tim kiem!\n";
-                                    }
+                                }
+                                else
+                                {
+                                    cout << "KHong tim thay khach hang can tim kiem!\n";
+                                }
                             }
-                            else if (user->getChucVu() == "Ban hang") {
+                            else if (user->getChucVu() == "Ban hang")
+                            {
                                 cout << "V================================== Danh sach san pham ban ra ==============================V\n";
-                                printListSPBuyed(dsSPBuyed);     
-                                cout << "^===========================================================================================^\n";
-                            } else if (user->getChucVu() == "Ky thuat") {
-                                cout << "V================================= Danh sach san pham ban ra ===============================V\n";  
-                                printListSPBuyed(dsSPBuyed);     
+                                printListSPBuyed(dsSPBuyed);
                                 cout << "^===========================================================================================^\n";
                             }
-                            else {
-                                cout << "V================================= Danh sach san pham con lai ===============================V\n";  
-                                printListSP(dsSP);     
+                            else if (user->getChucVu() == "Ky thuat")
+                            {
+                                cout << "V================================= Danh sach san pham ban ra ===============================V\n";
+                                printListSPBuyed(dsSPBuyed);
+                                cout << "^===========================================================================================^\n";
+                            }
+                            else
+                            {
+                                cout << "V================================= Danh sach san pham con lai ===============================V\n";
+                                printListSP(dsSP);
                                 cout << "^===========================================================================================^\n";
                             }
                             break;
                         case 4:
-                            if (user->getChucVu() == "Quan ly") {
-                                cout << "V================================== Danh sach mat hang da ban ===============================V\n";  
-                               printListSPBuyed(dsSPBuyed);     
+                            if (user->getChucVu() == "Quan ly")
+                            {
+                                cout << "V================================== Danh sach mat hang da ban ===============================V\n";
+                                printListSPBuyed(dsSPBuyed);
                                 cout << "^===========================================================================================^\n";
                             }
-                            else if (user->getChucVu() == "Le tan") {
-                                HangHoa *sp = new HangHoa;  // Tao doi tuong tren heap neu can luu tru
+                            else if (user->getChucVu() == "Le tan")
+                            {
+                                HangHoa *sp = new HangHoa; // Tao doi tuong tren heap neu can luu tru
                                 sp->nhapThongTinSP();
-                                addTailSP(dsSP, sp);  // Them vao danh sach lien ket
+                                addTailSP(dsSP, sp); // Them vao danh sach lien ket
                                 cout << "Them san pham moi thanh cong!\n";
                             }
-                            else if(user->getChucVu()=="Thu ngan"){
+                            else if (user->getChucVu() == "Thu ngan")
+                            {
                                 string maKH;
                                 cout << "Nhap ma khach hang can tim: ";
                                 cin >> maKH;
-                                KhachHang* kh = timKiemKhachHang(dsKH, maKH);
-                                if (kh) {
+                                KhachHang *kh = timKiemKhachHang(dsKH, maKH);
+                                if (kh)
+                                {
                                     cout << "             =------------Thong tin khach hang duoc tim thay-----------=                 \n";
                                     cout << "=========================================================================================\n";
-                                    cout << *kh<<endl;
+                                    cout << *kh << endl;
                                     cout << "=========================================================================================\n";
                                 }
                             }
-                            else if (user->getChucVu() == "Ban hang") {
+                            else if (user->getChucVu() == "Ban hang")
+                            {
                                 themKhachHang(dsKH);
                                 cout << "Them khach hang moi thanh cong!\n";
                             }
                             break;
                         case 5:
-                            if (user->getChucVu() == "Quan ly") {
+                            if (user->getChucVu() == "Quan ly")
+                            {
                                 // in tổng tiền thu được
                             }
-                            else if ((user->getChucVu() == "Le tan") || (user->getChucVu() == "Ban hang")) {
+                            else if ((user->getChucVu() == "Le tan") || (user->getChucVu() == "Ban hang"))
+                            {
                                 string idSP;
                                 cout << "Nhap ma san pham can xoa: ";
                                 cin >> idSP;
-                                if (xoaSanPham(dsSP, idSP)) {
+                                if (xoaSanPham(dsSP, idSP))
+                                {
                                     cout << "~*.~*~*.~*=>> Xoa san pham thanh cong <<=~*.~*~*.~*\n";
-                                } else {
+                                }
+                                else
+                                {
                                     cout << "************=>> Xoa san pham that bai hoac khong tim thay ma " << idSP << " <<=************.\n";
                                 }
                             }
                             break;
                         case 6:
-                            if (user->getChucVu() == "Quan ly") {
+                            if (user->getChucVu() == "Quan ly")
+                            {
                                 string maNV;
                                 cout << "Nhap ma nhan vien ban muon tim kiem: ";
                                 cin >> maNV;
                                 NhanVien *nv = timKiemNhanVien(dsNV, maNV);
-                                if (nv) {
+                                if (nv)
+                                {
                                     cout << "             =------------Thong tin nhan vien duoc tim thay-----------=                 \n";
                                     cout << "=========================================================================================\n";
-                                    cout << *nv<<endl;
+                                    cout << *nv << endl;
                                     cout << "=========================================================================================\n";
-                                } else {
+                                }
+                                else
+                                {
                                     cout << "Hien tai he thong khong tim thay nhan vien voi ma nhan vien: " << maNV << endl;
                                 }
                             }
-                            else if (user->getChucVu() == "Ban hang") {
+                            else if (user->getChucVu() == "Ban hang")
+                            {
                                 string idSP;
                                 cout << "Nhap ma san pham can tim: ";
                                 cin >> idSP;
                                 HangHoa *sp = timKiemSanPham(dsSP, idSP);
-                                if (sp) {
+                                if (sp)
+                                {
                                     cout << "He thong da tim ra ma san pham!" << endl;
                                     cout << "               =------------Thong tin san pham duoc tim thay-----------=                  \n";
                                     cout << "=========================================================================================\n";
-                                    cout << *sp<<endl;
+                                    cout << *sp << endl;
                                     cout << "=========================================================================================\n";
-                                } else {
+                                }
+                                else
+                                {
                                     cout << "Khong tim thay san pham voi ma " << idSP << endl;
                                 }
                             }
                             break;
 
                         case 7:
-                            if (user->getChucVu() == "Quan ly") {
+                            if (user->getChucVu() == "Quan ly")
+                            {
                                 string maKH;
                                 cout << "Nhap ma khach hang can tim: ";
                                 cin >> maKH;
-                                KhachHang* kh = timKiemKhachHang(dsKH, maKH);
-                                if (kh) {
-                                    cout << "                =------------Thong tin khach hang duoc tim thay------------=             \n" ;
+                                KhachHang *kh = timKiemKhachHang(dsKH, maKH);
+                                if (kh)
+                                {
+                                    cout << "                =------------Thong tin khach hang duoc tim thay------------=             \n";
                                     cout << "=========================================================================================\n";
-                                    cout << *kh<<endl;
+                                    cout << *kh << endl;
                                     cout << "=========================================================================================\n";
                                 }
-                                else{
+                                else
+                                {
                                     cout << "Hien tai he thong khong tim thay nhan vien voi ma khach hang: " << maKH << endl;
                                 }
                             }
                             break;
 
-                        case 8: 
-                            if (user->getChucVu() == "Quan ly") {
+                        case 8:
+                            if (user->getChucVu() == "Quan ly")
+                            {
                                 string idSP;
                                 cout << "Nhap ma san pham can tim: ";
                                 cin >> idSP;
                                 HangHoa *sp = timKiemSanPham(dsSP, idSP);
-                                if (sp) {
+                                if (sp)
+                                {
                                     cout << "He thong da tim ra ma san pham!" << endl;
                                     cout << "               =------------Thong tin san pham duoc tim thay-------------=               \n";
                                     cout << "=========================================================================================\n";
-                                    cout << *sp<<endl;
+                                    cout << *sp << endl;
                                     cout << "=========================================================================================\n";
-                                } else {
-                                    cout << "********=>> Khong tim thay san pham voi ma " << idSP << ". <<=***********"<<endl;
+                                }
+                                else
+                                {
+                                    cout << "********=>> Khong tim thay san pham voi ma " << idSP << ". <<=***********" << endl;
                                 }
                             }
                             break;
 
                         case 9:
-                            if (user->getChucVu() == "Quan ly") {
+                            if (user->getChucVu() == "Quan ly")
+                            {
                                 themNhanVien(dsNV);
                                 cout << "~*.~*~*.~*=>> Them nhan vien moi thanh cong <<=~*.~*~*.~*\n";
                             }
                             break;
 
                         case 10:
-                            if (user->getChucVu() == "Quan ly") {
-                                HangHoa *sp = new HangHoa;  // Tao doi tuong tren heap neu can luu tru
+                            if (user->getChucVu() == "Quan ly")
+                            {
+                                HangHoa *sp = new HangHoa; // Tao doi tuong tren heap neu can luu tru
                                 sp->nhapThongTinSP();
-                                addTailSP(dsSP, sp);  // Them vao danh sach lien ket
+                                addTailSP(dsSP, sp); // Them vao danh sach lien ket
                                 cout << "~*.~*~*.~*=>> Them san pham moi thanh cong <<=~*.~*~*.~*\n";
                             }
                             break;
 
                         case 11:
-                            if (user->getChucVu() == "Quan ly") {
+                            if (user->getChucVu() == "Quan ly")
+                            {
                                 themKhachHang(dsKH);
                                 cout << "~*.~*~*.~*=>> Them khach hang moi thanh cong <<=~*.~*~*.~*\n";
                             }
                             break;
 
                         case 12:
-                            if (user->getChucVu() == "Quan ly") {
+                            if (user->getChucVu() == "Quan ly")
+                            {
                                 string maNV;
                                 cout << "Nhap ma nhan vien can xoa: ";
                                 cin >> maNV;
-                                if (xoaNhanVien(dsNV, maNV)) {
+                                if (xoaNhanVien(dsNV, maNV))
+                                {
                                     cout << "~*.~*~*.~*=>> Xoa nhan vien thanh cong <<=~*.~*~*.~*\n";
-                                } else {
+                                }
+                                else
+                                {
                                     cout << "*******=>> Xoa nhan vien that bai hoac khong tim thay ma " << maNV << ". <<=********\n";
                                 }
                             }
                             break;
 
                         case 13:
-                            if (user->getChucVu() == "Quan ly") {
+                            if (user->getChucVu() == "Quan ly")
+                            {
                                 string maKH;
                                 cout << "Nhap ma khach hang can xoa: ";
                                 cin >> maKH;
-                                if (xoaKhachHang(dsKH, maKH)) {
+                                if (xoaKhachHang(dsKH, maKH))
+                                {
                                     cout << "                 ~*.~*~*.~*Xoa khach hang thanh cong~*.~*~*.~*\n";
-                                } else {
+                                }
+                                else
+                                {
                                     cout << "*********Xoa khach hang that bai hoac khong tim thay ma " << maKH << ".**********\n";
                                 }
                             }
                             break;
 
                         case 14:
-                            if (user->getChucVu() == "Quan ly") {
+                            if (user->getChucVu() == "Quan ly")
+                            {
                                 string idSP;
                                 cout << "Nhap ma san pham can xoa: ";
                                 cin >> idSP;
-                                if (xoaSanPham(dsSP, idSP)) {
+                                if (xoaSanPham(dsSP, idSP))
+                                {
                                     cout << "                  ~*.~*~*.~*==> Xoa san pham thanh cong <<==~*.~*~*.~*\n";
-                                } else {
+                                }
+                                else
+                                {
                                     cout << "**********=>> Xoa san pham that bai hoac khong tim thay ma " << idSP << " <<=***********.\n";
                                 }
                             }
                             break;
 
                         case 15:
+                        {
+                            string maNV;
+                            cout << "Nhap ma nhan vien can chinh sua: ";
+                            cin >> maNV;
+                            if (chinhSuaNhanVien(dsNV, maNV))
                             {
-                                string maNV;
-                                cout << "Nhap ma nhan vien can chinh sua: ";
-                                cin >> maNV;
-                                if (chinhSuaNhanVien(dsNV, maNV)) {
-                                    cout << "          ~*.~*~*.~*=>> Chinh sua thong tin nhan vien thanh cong <<=~*.~*~*.~*n";
-                                } else {
-                                    cout << "***********=>> Chinh sua that bai hoac khong tim thay ma " << maNV << " <<==************.\n";
-                                }
+                                cout << "          ~*.~*~*.~*=>> Chinh sua thong tin nhan vien thanh cong <<=~*.~*~*.~*n";
                             }
-                            break;
+                            else
+                            {
+                                cout << "***********=>> Chinh sua that bai hoac khong tim thay ma " << maNV << " <<==************.\n";
+                            }
+                        }
+                        break;
 
                         case 16:
-                            if (user->getChucVu() == "Quan ly") {
+                            if (user->getChucVu() == "Quan ly")
+                            {
                                 cout << "Chinh sua thong tin ca nhan cua quan ly:\n";
-                                user->nhapThongTin();  // Cap nhat thong tin quan ly
+                                user->nhapThongTin(); // Cap nhat thong tin quan ly
                                 cout << "          ~*.~*~*.~*=>> Cap nhat thong tin thanh cong. <<=~*.~*~*.~*\n";
-                            } else {
+                            }
+                            else
+                            {
                                 cout << "*********=>> Ban khong co quyen truy cap chuc nang nay. <<=************\n";
                             }
                             break;
 
                         case 17:
-                            if (user->getChucVu() == "Quan ly") {
+                            if (user->getChucVu() == "Quan ly")
+                            {
                                 string idSP;
                                 cout << "Nhap ma san pham can chinh sua: ";
                                 cin >> idSP;
-                                if (chinhSuaSanPham(dsSP, idSP)) {
+                                if (chinhSuaSanPham(dsSP, idSP))
+                                {
                                     cout << "         ~*.~*~*.~*=>> Chinh sua thong tin san pham thanh cong <<=~*.~*~*.~*\n";
-                                } else {
+                                }
+                                else
+                                {
                                     cout << "*********=>> Chinh sua that bai hoac khong tim thay ma " << idSP << " <<=***********.\n";
                                 }
                             }
                             break;
-                    }
-                } while (choose != 0 && !loggedOut);
-            }
-            else {
-                KhachHang *kh = checkLoginKH(dsKH, sdt_current, pass_current);
-                tenNguoiMua = kh->getHoTenKH();
-                if (kh != NULL) {
-                    cout << "Dang nhap thanh cong!!\n";
+                        }
+                    } while (choose != 0 && !loggedOut);
+                    returnMain = true;
+                }
+                KhachHang *kh = dynamic_cast<KhachHang *>(user);
+                if (kh != NULL)
+                {
+                    cout << "*~*~*~Dang nhap thanh cong!!*~*~*~\n";
                     cout << "Xin chao " << tenNguoiMua << "!\n";
-                    int chooseKH = 0;                    do {
+                    int chooseKH = 0;
+                    do
+                    {
                         // Menu cho khách hàng
                         cout << "V==================MENU==================V\n";
                         cout << "|| 1. Xem san pham.                    ||\n";
@@ -1584,43 +1792,49 @@ int main()
                         cout << "|| 3. San pham da mua.                 ||\n";
                         cout << "|| 0. Dang xuat.                       ||\n";
                         cout << "^=================*~*~*~~===============^\n";
-                        
+
                         cin >> chooseKH;
-                        switch (chooseKH) {
-                            case 0:
-                                cout << "            =---------Thong bao---------=             \n";
-                                cout << "                     Dang xuat...                    \n";
-                                cout << "*~*~*~*~*~*~Hen gap lai quy khach lan sau!*~*~*~*~*~*~\n";
-                                returnMain = true;
-                                break;
-                            case 1:
-                                xemSanPham(dsSP);
-                                break;
-                            case 2:
-                                muaSanPham(dsSP, dsSPBuyed, true, diemTichLuy, tongDoanhThu, tenNguoiMua);   
-                                break;
-                            case 3:
-                                printListSPBuyed(dsSPBuyed);
-                                break ;
-                            
+                        switch (chooseKH)
+                        {
+                        case 0:
+                            cout << "            =---------Thong bao---------=             \n";
+                            cout << "                     Dang xuat...                    \n";
+                            cout << "*~*~*~*~*~*~Hen gap lai quy khach lan sau!*~*~*~*~*~*~\n";
+                            returnMain = true;
+                            break;
+                        case 1:
+                            xemSanPham(dsSP);
+                            break;
+                        case 2:
+                            muaSanPham(dsSP, dsSPBuyed, true, diemTichLuy, tongDoanhThu, tenNguoiMua);
+                            break;
+                        case 3:
+                            printListSPBuyed(dsSPBuyed);
+                            break;
                         }
                     } while (chooseKH != 0);
-                } else {
-                    cout << "        ... Dang nhap khong thanh cong! Vui long kiem tra lai!\n";
                     returnMain = true;
-                    break;
                 }
                 
             }
+            else
+            {
+                cout << "        ... Dang nhap khong thanh cong! Vui long kiem tra lai!\n";
+                returnMain = true;
+                break;
+            }
         }
         }
-        
         cout << "\n      ==>> Ban co muon quay lai trang chu khong? (1: Co, 0: Khong): ";
         cin >> luaChon;
-        if (luaChon == 0)
+        if (luaChon == 1)
         {
-            returnMain = true;
+            returnMain = true;  
         }
-    }while(returnMain && luaChon != 0);
+        else if (luaChon == 0)
+        {
+            returnMain = false;  
+        }
+    } while (returnMain && luaChon != 0);
     system("pause");
 }
