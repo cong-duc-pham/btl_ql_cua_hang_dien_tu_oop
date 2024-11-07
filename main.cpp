@@ -502,27 +502,6 @@ void addTailSP(ListSP &l, HangHoa *sp)
     }
 }
 
-void printListSP(ListSP &l)
-{
-    // In tiêu đề
-    cout << left
-         << setw(15) << "Ma HH"
-         << setw(20) << "Loai SP"
-         << setw(25) << "Ten SP"
-         << setw(10) << "So Luong"
-         << setw(15) << "Gia SP"
-         << endl;
-    cout << string(85, '-') << endl; // Dòng gạch ngang ngăn cách
-
-    // In danh sách sản phẩm
-    nodeSP *p = l.phead;
-    while (p != NULL)
-    {
-        cout << *(p->info); // Gọi toán tử << của HangHoa để in
-        p = p->next;
-    }
-}
-
 HangHoa *createHangHoa(int loai)
 {
     HangHoa *sp = new HangHoa();
@@ -1147,20 +1126,19 @@ void printListSPBuyed(ListSP &dsSPBuyed)
     }
 
     nodeSP *p = dsSPBuyed.phead;
-    cout << "******San pham da mua********" << endl;
-    cout << left
-        << setw(15) << "Ma HH"
-        << setw(20) << "Loai SP"
-        << setw(25) << "Ten SP"
-        << setw(10) << "So Luong"
-        << setw(15) << "Gia SP"
-        << endl;
-    cout << string(85, '-') << endl; // Dòng gạch ngang ngăn cách
-
+    bool found = false;
+    cout << left << setw(15) << "ID" << setw(30) << "Ten san pham" << setw(10) << "So luong"
+         << setw(15) << "Gia (VND)" << setw(20) << "Loai san pham" << endl;
+    cout << "-------------------------------------------------------------------------------" << endl;
     // In danh sách sản phẩm
     while (p != NULL) {
         if (p->info != NULL) { // Kiểm tra p->info không phải NULL
-            cout << *(p->info); // Gọi toán tử << của HangHoa để in
+            found = true;
+            cout << left << setw(15) << p->info->getIDHH()
+                 << setw(30) << p->info->getNameSP()
+                 << setw(10) << p->info->getSoLuong()
+                 << setw(15) << fixed << setprecision(0) << p->info->getGiaSP()
+                 << setw(20) << p->info->getLoaiSP() << endl; // Gọi toán tử << của HangHoa để in
         } else {
             cout << "Loi: Thong tin san pham rong!\n";
         }
@@ -1353,6 +1331,7 @@ int main()
             getline(cin, sdt_current);
             cout << "~~Nhap mat khau: ";
             getline(cin, pass_current);
+
             NhanVien *user = checkLogin(dsNV, sdt_current, pass_current);
             KhachHang *khachhang = checkLoginKH(dsKH, sdt_current, pass_current);
             if (user != NULL)
@@ -1495,6 +1474,7 @@ int main()
                                 printTemplateKH(dsKH);
                                 cout << "^===========================================================================================^\n";
                             }
+                            loggedOut = false;
                             break;
                         case 2:
                             if (user->getChucVu() == "Le tan")
@@ -1513,14 +1493,14 @@ int main()
                             {
                                 cout << "V================================= Danh sach san pham con hang ==============================V\n";
                                 cout << "ID" << "\t" << "Loai san pham" << "\t" << "Ten san pham" << "\t" << "So luong" << "\t" << "Gia" << endl;
-                                printListSP(dsSP);
+                                xemSanPham(dsSP);
                                 cout << "^============================================================================================^\n";
                             }
                             else if (user->getChucVu() == "Ky thuat")
                             {
                                 cout << "V================================= Danh sach san pham con hang ==============================V\n";
                                 cout << "ID" << "\t" << "Loai san pham" << "\t" << "Ten san pham" << "\t" << "So luong" << "\t" << "Gia" << endl;
-                                printListSP(dsSP);
+                                xemSanPham(dsSP);
                                 cout << "^===========================================================================================^\n";
                             }
                             else if (user->getChucVu() == "Bao tri")
@@ -1535,8 +1515,8 @@ int main()
                                 printList(dsNV);
                                 cout << "^===========================================================================================^\n";
                             }
+                            loggedOut = false;
                             break;
-
                         case 3:
                             if (user->getChucVu() == "Le tan")
                             {
@@ -1571,9 +1551,10 @@ int main()
                             else
                             {
                                 cout << "V================================= Danh sach san pham con lai ===============================V\n";
-                                printListSP(dsSP);
+                                xemSanPham(dsSP);
                                 cout << "^===========================================================================================^\n";
                             }
+                            loggedOut = false;
                             break;
                         case 4:
                             if (user->getChucVu() == "Quan ly")
@@ -1608,6 +1589,7 @@ int main()
                                 themKhachHang(dsKH);
                                 cout << "Them khach hang moi thanh cong!\n";
                             }
+                            loggedOut = false;
                             break;
                         case 5:
                             if (user->getChucVu() == "Quan ly")
@@ -1628,6 +1610,7 @@ int main()
                                     cout << "************=>> Xoa san pham that bai hoac khong tim thay ma " << idSP << " <<=************.\n";
                                 }
                             }
+                            loggedOut = false;
                             break;
                         case 6:
                             if (user->getChucVu() == "Quan ly")
@@ -1667,6 +1650,7 @@ int main()
                                     cout << "Khong tim thay san pham voi ma " << idSP << endl;
                                 }
                             }
+                            loggedOut = false;
                             break;
 
                         case 7:
@@ -1688,6 +1672,7 @@ int main()
                                     cout << "Hien tai he thong khong tim thay nhan vien voi ma khach hang: " << maKH << endl;
                                 }
                             }
+                            loggedOut = false;
                             break;
 
                         case 8:
@@ -1710,6 +1695,7 @@ int main()
                                     cout << "********=>> Khong tim thay san pham voi ma " << idSP << ". <<=***********" << endl;
                                 }
                             }
+                            loggedOut = false;
                             break;
 
                         case 9:
@@ -1718,6 +1704,7 @@ int main()
                                 themNhanVien(dsNV);
                                 cout << "~*.~*~*.~*=>> Them nhan vien moi thanh cong <<=~*.~*~*.~*\n";
                             }
+                            loggedOut = false;
                             break;
 
                         case 10:
@@ -1728,14 +1715,15 @@ int main()
                                 addTailSP(dsSP, sp); // Them vao danh sach lien ket
                                 cout << "~*.~*~*.~*=>> Them san pham moi thanh cong <<=~*.~*~*.~*\n";
                             }
+                            loggedOut = false;
                             break;
-
                         case 11:
                             if (user->getChucVu() == "Quan ly")
                             {
                                 themKhachHang(dsKH);
                                 cout << "~*.~*~*.~*=>> Them khach hang moi thanh cong <<=~*.~*~*.~*\n";
                             }
+                            loggedOut = false;
                             break;
 
                         case 12:
@@ -1753,6 +1741,7 @@ int main()
                                     cout << "*******=>> Xoa nhan vien that bai hoac khong tim thay ma " << maNV << ". <<=********\n";
                                 }
                             }
+                            loggedOut = false;
                             break;
 
                         case 13:
@@ -1770,6 +1759,7 @@ int main()
                                     cout << "*********Xoa khach hang that bai hoac khong tim thay ma " << maKH << ".**********\n";
                                 }
                             }
+                            loggedOut = false;
                             break;
 
                         case 14:
@@ -1787,6 +1777,7 @@ int main()
                                     cout << "**********=>> Xoa san pham that bai hoac khong tim thay ma " << idSP << " <<=***********.\n";
                                 }
                             }
+                            loggedOut = false;
                             break;
 
                         case 15:
@@ -1803,6 +1794,7 @@ int main()
                                 cout << "***********=>> Chinh sua that bai hoac khong tim thay ma " << maNV << " <<==************.\n";
                             }
                         }
+                        loggedOut = false;
                         break;
 
                         case 16:
@@ -1816,6 +1808,7 @@ int main()
                             {
                                 cout << "*********=>> Ban khong co quyen truy cap chuc nang nay. <<=************\n";
                             }
+                            loggedOut = false;
                             break;
 
                         case 17:
@@ -1833,14 +1826,16 @@ int main()
                                     cout << "*********=>> Chinh sua that bai hoac khong tim thay ma " << idSP << " <<=***********.\n";
                                 }
                             }
+                            loggedOut = false;
                             break;
                         }
                     } while (choose != 0 && !loggedOut);
                     returnMain = true;
                 }
-                KhachHang *kh = dynamic_cast<KhachHang *>(user);
-                if (kh != NULL)
-                {
+            }
+            else if(khachhang != NULL)
+            {
+                    tenNguoiMua = khachhang->getHoTenKH();
                     cout << "*~*~*~Dang nhap thanh cong!!*~*~*~\n";
                     cout << "Xin chao " << tenNguoiMua << "!\n";
                     int chooseKH = 0;
@@ -1875,8 +1870,6 @@ int main()
                         }
                     } while (chooseKH != 0);
                     returnMain = true;
-                }
-                
             }
             else
             {
