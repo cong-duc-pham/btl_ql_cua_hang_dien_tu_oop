@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <sstream>
 #include <fstream>
+#include <ctime>
 
 using namespace std;
 
@@ -994,6 +995,8 @@ bool xoaKhachHang(ListKH &dsKH, const string &maKH)
     cout << "Khong tim thay khach hang de xoa." << endl;
     return false;
 }
+
+int maHD = 0;
 void muaSanPham(ListSP &dsSP, ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &diemTichLuy, float &tongDoanhThu, const string &tenNguoiMua)
 {
     nodeSP *p = dsSP.phead;
@@ -1042,6 +1045,11 @@ void muaSanPham(ListSP &dsSP, ListSP &dsSPBuyed, bool laKhachHangThanThiet, int 
         }
     }
 
+    ++maHD;
+    stringstream ss;
+    ss << "HD" << setw(3) << setfill('0') << maHD;
+    string maHoaDon = ss.str();
+
     HangHoa *sanPhamMua = new HangHoa(*sanPham);
     sanPhamMua->setSoLuong(soLuongMua);
     nodeSP *newNode = new nodeSP;
@@ -1049,35 +1057,88 @@ void muaSanPham(ListSP &dsSP, ListSP &dsSPBuyed, bool laKhachHangThanThiet, int 
     newNode->next = dsSPBuyed.phead;
     dsSPBuyed.phead = newNode;
 
+    // Lấy thời gian hiện tại, số giây trôi qua từ 01/01/1970
+    time_t now = time(0);
+
+    // Chuyển đổi sang cấu trúc tm để lấy các thành phần thời gian
+    tm *ltm = localtime(&now);
+
+    // Lấy các thành phần ngày, tháng, năm
+    int ngay = ltm->tm_mday;
+    int thang = 1 + ltm->tm_mon;  // Cộng thêm 1 vì tm_mon bắt đầu từ 0
+    int nam = 1900 + ltm->tm_year;
+
+    // Định dạng ngày tháng năm thành chuỗi
+    string ngayThangNam = to_string(ngay) + "/" + to_string(thang) + "/" + to_string(nam);
+
     cout << "Da mua thanh cong " << soLuongMua << " san pham: " << sanPham->getNameSP() << endl;
     cout << "So tien phai tra: " << fixed << setprecision(0) << thanhTien << " VND" << endl;
     cout << "Diem tich luy hien tai: " << diemTichLuy << endl;
     // cout << "Tong doanh thu cua thu ngan: " << fixed << setprecision(0) << tongDoanhThu << " VND" << endl;
     cout << "Ten san pham: " << sanPham->getNameSP() << endl;
     cout << "So luong da mua: " << soLuongMua << endl;
+    cout << "Ngay mua hang: " << ngayThangNam << endl;
+    
+    char layBill;
+    cout << "Khach hang co muon lay hoa don khong? (y/n): ";
+    cin >> layBill;
+    if (layBill == 'y' || layBill == 'Y') {
+        ofstream billOut("Xuat_hoa_don.txt", ios::app);
+        if (billOut.is_open()) {
+            billOut << "=========================== HOA DON MUA HANG ===========================\n";
+            billOut << setw(25) << left << "Ten cua hang:" << "Cua Hang Dien Tu" << endl;
+            billOut << setw(25) << left << "Dia chi:" << "123 Duong Le Loi, Quan 1, TP.HCM" << endl; 
+            billOut << setw(25) << left << "Website:" << "www.cuahangdientu.vn\n" << endl;
+            billOut << "---------------------------------------------------------------------\n";
+            billOut << setw(25) << left << "Ma hoa don:" << maHoaDon << endl;
+            billOut << setw(25) << left << "Ngay mua:" << ngayThangNam << endl;
+            billOut << setw(25) << left << "Ten nguoi mua:" << tenNguoiMua << endl;
+            billOut << setw(25) << left << "San pham:" << sanPham->getNameSP() << endl;
+            billOut << setw(25) << left << "So luong mua:" << soLuongMua << endl;
+            billOut << setw(25) << left << "So tien phai tra:" << fixed << setprecision(0) << thanhTien << " VND" << endl;
+            billOut << setw(25) << left << "So tien da tra:" << fixed << setprecision(0) << thanhTien << " VND" << endl;
+            billOut << setw(25) << left << "Phuong thuc thanh toan:" << "Tien mat/Chuyen khoan" << endl;
+			
+            if (laKhachHangThanThiet) {
+                billOut << setw(25) << left << "Diem tich luy hien tai:" << diemTichLuy << endl;
+            }
+            billOut << "---------------------------------------------------------------------\n";
+            billOut << setw(25) << left << "Chinh sach doi tra:" << "Doi tra trong vong 7 ngay" << endl;
+            billOut << setw(25) << left << "Hotline ho tro:" << "0901 234 567" << endl;
+            billOut << "=====================================================================\n\n";
+            billOut.close();
+            cout << "Bill da duoc xuat vao file 'Xuat_hoa_don.txt'." << endl;
+        } else {
+            cout << "Khong the mo file hoa don de ghi." << endl;
+        }
+    } else {
+        cout << "Khach hang khong lay hoa don." << endl;
+    }
 
     ofstream fileOut("lich_su_mua_hang_hoa.txt", ios::app);
-    if (fileOut.is_open())
-    {
+    if (fileOut.is_open()) {
         fileOut << "=========================== LICH SU MUA HANG ===========================\n";
+        fileOut << setw(25) << left << "Ngay mua:" << ngayThangNam << endl;
         fileOut << setw(25) << left << "Ten nguoi mua:" << tenNguoiMua << endl;
         fileOut << setw(25) << left << "San pham:" << sanPham->getNameSP() << endl;
         fileOut << setw(25) << left << "So luong mua:" << soLuongMua << endl;
         fileOut << setw(25) << left << "Thanh tien:" << fixed << setprecision(0) << thanhTien << " VND" << endl;
-
-        if (laKhachHangThanThiet)
-        {
+        
+        if (laKhachHangThanThiet) {
             fileOut << setw(25) << left << "Diem tich luy hien tai:" << diemTichLuy << endl;
         }
         fileOut << "=======================================================================\n\n";
-
+        
         fileOut.close();
-    }
-    else
-    {
+    } else {
         cout << "Khong the mo file de ghi." << endl;
     }
 }
+
+void TongDoanhThu(float tongDoanhThu){
+	cout<<"Tong doanh thu cua thu ngan la: "<< fixed << setprecision(0) << tongDoanhThu << " VND" << endl;
+}
+
 void printListSPBuyed(ListSP &dsSPBuyed)
 {
     if (dsSPBuyed.phead == NULL) { // Nếu danh sách trống
@@ -1445,7 +1506,7 @@ int main()
                             else if (user->getChucVu() == "Thu ngan")
                             {
                                 cout << "V==================================== Tong so tien thu duoc =================================V\n";
-                                // printmoneyBuyed
+                                TongDoanhThu(tongDoanhThu);
                                 cout << "^============================================================================================^\n";
                             }
                             else if (user->getChucVu() == "Ban hang")
