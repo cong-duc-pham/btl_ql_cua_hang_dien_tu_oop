@@ -1152,10 +1152,10 @@ int main()
         returnMain = false;
         int padding = (screenWidth - 24) / 2; // 24 là độ dài tiêu đề
         cout << string(padding, ' ');
-        cout << "\033[1;31m**Sieu thi dien may DTL**\033[0m\n";
-        cout << "\t\t\t\t||-1. Dang ky  ||\n";
-        cout << "\t\t\t\t||-2. Dang nhap||\n";
-        cout << "=>>Nhap lua chon cua ban: ";
+        cout << "\033[1;31m================Sieu thi dien may DTL=================\033[0m\n";
+        cout << "\t\t\t\t\t\t[-1. Dang ky  ]\n";
+        cout << "\t\t\t\t\t\t[-2. Dang nhap]\n";
+        cout << "=>> Nhap lua chon cua ban: ";
         cin >> login;
 
         switch (login)
@@ -1173,7 +1173,7 @@ int main()
                     cout << "|| 1. Nhan vien         ||" << endl;
                     cout << "|| 2. Khach hang        ||" << endl;
                     cout << "==========================" << endl;
-                    cout << "==>>Moi nhap: ";
+                    cout << "==>> Moi nhap: ";
                     cin >> chon;
                 }
 
@@ -1182,14 +1182,14 @@ int main()
                     int chuc;
                     cout << "=========_+_*Dang ki*_+_=========\n";
                     cout << "________Chuc vu cua ban la________\n";
-                    cout << "|| 1. Le tan.                   ++\n";
-                    cout << "++ 2. Thu ngan.                 ||\n";
-                    cout << "|| 3. Ban hang.                 ++\n";
-                    cout << "++ 4. Ky thuat.                 ||\n";
-                    cout << "|| 5. Bao tri.                  ++\n";
-                    cout << "++ 6. Quan ly.                  ||\n";
+                    cout << "[  1. Le tan.                    ]\n";
+                    cout << "[  2. Thu ngan.                  ]\n";
+                    cout << "[  3. Ban hang.                  ]\n";
+                    cout << "[  4. Ky thuat.                  ]\n";
+                    cout << "[  5. Bao tri.                   ]\n";
+                    cout << "[  6. Quan ly.                   ]\n";
                     cout << "==============*.*.*==============" << endl;
-                    cout << "==>>Nhap lua chon cua ban: ";
+                    cout << "==>> Nhap lua chon cua ban: ";
                     cin >> chuc;
 
                     while (chuc < 1 || chuc > 6)
@@ -1208,17 +1208,17 @@ int main()
                         dsNV.themNhanVien(chuc);
                     }
 
-                    cout << "*~*~*~Da dang ki thanh cong!!*~*~*~\n";
+                    cout << "*~*~*~ Da dang ki thanh cong *~*~*~\n";
                     returnMain = true;
                 }
                 else if (chon == 2)
                 {
                     int loaiKH;
-                    cout << "============Dang ki=============\n";
-                    cout << "||~~~~~~Loai khach hang:~~~~~~~||\n";
-                    cout << "|| 1. Khach hang thuong.       ||\n";
-                    cout << "|| 2. Khach hang than thiet.   ||\n";
-                    cout << "||=============================||\n";
+                    cout << "=============Dang ki=============\n";
+                    cout << "||~~~~~~ Loai khach hang ~~~~~~~||\n";
+                    cout << "|| 1. Khach hang thuong.        ||\n";
+                    cout << "|| 2. Khach hang than thiet.    ||\n";
+                    cout << "||==============================||\n";
                     cout << " ~~~>> Nhap lua chon cua ban: ";
                     cin >> loaiKH;
                     if (loaiKH == 1)
@@ -1226,7 +1226,7 @@ int main()
                         KhachHang *kh = new KhachHang();
                         kh->nhapThongTinKH();
                         dsKH.addTailKH(kh);
-                        cout << "*~*~*~Da dang ki thanh cong*~*~*~\n";
+                        cout << "*~*~*~ Da dang ki thanh cong *~*~*~\n";
                         returnMain = true;
                     }
                     else if (loaiKH == 2)
@@ -1234,7 +1234,7 @@ int main()
                         KhachHangThanThiet *kh = new KhachHangThanThiet();
                         kh->nhapThongTinKH();
                         dsKH.addTailKH(kh);
-                        cout << "*~*~*~Da dang ki thanh cong*~*~*~\n";
+                        cout << "*~*~*~ Da dang ki thanh cong *~*~*~\n";
                         returnMain = true;
                     }
                     while (loaiKH < 1 || loaiKH > 2)
@@ -1249,7 +1249,7 @@ int main()
                                 KhachHang *kh = new KhachHang();
                                 kh->nhapThongTinKH();
                                 dsKH.addTailKH(kh);
-                                cout << "*~*~*~Da dang ki thanh cong*~*~*~\n";
+                                cout << "*~*~*~ Da dang ki thanh cong *~*~*~\n";
                                 returnMain = true;
                             }
                             else if (loaiKH == 2)
@@ -1257,7 +1257,7 @@ int main()
                                 KhachHangThanThiet *kh = new KhachHangThanThiet();
                                 kh->nhapThongTinKH();
                                 dsKH.addTailKH(kh);
-                                cout << "*~*~*~Da dang ki thanh cong*~*~*~\n";
+                                cout << "*~*~*~ Da dang ki thanh cong *~*~*~\n";
                                 returnMain = true;
                             }
                         }
@@ -1269,7 +1269,7 @@ int main()
         case 2:
         {
             string sdt_current, pass_current;
-            cout << "============Dang Nhap===========\n";
+            cout << "============ Dang Nhap ===========\n";
             cout << "Nhap so dien thoai: ";
             cin.ignore();
             getline(cin, sdt_current);
@@ -1358,8 +1358,8 @@ int main()
                             cout << "|| 7. Tim kiem thong tin khach hang trong cua hang.                                        ||\n";
                             cout << "|| 8. Tim kiem thong tin san pham trong cua hang.                                          ||\n";
                             cout << "|| 9. Them thong tin nhan vien moi.                                                        ||\n";
-                            cout << "|| 10. Them thong tin khach hang moi.                                                      ||\n";
-                            cout << "|| 11. Them thong tin hang hoa moi.                                                        ||\n";
+                            cout << "|| 10. Them thong tin hang hoa moi.                                                        ||\n";
+                            cout << "|| 11. Them thong tin khach hang moi.                                                      ||\n";
                             cout << "|| 12. Xoa thong tin nhan vien trong cua hang.                                             ||\n";
                             cout << "|| 13. Xoa thong tin khach hang trong cua hang.                                            ||\n";
                             cout << "|| 14. Xoa thong tin san pham trong cua hang.                                              ||\n";
@@ -1376,7 +1376,7 @@ int main()
                         case 0:
                             cout << "            =---------Thong bao---------=             \n";
                             cout << "                     Dang xuat...                    \n";
-                            cout << "*~*~*~*~*~*~Hen gap lai quy khach lan sau!*~*~*~*~*~*~\n";
+                            cout << "*~*~*~*~*~*~Hen gap lai ban lan sau!*~*~*~*~*~*~\n";
                             loggedOut = true;
                             returnMain = true;
                             break;
@@ -1647,13 +1647,13 @@ int main()
                             {
                                 int chuc;
                                 cout << "=========_+_*Dang ki*_+_=========\n";
-                                cout << "________Chuc vu cua ban la________\n";
-                                cout << "|| 1. Le tan.                   ++\n";
-                                cout << "++ 2. Thu ngan.                 ||\n";
-                                cout << "|| 3. Ban hang.                 ++\n";
-                                cout << "++ 4. Ky thuat.                 ||\n";
-                                cout << "|| 5. Bao tri.                  ++\n";
-                                cout << "++ 6. Quan ly.                  ||\n";
+                                cout << "______Chon chuc vu muon them______\n";
+                                cout << "[  1. Le tan.                    ]\n";
+                                cout << "[  2. Thu ngan.                  ]\n";
+                                cout << "[  3. Ban hang.                  ]\n";
+                                cout << "[  4. Ky thuat.                  ]\n";
+                                cout << "[  5. Bao tri.                   ]\n";
+                                cout << "[  6. Quan ly.                   ]\n";
                                 cout << "==============*.*.*==============" << endl;
                                 cout << "==>>Nhap lua chon cua ban: ";
                                 cin >> chuc;
