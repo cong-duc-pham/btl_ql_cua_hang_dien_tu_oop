@@ -1614,7 +1614,7 @@ int main()
                                 cout << "Nhap ma san pham can tim: ";
                                 cin >> idSP;
                                 HangHoa *sp = dsSP.timKiemSanPham(idSP);
-                                if (sp)1
+                                if (sp)
                                 {
                                     cout << "He thong da tim ra ma san pham!" << endl;
                                     cout << "               =------------Thong tin san pham duoc tim thay-----------=                  \n";
@@ -1797,7 +1797,7 @@ int main()
                             cin >> maNV;
                             if (dsNV.chinhSuaNhanVien(maNV))
                             {
-                                cout << "          ~*.~*~*.~*=>> Chinh sua thong tin nhan vien thanh cong <<=~*.~*~*.~*n";
+                                cout << "          ~*.~*~*.~*=>> Chinh sua thong tin nhan vien thanh cong <<=~*.~*~*.~*\n";
                             }
                             else
                             {
