@@ -676,8 +676,7 @@ public:
 
         HangHoa *sanPhamMua = new HangHoa(*sanPham);
         sanPhamMua->setSoLuong(soLuongMua);
-        addTailSP(sanPhamMua);
-
+        dsSPBuyed.addTailSP(sanPhamMua);
         // Thời gian hiện tại
         time_t now = time(0);
         tm *ltm = localtime(&now);
