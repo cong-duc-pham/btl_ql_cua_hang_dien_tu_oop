@@ -3,6 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include <ctime>
+#include <climits>
 
 using namespace std;
 
