@@ -1217,8 +1217,27 @@ int main()
         cout << "\033[1;31m**Sieu thi dien may DTL**\033[0m\n";
         cout << "\t\t\t\t||-1. Dang ky  ||\n";
         cout << "\t\t\t\t||-2. Dang nhap||\n";
-        cout << "=>>Nhap lua chon cua ban: ";
-        cin >> login;
+        while (true)
+        {
+            cout << "=>>Nhap lua chon cua ban: ";
+            cin >> login;
+
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(INT_MAX, '\n');
+                cout << "Nhap sai, vui long nhap so nguyen (1 hoac 2)!\n";
+            }
+            else if (login < 1 || login > 2)
+            {
+                cout << "Lua chon khong hop le. Vui long nhap 1 hoac 2.\n";
+            }
+            else
+            {
+                break; 
+            }
+        }
+
 
         switch (login)
         {
@@ -1235,8 +1254,26 @@ int main()
                     cout << "|| 1. Nhan vien         ||" << endl;
                     cout << "|| 2. Khach hang        ||" << endl;
                     cout << "==========================" << endl;
-                    cout << "==>>Moi nhap: ";
-                    cin >> chon;
+                   while (true)
+                    {
+                        cout << "==>>Moi nhap: ";
+                        cin >> chon;
+
+                        if (cin.fail())
+                        {
+                            cin.clear();
+                            cin.ignore(INT_MAX, '\n');
+                            cout << "Nhap sai, vui long nhap so nguyen (1 hoac 2)!\n";
+                        }
+                        else if (chon < 1 || chon > 2)
+                        {
+                            cout << "Lua chon khong hop le. Vui long nhap 1 hoac 2.\n";
+                        }
+                        else
+                        {
+                            break; // Nhập hợp lệ
+                        }
+                    }
                 }
 
                 if (chon == 1)
@@ -1251,8 +1288,26 @@ int main()
                     cout << "|| 5. Bao tri.                  ++\n";
                     cout << "++ 6. Quan ly.                  ||\n";
                     cout << "==============*.*.*==============" << endl;
-                    cout << "==>>Nhap lua chon cua ban: ";
-                    cin >> chuc;
+                    while (true)
+                    {
+                        cout << "==>>Nhap lua chon cua ban: ";
+                        cin >> chuc;
+
+                        if (cin.fail())
+                        {
+                            cin.clear();
+                            cin.ignore(INT_MAX, '\n');
+                            cout << "Nhap sai, vui long nhap so nguyen (1 den 6)!\n";
+                        }
+                        else if (chuc < 1 || chuc > 6)
+                        {
+                            cout << "Lua chon khong hop le. Vui long nhap tu 1 den 6.\n";
+                        }
+                        else
+                        {
+                            break; // Nhập hợp lệ
+                        }
+                    }
 
                     while (chuc < 1 || chuc > 6)
                     {
@@ -1275,8 +1330,27 @@ int main()
                     cout << "|| 1. Khach hang thuong.       ||\n";
                     cout << "|| 2. Khach hang than thiet.   ||\n";
                     cout << "||=============================||\n";
-                    cout << " ~~~>> Nhap lua chon cua ban: ";
-                    cin >> loaiKH;
+                    
+                    while (true)
+                    {
+                        cout << " ~~~>> Nhap lua chon cua ban: ";
+                        cin >> loaiKH;
+
+                        if (cin.fail())
+                        {
+                            cin.clear();
+                            cin.ignore(INT_MAX, '\n');
+                            cout << "Nhap sai, vui long nhap so nguyen (1 hoac 2)!\n";
+                        }
+                        else if (loaiKH < 1 || loaiKH > 2)
+                        {
+                            cout << "Lua chon khong hop le. Vui long nhap 1 hoac 2.\n";
+                        }
+                        else
+                        {
+                            break; // Nhập hợp lệ
+                        }
+                    }
                     if (loaiKH == 1)
                     {
                         KhachHang *kh = new KhachHang();
@@ -1300,6 +1374,14 @@ int main()
                             cout << "* Hay chon 1 trong cac muc nay!\n";
                             cout << "=>> Nhap lua chon cua ban: ";
                             cin >> loaiKH;
+                            if (cin.fail()) 
+						    {
+						        cin.clear();            
+						        cin.ignore(INT_MAX, '\n'); 
+						        cout << "* Loi: Vui long nhap so nguyen (1 hoac 2)!\n";
+						        continue;               
+						    }
+
                             if (loaiKH == 1)
                             {
                                 KhachHang *kh = new KhachHang();
@@ -1427,6 +1509,15 @@ int main()
                             cout << "======>>>>  Moi ban nhap lua chon: ";
                         }
                         cin >> choose;
+
+                        if (cin.fail()) {
+        					cin.clear(); 
+					        cin.ignore(INT_MAX, '\n'); 
+					        cout << "* Loi: Vui long nhap so nguyen!\n";
+					        choose = -1; 
+					        continue;
+					    }
+
                         switch (choose)
                         {
                         case 0:
@@ -1850,6 +1941,13 @@ int main()
                         cout << "^=================*~*~*~~===============^\n";
 
                         cin >> chooseKH;
+                        if (cin.fail()) {
+        					cin.clear(); 
+					        cin.ignore(INT_MAX, '\n'); 
+					        cout << "* Loi: Vui long nhap so nguyen tu 0 den 3!\n";
+					        chooseKH = -1; 
+					        continue;
+					    }
                         switch (chooseKH)
                         {
                         case 0:
@@ -1879,16 +1977,27 @@ int main()
             }
         }
         }
-        cout << "\n      ==>> Ban co muon quay lai trang chu khong? (1: Co, 0: Khong): ";
-        cin >> luaChon;
-        if (luaChon == 1)
-        {
-            returnMain = true;  
-        }
-        else if (luaChon == 0)
-        {
-            returnMain = false;  
-        }
-    } while (returnMain && luaChon != 0);
+        while (true) {
+		    cout << "\n      ==>> Ban co muon quay lai trang chu khong? (1: Co, 0: Khong): ";
+		    cin >> luaChon;
+		
+		    if (cin.fail()) {
+		        cin.clear(); 
+		        cin.ignore(INT_MAX, '\n');
+		        cout << "* Loi: Vui long nhap so nguyen!\n";
+		        continue; 
+		    }
+		
+		    if (luaChon == 1) {
+		        returnMain = true; 
+		        break; 
+		    } else if (luaChon == 0) {
+		        returnMain = false; 
+		        break; 
+		    } else {
+		        cout << "* Lua chon khong hop le. Vui long nhap 1 (Co) hoac 0 (Khong)!\n";
+		    }
+		}
+	} while (returnMain && luaChon != 0);
     system("pause");
 }
