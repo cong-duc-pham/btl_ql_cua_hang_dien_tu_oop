@@ -629,7 +629,7 @@ public:
         sp->nhapThongTinSP();
         return true;
     }
-
+    int maHD = 0;
     void muaSanPham(ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &diemTichLuy, float &tongDoanhThu, const string &tenNguoiMua)
     {
         nodeSP *p = phead;
@@ -675,6 +675,11 @@ public:
             diemTichLuy += (thanhTien / 1000000) * 100;
         }
 
+        ++maHD;
+        stringstream ss;
+        ss << "HD" << setw(3) << setfill('0') << maHD;
+        string maHoaDon = ss.str();
+
         HangHoa *sanPhamMua = new HangHoa(*sanPham);
         sanPhamMua->setSoLuong(soLuongMua);
         dsSPBuyed.addTailSP(sanPhamMua);
@@ -687,35 +692,98 @@ public:
         cout << "So tien phai tra: " << fixed << setprecision(0) << thanhTien << " VND" << endl;
         cout << "Diem tich luy hien tai: " << diemTichLuy << endl;
 
-        // In hóa đơn nếu cần
-        char layBill;
-        cout << "Khach hang co muon lay hoa don khong? (y/n): ";
-        cin >> layBill;
-        if (layBill == 'y' || layBill == 'Y')
+        string phuongThucThanhToan;
+         int luaChonThanhToan;
+
+        // Hỏi khách hàng về phương thức thanh toán
+        cout << "Chon phuong thuc thanh toan: \n";
+        cout << "1. Chuyen khoan\n";
+        cout << "2. Tien mat\n";
+        cout << "Lua chon cua ban: ";
+        cin >> luaChonThanhToan;
+
+        if (luaChonThanhToan == 1)
         {
-            ofstream billOut("Xuat_hoa_don.txt", ios::app);
-            if (billOut.is_open())
-            {
-                billOut << "=========================== HOA DON MUA HANG ===========================\n";
-                billOut << setw(25) << left << "Ten cua hang:" << "Cua Hang Dien Tu" << endl;
-                billOut << setw(25) << left << "Dia chi:" << "123 Duong Le Loi, Quan 1, TP.HCM" << endl;
-                billOut << setw(25) << left << "Website:" << "www.cuahangdientu.vn\n"
-                        << endl;
-                billOut << "---------------------------------------------------------------------\n";
-                billOut << setw(25) << left << "San pham:" << sanPham->getNameSP() << endl;
-                billOut << setw(25) << left << "So luong mua:" << soLuongMua << endl;
-                billOut << setw(25) << left << "So tien phai tra:" << fixed << setprecision(0) << thanhTien << " VND" << endl;
-                billOut.close();
-                cout << "Bill da duoc xuat vao file 'Xuat_hoa_don.txt'." << endl;
-            }
-            else
-            {
-                cout << "Khong the mo file hoa don de ghi." << endl;
-            }
+            phuongThucThanhToan = "Chuyen khoan";
+            cout << "~*.~*~*.~*=>>Thong tin chuyen khoan <<=~*.~*~*.~*\n";
+            cout << "So tai khoan: 123456789\n";
+            cout << "Ngan hang: ABC Bank\n";
+            cout << "Ten tai khoan: Cua Hang Dien Tu\n";
+        }
+        else if (luaChonThanhToan == 2)
+        {
+            phuongThucThanhToan = "Tien mat";
+            cout << "Khach hang da chon thanh toan bang tien mat.\n";
         }
         else
         {
-            cout << "Khach hang khong lay hoa don." << endl;
+            cout << "Lua chon khong hop le. Mac dinh thanh toan bang tien mat.\n";
+            phuongThucThanhToan = "Tien mat";
+        }
+
+        // Xác nhận thanh toán
+        char xacNhanThanhToan;
+        cout << "Da thanh toan thanh cong? (y/n): ";
+        cin >> xacNhanThanhToan;
+
+        if (xacNhanThanhToan == 'y' || xacNhanThanhToan == 'Y')
+        {
+            cout << "Thanh toan da hoan tat. Cam on quy khach!\n";
+
+            // In hóa đơn nếu cần
+            char layBill;
+            cout << "Khach hang co muon lay hoa don khong? (y/n): ";
+            cin >> layBill;
+            if (layBill == 'y' || layBill == 'Y') {
+                ofstream billOut("Xuat_hoa_don.txt", ios::app);
+                if (billOut.is_open()) {
+                    billOut << "=========================== HOA DON MUA HANG ===========================\n";
+                    billOut << setw(25) << left << "Ten cua hang:" << "Cua Hang Dien Tu" << endl;
+                    billOut << setw(25) << left << "Dia chi:" << "123 Duong Le Loi, Quan 1, TP.HCM" << endl; 
+                    billOut << setw(25) << left << "Website:" << "www.cuahangdientu.vn\n" << endl;
+                    billOut << "---------------------------------------------------------------------\n";
+                    billOut << setw(25) << left << "Ma hoa don:" << maHoaDon << endl;
+                    billOut << setw(25) << left << "Ngay mua:" << ngayThangNam << endl;
+                    billOut << setw(25) << left << "Ten nguoi mua:" << tenNguoiMua << endl;
+                    billOut << setw(25) << left << "San pham:" << sanPham->getNameSP() << endl;
+                    billOut << setw(25) << left << "So luong mua:" << soLuongMua << endl;
+                    billOut << setw(25) << left << "So tien phai tra:" << fixed << setprecision(0) << thanhTien << " VND" << endl;
+                    billOut << setw(25) << left << "So tien da tra:" << fixed << setprecision(0) << thanhTien << " VND" << endl;
+                    billOut << setw(25) << left << "Phuong thuc thanh toan: " << phuongThucThanhToan << endl; ;
+                
+                    if (laKhachHangThanThiet) {
+                        billOut << setw(25) << left << "Diem tich luy hien tai:" << diemTichLuy << endl;
+                    }
+                    billOut << "---------------------------------------------------------------------\n";
+                    billOut << setw(25) << left << "Chinh sach doi tra:" << "Doi tra trong vong 7 ngay" << endl;
+                    billOut << setw(25) << left << "Hotline ho tro:" << "0901 234 567" << endl;
+                    billOut << "=====================================================================\n\n";
+                    billOut.close();
+                    cout << "Bill da duoc xuat vao file 'Xuat_hoa_don.txt'." << endl;
+                } else {
+                    cout << "Khong the mo file hoa don de ghi." << endl;
+            }
+            } else {
+                cout << "Khach hang khong lay hoa don." << endl;
+            }
+        }
+        ofstream fileOut("lich_su_mua_hang_hoa.txt", ios::app);
+        if (fileOut.is_open()) {
+            fileOut << "=========================== LICH SU MUA HANG ===========================\n";
+            fileOut << setw(25) << left << "Ngay mua:" << ngayThangNam << endl;
+            fileOut << setw(25) << left << "Ten nguoi mua:" << tenNguoiMua << endl;
+            fileOut << setw(25) << left << "San pham:" << sanPham->getNameSP() << endl;
+            fileOut << setw(25) << left << "So luong mua:" << soLuongMua << endl;
+            fileOut << setw(25) << left << "Thanh tien:" << fixed << setprecision(0) << thanhTien << " VND" << endl;
+            
+            if (laKhachHangThanThiet) {
+                fileOut << setw(25) << left << "Diem tich luy hien tai:" << diemTichLuy << endl;
+            }
+            fileOut << "=======================================================================\n\n";
+            
+            fileOut.close();
+        } else {
+            cout << "Khong the mo file de ghi." << endl;
         }
     }
 
@@ -1154,7 +1222,6 @@ int main()
         cout << "\033[1;31m================Sieu thi dien may DTL=================\033[0m\n";
         cout << "\t\t\t\t\t\t[-1. Dang ky  ]\n";
         cout << "\t\t\t\t\t\t[-2. Dang nhap]\n";
-        cout << "=>> Nhap lua chon cua ban: ";
         while (true)
         {
             cout << "=>>Nhap lua chon cua ban: ";
@@ -1965,24 +2032,27 @@ int main()
             }
         }
         }
-        cout << "\n      ==>> Ban co muon quay lai trang chu khong? (1: Co, 0: Khong): ";
-        cin >> luaChon;
-        if (cin.fail()) 
-        {
-		    cin.clear(); 
-		    cin.ignore(INT_MAX, '\n');
-		    cout << "* Loi: Vui long nhap so nguyen!\n";
-		    continue; 
-		}
+         while (true) {
+		    cout << "\n      ==>> Ban co muon quay lai trang chu khong? (1: Co, 0: Khong): ";
+		    cin >> luaChon;
 		
-        if (luaChon == 1)
-        {
-            returnMain = true;
-        }
-        else if (luaChon == 0)
-        {
-            returnMain = false;
-        }
+		    if (cin.fail()) {
+		        cin.clear(); 
+		        cin.ignore(INT_MAX, '\n');
+		        cout << "* Loi: Vui long nhap so nguyen!\n";
+		        continue; 
+		    }
+		
+		    if (luaChon == 1) {
+		        returnMain = true; 
+		        break; 
+		    } else if (luaChon == 0) {
+		        returnMain = false; 
+		        break; 
+		    } else {
+		        cout << "* Lua chon khong hop le. Vui long nhap 1 (Co) hoac 0 (Khong)!\n";
+		    }
+		}
     } while (returnMain && luaChon != 0);
     system("pause");
 }
