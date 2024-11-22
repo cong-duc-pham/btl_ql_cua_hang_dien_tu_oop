@@ -386,31 +386,41 @@ NhanVien *createNhanVien(int chuc)
 }
 
 // Cấu trúc danh sách liên kết đơn cho nhân viên
-struct node
+class Node
 {
+private:
     NhanVien *info;
-    node *next;
-    node(NhanVien *nv) : info(nv), next(NULL) {}
+    Node *next;
+
+public:
+    Node(NhanVien *nv) : info(nv), next(NULL) {}
+
+    NhanVien *getInfo() const { return info; }
+    void setInfo(NhanVien *nv) { info = nv; }
+
+    Node *getNext() const { return next; }
+    void setNext(Node *n) { next = n; }
 };
+
 
 class List
 {
 private:
-    node *phead, *ptail;
+    Node *phead, *ptail;
 
 public:
     List() : phead(NULL), ptail(NULL) {}
 
     void addTail(NhanVien *nv)
     {
-        node *p = new node(nv);
+        Node *p = new Node(nv);
         if (!phead)
         {
             phead = ptail = p;
         }
         else
         {
-            ptail->next = p;
+            ptail->setNext(p);
             ptail = p;
         }
     }
@@ -430,14 +440,14 @@ public:
 
     NhanVien *timKiemNhanVien(const string &maNV)
     {
-        node *p = phead;
+        Node *p = phead;
         while (p != NULL)
         {
-            if (p->info->getMaNV() == maNV)
+            if (p->getInfo()->getMaNV() == maNV)
             {
-                return p->info;
+                return p->getInfo();
             }
-            p = p->next;
+            p = p->getNext();
         }
         cout << "Khong tim thay nhan vien co ma " << maNV << endl;
         return NULL;
@@ -451,31 +461,31 @@ public:
 
     bool xoaNhanVien(const string &maNV)
     {
-        node *prev = NULL;
-        node *curr = phead;
+        Node *prev = NULL;
+        Node *curr = phead;
         while (curr != NULL)
         {
-            if (curr->info->getMaNV() == maNV)
+            if (curr->getInfo()->getMaNV() == maNV)
             {
                 if (prev == NULL)
                 {
-                    phead = curr->next;
+                    phead = curr->getNext();
                 }
                 else
                 {
-                    prev->next = curr->next;
+                    prev->setNext(curr->getNext());
                 }
                 if (curr == ptail)
                 {
                     ptail = prev;
                 }
-                delete curr->info;
+                delete curr->getInfo();
                 delete curr;
                 cout << "Da xoa nhan vien co ma " << maNV << endl;
                 return true;
             }
             prev = curr;
-            curr = curr->next;
+            curr = curr->getNext();
         }
         cout << "Khong tim thay nhan vien de xoa." << endl;
         return false;
@@ -483,13 +493,13 @@ public:
 
     NhanVien *checkLogin(const string &sdtnv, const string &pass)
     {
-        node *p = phead;
+        Node *p = phead;
         while (p != NULL)
         {
-            if (p->info->getSoDienThoai() == sdtnv && p->info->getPass() == pass)
+            if (p->getInfo()->getSoDienThoai() == sdtnv && p->getInfo()->getPass() == pass)
             {
                 // Kiểm tra chức vụ của nhân viên
-                if (p->info->getChucVu() == "Quan ly")
+                if (p->getInfo()->getChucVu() == "Quan ly")
                 {
                     // Quản lý đăng nhập
                     cout << "Dang nhap thanh cong voi vai tro Quan Ly!" << endl;
@@ -499,16 +509,16 @@ public:
                     // Nhân viên bình thường
                     cout << "Dang nhap thanh cong voi vai tro Nhan Vien!" << endl;
                 }
-                return p->info; // Trả về thông tin nhân viên hoặc quản lý
+                return p->getInfo(); // Trả về thông tin nhân viên hoặc quản lý
             }
-            p = p->next;
+            p = p->getNext();
         }
         return NULL; // Trả về NULL nếu không tìm thấy
     }
 
     void printList()
     {
-        node *p = phead;
+        Node *p = phead;
         cout << left
              << setw(10) << "Ma NV"
              << setw(20) << "Ho Ten"
@@ -521,11 +531,11 @@ public:
 
         while (p)
         {
-            if (p->info->getChucVu() != "Quan ly")
+            if (p->getInfo()->getChucVu() != "Quan ly")
             {
-                cout << *(p->info);
+                cout << *(p->getInfo());
             }
-            p = p->next;
+            p = p->getNext();
         }
     }
 
@@ -533,19 +543,30 @@ public:
     {
         while (phead)
         {
-            node *temp = phead;
-            phead = phead->next;
-            delete temp->info;
+            Node *temp = phead;
+            phead = phead->getNext();
+            delete temp->getInfo();
             delete temp;
         }
     }
 };
 
 // Cấu trúc danh sách liên kết đơn cho sản phẩm
-struct nodeSP
+class nodeSP
 {
+private:
     HangHoa *info;
     nodeSP *next;
+
+public:
+    nodeSP(HangHoa *info = NULL, nodeSP *next = NULL)
+        : info(info), next(next) {}
+
+    HangHoa *getInfo() const { return info; }
+    void setInfo(HangHoa *newInfo) { info = newInfo; }
+
+    nodeSP *getNext() const { return next; }
+    void setNext(nodeSP *newNext) { next = newNext; }
 };
 
 class ListSP
@@ -565,7 +586,7 @@ public:
         }
         else
         {
-            ptail->next = p;
+            ptail->setNext(p);
             ptail = p;
         }
     }
@@ -575,11 +596,11 @@ public:
         nodeSP *p = phead;
         while (p != NULL)
         {
-            if (p->info->getIDHH() == idSP)
+            if (p->getInfo()->getIDHH() == idSP)
             {
-                return p->info;
+                return p->getInfo();
             }
-            p = p->next;
+            p = p->getNext();
         }
         cout << "Khong tim thay san pham co ma " << idSP << endl;
         return NULL;
@@ -592,15 +613,15 @@ public:
 
         while (curr != NULL)
         {
-            if (curr->info->getIDHH() == idSP)
+            if (curr->getInfo()->getIDHH() == idSP)
             {
                 if (prev == NULL)
                 {
-                    phead = curr->next;
+                    phead = curr->getNext();
                 }
                 else
                 {
-                    prev->next = curr->next;
+                    prev->setNext(curr->getNext());
                 }
                 if (curr == ptail)
                 {
@@ -611,7 +632,7 @@ public:
                 return true;
             }
             prev = curr;
-            curr = curr->next;
+            curr = curr->getNext();
         }
 
         cout << "Khong tim thay san pham co ma " << idSP << " trong he thong.\n";
@@ -641,12 +662,12 @@ public:
 
         while (p != NULL)
         {
-            if (p->info->getNameSP() == tenSanPham)
+            if (p->getInfo()->getNameSP() == tenSanPham)
             {
-                sanPham = p->info;
+                sanPham = p->getInfo();
                 break;
             }
-            p = p->next;
+            p = p->getNext();
         }
 
         if (sanPham == NULL)
@@ -804,20 +825,20 @@ public:
 
         while (p != NULL)
         {
-            if (p->info != NULL)
+            if (p->getInfo() != NULL)
             {
                 found = true;
-                cout << left << setw(15) << p->info->getIDHH()
-                     << setw(30) << p->info->getNameSP()
-                     << setw(10) << p->info->getSoLuong()
-                     << setw(15) << fixed << setprecision(0) << p->info->getGiaSP()
-                     << setw(20) << p->info->getLoaiSP() << endl;
+                cout << left << setw(15) << p->getInfo()->getIDHH()
+                     << setw(30) << p->getInfo()->getNameSP()
+                     << setw(10) << p->getInfo()->getSoLuong()
+                     << setw(15) << fixed << setprecision(0) << p->getInfo()->getGiaSP()
+                     << setw(20) << p->getInfo()->getLoaiSP() << endl;
             }
             else
             {
                 cout << "                [Loi: Thong tin san pham rong!\n";
             }
-            p = p->next;
+            p = p->getNext();
         }
     }
 
@@ -836,16 +857,16 @@ public:
 
         while (p != NULL)
         {
-            if (p->info->getSoLuong() > 0)
+            if (p->getInfo()->getSoLuong() > 0)
             {
                 found = true;
-                cout << left << setw(15) << p->info->getIDHH()
-                     << setw(30) << p->info->getNameSP()
-                     << setw(10) << p->info->getSoLuong()
-                     << setw(15) << fixed << setprecision(0) << p->info->getGiaSP()
-                     << setw(20) << p->info->getLoaiSP() << endl;
+                cout << left << setw(15) << p->getInfo()->getIDHH()
+                     << setw(30) << p->getInfo()->getNameSP()
+                     << setw(10) << p->getInfo()->getSoLuong()
+                     << setw(15) << fixed << setprecision(0) << p->getInfo()->getGiaSP()
+                     << setw(20) << p->getInfo()->getLoaiSP() << endl;
             }
-            p = p->next;
+            p = p->getNext();
         }
         if (!found)
         {
@@ -1037,32 +1058,40 @@ string KhachHang::getsoDienThoaiKH()
 {
     return soDienThoaiKH;
 }
-struct nodeKH
+class NodeKH
 {
+private:
     KhachHang *info;
-    nodeKH *next;
+    NodeKH *next;
 
-    nodeKH(KhachHang *kh) : info(kh), next(NULL) {}
+public:
+    NodeKH(KhachHang *kh) : info(kh), next(NULL) {}
+
+    KhachHang *getInfo() const { return info; }
+    void setInfo(KhachHang *kh) { info = kh; }
+
+    NodeKH *getNext() const { return next; }
+    void setNext(NodeKH *n) { next = n; }
 };
 
 class ListKH
 {
 private:
-    nodeKH *phead, *ptail;
+    NodeKH *phead, *ptail;
 
 public:
     ListKH() : phead(NULL), ptail(NULL) {}
 
     KhachHang *timKiemKhachHang(const string &maKH)
     {
-        nodeKH *p = phead;
+        NodeKH *p = phead;
         while (p != NULL)
         {
-            if (p->info->getMaKH() == maKH)
+            if (p->getInfo()->getMaKH() == maKH)
             {
-                return p->info;
+                return p->getInfo();
             }
-            p = p->next;
+            p = p->getNext();
         }
         cout << "Khong tim thay khach hang co ma " << maKH << " trong he thong.\n";
         return NULL;
@@ -1070,28 +1099,28 @@ public:
 
     void addTailKH(KhachHang *kh)
     {
-        nodeKH *p = new nodeKH(kh);
+        NodeKH *p = new NodeKH(kh);
         if (phead == NULL)
         {
             phead = ptail = p;
         }
         else
         {
-            ptail->next = p;
+            ptail->setNext(p);
             ptail = p;
         }
     }
 
     KhachHang *checkLoginKH(const string &sdt, const string &pass)
     {
-        nodeKH *p = phead;
+        NodeKH *p = phead;
         while (p != NULL)
         {
-            if (p->info->getsoDienThoaiKH() == sdt && p->info->getPassKH() == pass)
+            if (p->getInfo()->getsoDienThoaiKH() == sdt && p->getInfo()->getPassKH() == pass)
             {
-                return p->info;
+                return p->getInfo();
             }
-            p = p->next;
+            p = p->getNext();
         }
         return NULL;
     }
@@ -1109,10 +1138,10 @@ public:
              << endl;
         cout << string(110, '-') << endl; // Dòng gạch ngang ngăn cách
 
-        nodeKH *temp = phead;
+        NodeKH *temp = phead;
         while (temp != NULL)
         {
-            KhachHang *kh = temp->info;
+            KhachHang *kh = temp->getInfo();
             KhachHangThanThiet *khtt = dynamic_cast<KhachHangThanThiet *>(kh);
 
             if (khtt != NULL)
@@ -1126,7 +1155,7 @@ public:
                 cout << *kh;
             }
 
-            temp = temp->next;
+            temp = temp->getNext();
         }
     }
     void themKhachHang()
@@ -1158,27 +1187,32 @@ public:
     }
     bool xoaKhachHang(const string &maKH)
     {
-        nodeKH *prev = NULL;
-        nodeKH *curr = phead;
+        NodeKH *prev = NULL;
+        NodeKH *curr = phead;
 
         while (curr != NULL)
         {
-            if (curr->info->getMaKH() == maKH)
+            if (curr->getInfo()->getMaKH() == maKH)
             {
                 if (prev == NULL)
                 {
-                    phead = curr->next; // Xóa phần tử đầu tiên
+                    phead = curr->getNext(); // Xóa phần tử đầu tiên
                 }
                 else
                 {
-                    prev->next = curr->next; // Xóa phần tử giữa hoặc cuối
+                    prev->setNext(curr->getNext()); // Xóa phần tử giữa hoặc cuối
                 }
+                if(curr = ptail)
+                {
+                    ptail = prev;
+                }
+                delete curr->getInfo();
                 delete curr; // Giải phóng bộ nhớ
                 cout << "Da xoa khach hang co ma " << maKH << endl;
                 return true;
             }
             prev = curr;
-            curr = curr->next;
+            curr = curr->getNext();
         }
 
         cout << "Khong tim thay khach hang de xoa." << endl;
