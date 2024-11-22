@@ -690,7 +690,7 @@ public:
 
         cout << "Da mua thanh cong " << soLuongMua << " san pham: " << sanPham->getNameSP() << endl;
         cout << "So tien phai tra: " << fixed << setprecision(0) << thanhTien << " VND" << endl;
-        cout << "Diem tich luy hien tai: " << diemTichLuy << endl;
+        
 
         string phuongThucThanhToan;
          int luaChonThanhToan;
@@ -701,7 +701,7 @@ public:
         cout << "2. Tien mat\n";
         cout << "Lua chon cua ban: ";
         cin >> luaChonThanhToan;
-
+        cout << "\n";
         if (luaChonThanhToan == 1)
         {
             phuongThucThanhToan = "Chuyen khoan";
@@ -760,6 +760,7 @@ public:
                     billOut << "=====================================================================\n\n";
                     billOut.close();
                     cout << "Bill da duoc xuat vao file 'Xuat_hoa_don.txt'." << endl;
+                    cout << "Diem tich luy hien tai: " << diemTichLuy << endl;
                 } else {
                     cout << "Khong the mo file hoa don de ghi." << endl;
             }
@@ -1200,6 +1201,8 @@ int main()
     ListKH dsKH;
 
     ListSP dsSPBuyed;
+
+    KhachHang kh;
 
     HangHoa sp;
     string tenNguoiMua;
@@ -1994,7 +1997,7 @@ int main()
                     cout << "|| 3. San pham da mua.                 ||\n";
                     cout << "|| 0. Dang xuat.                       ||\n";
                     cout << "^=================*~*~*~~===============^\n";
-
+                    cout << "=====>>>>  Moi ban nhap lua chon: ";
                     cin >> chooseKH;
                     if (cin.fail()) {
         				cin.clear(); 
