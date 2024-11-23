@@ -1,0 +1,18 @@
+=========================== LICH SU MUA HANG ===========================
+Ngay mua:                23/11/2024
+Ten nguoi mua:           Nguyen Van A
+San pham:                tivi
+So luong mua:            1
+Thanh tien:              7000000 VND
+Diem tich luy hien tai:  700
+=======================================================================
+
+=========================== LICH SU MUA HANG ===========================
+Ngay mua:                23/11/2024
+Ten nguoi mua:           nguyen Van A
+San pham:                tivi
+So luong mua:            1
+Thanh tien:              1000000 VND
+Diem tich luy hien tai:  0
+=======================================================================
+
