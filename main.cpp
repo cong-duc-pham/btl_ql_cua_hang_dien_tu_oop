@@ -650,6 +650,7 @@ public:
         sp->nhapThongTinSP();
         return true;
     }
+
     int maHD = 0;
     void muaSanPham(ListSP &dsSPBuyed, bool laKhachHangThanThiet, int &diemTichLuy, float &tongDoanhThu, const string &tenNguoiMua)
     {
@@ -687,14 +688,11 @@ public:
         }
 
         float thanhTien = soLuongMua * sanPham->getGiaSP();
-        tongDoanhThu += thanhTien;
-
-        sanPham->setSoLuong(sanPham->getSoLuong() - soLuongMua);
-
-        if (laKhachHangThanThiet && thanhTien > 1000000)
-        {
-            diemTichLuy += (thanhTien / 1000000) * 100;
-        }
+        cout << "========== THANH TOAN ==========" << endl;
+        
+        cout << "Ten san pham: " << tenSanPham << endl;
+        cout << "So luong mua: " << soLuongMua << endl;
+        cout << "So tien phai tra: " << fixed << setprecision(0) << thanhTien << " VND" << endl;
 
         ++maHD;
         stringstream ss;
@@ -708,10 +706,6 @@ public:
         time_t now = time(0);
         tm *ltm = localtime(&now);
         string ngayThangNam = to_string(ltm->tm_mday) + "/" + to_string(1 + ltm->tm_mon) + "/" + to_string(1900 + ltm->tm_year);
-
-        cout << "Da mua thanh cong " << soLuongMua << " san pham: " << sanPham->getNameSP() << endl;
-        cout << "So tien phai tra: " << fixed << setprecision(0) << thanhTien << " VND" << endl;
-        
 
         string phuongThucThanhToan;
          int luaChonThanhToan;
@@ -744,17 +738,44 @@ public:
 
         // Xác nhận thanh toán
         char xacNhanThanhToan;
-        cout << "Da thanh toan thanh cong? (y/n): ";
-        cin >> xacNhanThanhToan;
+        do{
+            cout << "Da thanh toan thanh cong? (y/n): ";
+            cin >> xacNhanThanhToan;
+
+            if (xacNhanThanhToan != 'y' && xacNhanThanhToan != 'Y' &&
+                xacNhanThanhToan != 'n' && xacNhanThanhToan != 'N') {
+                cout << "Lua chon khong hop le. Vui long nhap lai (y/n).\n";
+            }
+        } while (xacNhanThanhToan != 'y' && xacNhanThanhToan != 'Y' &&
+                xacNhanThanhToan != 'n' && xacNhanThanhToan != 'N');
 
         if (xacNhanThanhToan == 'y' || xacNhanThanhToan == 'Y')
         {
             cout << "Thanh toan da hoan tat. Cam on quy khach!\n";
+            
+            tongDoanhThu += thanhTien;
+
+            sanPham->setSoLuong(sanPham->getSoLuong() - soLuongMua);
+
+            
+            if (laKhachHangThanThiet && thanhTien > 1000000)
+            {
+                diemTichLuy += (thanhTien / 1000000) * 100;
+            }
+
+            cout << "Da mua thanh cong " << soLuongMua << " san pham: " << sanPham->getNameSP() << endl;
 
             // In hóa đơn nếu cần
             char layBill;
-            cout << "Khach hang co muon lay hoa don khong? (y/n): ";
-            cin >> layBill;
+            do {
+                cout << "Khach hang co muon lay hoa don khong? (y/n): ";
+                cin >> layBill;
+
+                if (layBill != 'y' && layBill != 'Y' && layBill != 'n' && layBill != 'N') {
+                    cout << "Lua chon khong hop le. Vui long nhap lai (y/n).\n";
+                }
+            } while (layBill != 'y' && layBill != 'Y' && layBill != 'n' && layBill != 'N');
+
             if (layBill == 'y' || layBill == 'Y') {
                 ofstream billOut("Xuat_hoa_don.txt", ios::app);
                 if (billOut.is_open()) {
@@ -789,6 +810,12 @@ public:
                 cout << "Khach hang khong lay hoa don." << endl;
             }
         }
+        else
+        {
+            cout << "Thanh toan khong thanh cong. Don hang bi huy.\n";
+            return; 
+        }
+
         ofstream fileOut("lich_su_mua_hang_hoa.txt", ios::app);
         if (fileOut.is_open()) {
             fileOut << "=========================== LICH SU MUA HANG ===========================\n";
@@ -922,6 +949,11 @@ public:
     int getDiemTichLuy()
     {
         return diemTichLuy;
+    }
+
+    void tangDiemTichLuy(int diem)
+    {
+        diemTichLuy += diem;
     }
 
     friend ostream &operator<<(ostream &out, KhachHangThanThiet &a)
@@ -1158,6 +1190,7 @@ public:
             temp = temp->getNext();
         }
     }
+    
     void themKhachHang()
     {
         int loaiKH;
