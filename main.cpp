@@ -30,7 +30,32 @@ public:
     string getChucVu();
     string getHoTen();
     string getSoDienThoai();
+    //
+    void setHoTen(const string &hoTenMoi);
+    void setPass(const string &passMoi);
+    void setNamSinh(int namSinhMoi);
+    void setSoDienThoai(const string &soDienThoaiMoi);
+
 };
+void NhanVien::setHoTen(const string &hoTenMoi)
+{
+    hoTen = hoTenMoi;
+}
+
+void NhanVien::setPass(const string &passMoi)
+{
+    pass = passMoi;
+}
+
+void NhanVien::setNamSinh(int namSinhMoi)
+{
+    namSinh = namSinhMoi;
+}
+
+void NhanVien::setSoDienThoai(const string &soDienThoaiMoi)
+{
+    soDienThoai = soDienThoaiMoi;
+}
 class HangHoa
 {
 private:
@@ -58,14 +83,27 @@ public:
     float getSoTienBanRa();
     void setSoLuongBanRa(int slBanRa);
     void setSoTienBanRa(float tienBanRa);
+    void setNameSP(const string &name);
+    void setGiaSP(long long gia);
+ 
 };
 
-// Khởi tạo biến static
+// Khởi tạo biến static 
 int NhanVien::IDNV = 0;
 
 int NhanVien::IDQL = 0;
 
 int HangHoa ::maHH = 0;
+
+void HangHoa::setNameSP(const string &name)
+{
+    nameSP = name;
+}
+
+void HangHoa::setGiaSP(long long gia)
+{
+    giaSP = gia;
+}
 
 void HangHoa::setLoaiSP(string loai)
 {
@@ -425,18 +463,137 @@ public:
         }
     }
 
-    bool chinhSuaNhanVien(const string &maNV)
+bool chinhSuaNhanVien(const string &maNV)
+{
+    NhanVien *nv = timKiemNhanVien(maNV);
+    if (nv == NULL)
     {
-        NhanVien *nv = timKiemNhanVien(maNV);
-        if (nv == NULL)
-        {
-            cout << "Khong tim thay nhan vien de chinh sua." << endl;
-            return false;
-        }
-        cout << "Nhap thong tin moi cho nhan vien:" << endl;
-        nv->nhapThongTin();
-        return true;
+        cout << "Khong tim thay nhan vien de chinh sua." << endl;
+        return false;
     }
+
+    int choice;
+    do
+    {
+        cout << "\nChon thong tin can chinh sua:\n";
+        cout << "1. Sua ho ten nhan vien\n";
+        cout << "2. Sua nam sinh nhan vien\n";
+        cout << "3. Sua mat khau nhan vien\n";
+        cout << "4. Sua so dien thoai nhan vien\n";
+        cout << "5. Sua toan bo thong tin nhan vien\n";
+        cout << "0. Quay lai\n";
+        cout << " =>> Moi ban nhap lua chon: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+        {
+            string newName;
+            cout << "Nhap ho ten moi: ";
+            cin.ignore();
+            getline(cin, newName);
+            nv->setHoTen(newName);
+            cout << "Da cap nhat ho ten nhan vien thanh cong.\n";
+            break;
+        }
+        case 2:
+        {
+            int newNamSinh;
+            int namHienTai = 2024;
+            do
+            {
+                cout << "Nhap nam sinh moi: ";
+                cin >> newNamSinh;
+                int tuoi = namHienTai - newNamSinh;
+                if (tuoi < 18 || tuoi > 70)
+                {
+                    cout << "Nam sinh khong hop le. Vui long nhap lai.\n";
+                }
+                else
+                {
+                    nv->setNamSinh(newNamSinh);
+                    cout << "Da cap nhat nam sinh nhan vien thanh cong.\n";
+                    break;
+                }
+            } while (true);
+            break;
+        }
+        case 3:
+        {
+            string newPass;
+            do
+            {
+                cout << "Nhap mat khau moi (4 ky tu tro len): ";
+                cin >> newPass;
+                if (newPass.length() < 4)
+                {
+                    cout << "Mat khau phai co it nhat 4 ky tu. Vui long nhap lai.\n";
+                }
+                else
+                {
+                    nv->setPass(newPass);
+                    cout << "Da cap nhat mat khau nhan vien thanh cong.\n";
+                    break;
+                }
+            } while (true);
+            break;
+        }
+        case 4:
+        {
+            string newSoDienThoai;
+            bool soDienThoaiHopLe = false;
+            do
+            {
+                cout << "Nhap so dien thoai moi: ";
+                cin >> newSoDienThoai;
+
+                if (newSoDienThoai.length() == 10 && newSoDienThoai[0] == '0')
+                {
+                    soDienThoaiHopLe = true;
+
+                    for (int i = 1; i < 10; i++)
+                    {
+                        if (newSoDienThoai[i] < '0' || newSoDienThoai[i] > '9')
+                        {
+                            soDienThoaiHopLe = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (!soDienThoaiHopLe)
+                {
+                    cout << "So dien thoai khong hop le. Vui long nhap so 0 + 9 chu so.\n";
+                }
+                else
+                {
+                    nv->setSoDienThoai(newSoDienThoai);
+                    cout << "Da cap nhat so dien thoai nhan vien thanh cong.\n";
+                    break;
+                }
+            } while (!soDienThoaiHopLe);
+            break;
+        }
+        case 5:
+        {
+            cout << "Nhap thong tin moi cho nhan vien:\n";
+            nv->nhapThongTin();
+            cout << "Da cap nhat thong tin nhan vien thanh cong.\n";
+            break;
+        }
+        case 0:
+            cout << "Quay lai menu chinh.\n";
+            break;
+        default:
+            cout << "Lua chon khong hop le. Vui long chon lai.\n";
+            break;
+        }
+    } while (choice != 0);
+
+    return true;
+}
+
 
     NhanVien *timKiemNhanVien(const string &maNV)
     {
@@ -638,16 +795,124 @@ public:
         cout << "Khong tim thay san pham co ma " << idSP << " trong he thong.\n";
         return false;
     }
-
     bool chinhSuaSanPham(const string &idSP)
     {
         HangHoa *sp = timKiemSanPham(idSP);
         if (sp == NULL)
         {
+            cout << "Khong tim thay san pham de chinh sua." << endl;
             return false;
         }
-        cout << "Nhap thong tin moi cho san pham:" << endl;
-        sp->nhapThongTinSP();
+
+        int choice;
+        do
+        {
+            cout << "\nChon thong tin can chinh sua:\n";
+            cout << "1. Sua ten san pham\n";
+            cout << "2. Sua so luong san pham\n";
+            cout << "3. Sua loai san pham\n";
+            cout << "4. Sua gia san pham\n";
+            cout << "5. Sua toan bo thong tin san pham\n";
+            cout << "0. Quay lai\n";
+            cout << "  =>> Moi ban nhap lua chon: ";
+            cin >> choice;
+
+            switch (choice)
+            {
+            case 1:
+            {
+                string newName;
+                cout << "Nhap ten san pham moi: ";
+                cin.ignore();
+                getline(cin, newName);
+                sp->setNameSP(newName);
+                cout << "Da cap nhat ten san pham thanh cong.\n";
+                break;
+            }
+            case 2:
+            {
+                int newQuantity;
+                do
+                {
+                    cout << "Nhap so luong san pham moi: ";
+                    cin >> newQuantity;
+                    if (newQuantity < 0)
+                    {
+                        cout << "So luong khong duoc am. Vui long nhap lai.\n";
+                    }
+                } while (newQuantity < 0);
+                sp->setSoLuong(newQuantity);
+                cout << "Da cap nhat so luong san pham thanh cong.\n";
+                break;
+            }
+            case 3:
+            {
+                int pick = 0;
+                do
+                {
+                    cout << "Chon loai san pham moi: \n";
+                    cout << "1. Dien Thoai di dong\n";
+                    cout << "2. Laptop-may tinh bang\n";
+                    cout << "3. Gia dung\n";
+                    cout << "4. Tu lanh\n";
+                    cout << "5. Noi dien\n";
+                    cout << " =>> Moi ban nhap lua chon: ";
+                    cin >> pick;
+                } while (pick < 1 || pick > 5);
+
+                switch (pick)
+                {
+                case 1:
+                    sp->setLoaiSP("Dien Thoai di dong");
+                    break;
+                case 2:
+                    sp->setLoaiSP("Laptop-may tinh bang");
+                    break;
+                case 3:
+                    sp->setLoaiSP("Gia dung");
+                    break;
+                case 4:
+                    sp->setLoaiSP("Tu lanh");
+                    break;
+                case 5:
+                    sp->setLoaiSP("Noi dien");
+                    break;
+                }
+                cout << "Da cap nhat loai san pham thanh cong.\n";
+                break;
+            }
+            case 4:
+            {
+                long long newPrice;
+                do
+                {
+                    cout << "Nhap gia san pham moi: ";
+                    cin >> newPrice;
+                    if (newPrice <= 0)
+                    {
+                        cout << "Gia phai la so duong. Vui long nhap lai.\n";
+                    }
+                } while (newPrice <= 0);
+                sp->setGiaSP(newPrice);
+                cout << "Da cap nhat gia san pham thanh cong.\n";
+                break;
+            }
+            case 5:
+            {
+                cout << "Nhap thong tin moi cho san pham:\n";
+                sp->nhapThongTinSP();
+                cout << "Da cap nhat thong tin san pham thanh cong.\n";
+                break;
+            }
+            case 0:
+                cout << "Quay lai menu chinh.\n";
+                break;
+            default:
+                cout << "Lua chon khong hop le. Vui long chon lai.\n";
+                break;
+            }
+        } while (choice != 0);
+
         return true;
     }
 
@@ -840,7 +1105,7 @@ public:
     {
         if (phead == NULL)
         {
-            cout << "                 [Danh sach rong]\n";
+        cout << "                                       [Danh sach rong]\n";
             return;
         }
 
@@ -848,7 +1113,7 @@ public:
         bool found = false;
         cout << left << setw(15) << "ID" << setw(30) << "Ten san pham" << setw(10) << "So luong"
              << setw(15) << "Gia (VND)" << setw(20) << "Loai san pham" << endl;
-        cout << "-------------------------------------------------------------------------------" << endl;
+        cout << "-----------------------------------------------------------------------------------------" << endl;
 
         while (p != NULL)
         {
@@ -873,14 +1138,14 @@ public:
     {
         if (phead == NULL)
         {
-            cout << "                   [Danh sach san pham rong]" << endl;
+    cout << "                                           [Danh sach san pham rong]" << endl;
             return;  
         }
         nodeSP *p = phead;
         bool found = false;
         cout << left << setw(15) << "ID" << setw(30) << "Ten san pham" << setw(10) << "So luong"
              << setw(15) << "Gia (VND)" << setw(20) << "Loai san pham" << endl;
-        cout << "-------------------------------------------------------------------------------" << endl;
+        cout << "-----------------------------------------------------------------------------------------" << endl;
 
         while (p != NULL)
         {
@@ -897,7 +1162,37 @@ public:
         }
         if (!found)
         {
-            cout << "                   [Danh sach san pham rong." << endl;
+    cout << "                                          [Danh sach san pham rong." << endl;
+        }
+    }
+    void inThongTinSanPham(HangHoa *sp)
+    {
+        if (sp == NULL)
+        {
+            cout << "Khong co san pham de hien thi.\n";
+            return;
+        }
+        cout << left << setw(15) << "ID" << setw(30) << "Ten san pham"
+             << setw(10) << "So luong" << setw(15) << "Gia (VND)"
+             << setw(20) << "Loai san pham" << endl;
+        cout << "------------------------------------------------------------------------------------------" << endl;
+        cout << left << setw(15) << sp->getIDHH()
+             << setw(30) << sp->getNameSP()
+             << setw(10) << sp->getSoLuong()
+             << setw(15) << fixed << setprecision(0) << sp->getGiaSP()
+             << setw(20) << sp->getLoaiSP() << endl;
+    }
+    void timKiemVaInSanPham(const string &idSP)
+    {
+        HangHoa *sp = timKiemSanPham(idSP);
+        if (sp)
+        {
+            cout << "He thong da tim ra san pham co ma '" << idSP << "':\n";
+            inThongTinSanPham(sp);
+        }
+        else
+        {
+            cout << "********=>> Khong tim thay san pham voi ma " << idSP << ". <<=***********" << endl;
         }
     }
 };
@@ -1289,9 +1584,9 @@ int main()
         returnMain = false;
         int padding = (screenWidth - 24) / 2; // 24 là độ dài tiêu đề
         cout << string(padding, ' ');
-        cout << "\033[1;31m================Sieu thi dien may DTL=================\033[0m\n";
-        cout << "\t\t\t\t\t\t[-1. Dang ky  ]\n";
-        cout << "\t\t\t\t\t\t[-2. Dang nhap]\n";
+        cout << "\033[1;31m================ SIEU THI DIEN MAY DTL =================\033[0m\n";
+        cout << "\t\t\t\t\t\t[- 1. Dang ky   -]\n";
+        cout << "\t\t\t\t\t\t[- 2. Dang nhap -]\n";
         while (true)
         {
             cout << "=>>Nhap lua chon cua ban: ";
@@ -1476,23 +1771,23 @@ int main()
         {
             string sdt_current, pass_current;
             cout << "============ Dang Nhap ===========\n";
-            cout << "Nhap so dien thoai: ";
+            cout << "[     Nhap so dien thoai: ";
             cin.ignore();
             getline(cin, sdt_current);
-            cout << "~~Nhap mat khau: ";
+            cout << "[     Nhap mat khau: ";
             getline(cin, pass_current);
 
             NhanVien *user = dsNV.checkLogin(sdt_current, pass_current);
             KhachHang *khachhang = dsKH.checkLoginKH(sdt_current, pass_current);
             if (user != NULL)
             {
-                cout << "*~*~*~Dang nhap thanh cong!!*~*~*~\n";
+                cout << "                *~*~*~Dang nhap thanh cong!!*~*~*~\n";
                 NhanVien *nv = dynamic_cast<NhanVien *>(user);
                 if (nv != NULL)
                 {
-                    cout << "Xin chao " << user->getHoTen() << "!\n";
+                    cout << " -------- Xin chao " << user->getHoTen() << " --------- \n";
                     int choose = 0;
-                    cout << "Ban da dang nhap voi chuc vu " << user->getChucVu() << "\n";
+                    cout << " -------- Ban da dang nhap voi chuc vu " << user->getChucVu() << " ----------\n";
                     do
                     {
                         // Menu cho nhân viên
@@ -1827,16 +2122,7 @@ int main()
                                 string idSP;
                                 cout << "Nhap ma san pham can tim: ";
                                 cin >> idSP;
-                                HangHoa *sp = dsSP.timKiemSanPham(idSP);
-                                if (sp)
-                                {
-                                    cout << "He thong da tim ra ma san pham!" << endl;
-                                    cout << "               =------------Thong tin san pham duoc tim thay-----------=                  \n";
-                                    cout << left << setw(15) << "ID"<< setw(20) << "Loai san pham"  << setw(25) << "Ten san pham" << setw(10) << "So luong"<< setw(15) << "Gia (VND)" << endl;
-                                    cout << "=========================================================================================\n";
-                                    cout << *sp << endl;
-                                    cout << "=========================================================================================\n";
-                                }
+                                dsSP.timKiemVaInSanPham(idSP);
                             }
                             loggedOut = false;
                             break;
@@ -1872,29 +2158,14 @@ int main()
                             break;
 
                         case 8:
-                            if (user->getChucVu() == "Quan ly")
-                            {
+                            if (user->getChucVu() == "Quan ly"){
                                 string idSP;
                                 cout << "Nhap ma san pham can tim: ";
                                 cin >> idSP;
-                                HangHoa *sp = dsSP.timKiemSanPham(idSP);
-                                if (sp)
-                                {
-                                    cout << "He thong da tim ra ma san pham!" << endl;
-                                    cout << "               =------------Thong tin san pham duoc tim thay-------------=               \n";
-                                    cout << left << setw(15) << "ID"<< setw(20) << "Loai san pham"  << setw(25) << "Ten san pham" << setw(10) << "So luong"<< setw(15) << "Gia (VND)" << endl;
-                                    cout << "=========================================================================================\n";
-                                    cout << *sp << endl;
-                                    cout << "=========================================================================================\n";
-                                }
-                                else
-                                {
-                                    cout << "********=>> Khong tim thay san pham voi ma " << idSP << ". <<=***********" << endl;
-                                }
+                                dsSP.timKiemVaInSanPham(idSP); // Sử dụng hàm mới (Thay đổi 6)
                             }
                             loggedOut = false;
                             break;
-
                         case 9:
                             if (user->getChucVu() == "Quan ly")
                             {
@@ -2000,16 +2271,23 @@ int main()
                         case 15:
                             if (user->getChucVu() == "Quan ly")
                             {
-                                cout << "Chinh sua thong tin ca nhan cua quan ly:\n";
-                                user->nhapThongTin(); // Cap nhat thong tin quan ly
-                                cout << "          ~*.~*~*.~*=>> Cap nhat thong tin thanh cong. <<=~*.~*~*.~*\n";
+                                string maNV = user->getMaNV();
+                                if (dsNV.chinhSuaNhanVien(maNV))
+                                {
+                                    cout << "          ~*.~*~*.~*=>> Cập nhật thông tin thành công. <<=~*.~*~*.~*\n";
+                                }
+                                else
+                                {
+                                    cout << "***********=>> Chỉnh sửa thất bại hoặc không tìm thấy mã " << maNV << " <<==************.\n";
+                                }
                             }
                             else
                             {
-                                cout << "*********=>> Ban khong co quyen truy cap chuc nang nay. <<=************\n";
+                                cout << "*********=>> Bạn không có quyền truy cập chức năng này. <<=************\n";
                             }
                             loggedOut = false;
                             break;
+
 
                         case 16:
                         {
@@ -2052,8 +2330,8 @@ int main()
             else if (khachhang != NULL)
             {
                 tenNguoiMua = khachhang->getHoTenKH();
-                cout << "*~*~*~Dang nhap thanh cong!!*~*~*~\n";
-                cout << "Xin chao " << tenNguoiMua << "!\n";
+                cout << "                *~*~*~Dang nhap thanh cong!!*~*~*~\n";
+                cout << " ------------ Xin chao " << tenNguoiMua << "! ------------------\n";
                 int chooseKH = 0;
                 do
                 {
