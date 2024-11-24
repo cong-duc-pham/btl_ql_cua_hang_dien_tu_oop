@@ -30,7 +30,32 @@ public:
     string getChucVu();
     string getHoTen();
     string getSoDienThoai();
+    //
+    void setHoTen(const string &hoTenMoi);
+    void setPass(const string &passMoi);
+    void setNamSinh(int namSinhMoi);
+    void setSoDienThoai(const string &soDienThoaiMoi);
+
 };
+void NhanVien::setHoTen(const string &hoTenMoi)
+{
+    hoTen = hoTenMoi;
+}
+
+void NhanVien::setPass(const string &passMoi)
+{
+    pass = passMoi;
+}
+
+void NhanVien::setNamSinh(int namSinhMoi)
+{
+    namSinh = namSinhMoi;
+}
+
+void NhanVien::setSoDienThoai(const string &soDienThoaiMoi)
+{
+    soDienThoai = soDienThoaiMoi;
+}
 class HangHoa
 {
 private:
@@ -438,18 +463,137 @@ public:
         }
     }
 
-    bool chinhSuaNhanVien(const string &maNV)
+bool chinhSuaNhanVien(const string &maNV)
+{
+    NhanVien *nv = timKiemNhanVien(maNV);
+    if (nv == NULL)
     {
-        NhanVien *nv = timKiemNhanVien(maNV);
-        if (nv == NULL)
-        {
-            cout << "Khong tim thay nhan vien de chinh sua." << endl;
-            return false;
-        }
-        cout << "Nhap thong tin moi cho nhan vien:" << endl;
-        nv->nhapThongTin();
-        return true;
+        cout << "Khong tim thay nhan vien de chinh sua." << endl;
+        return false;
     }
+
+    int choice;
+    do
+    {
+        cout << "\nChon thong tin can chinh sua:\n";
+        cout << "1. Sua ho ten nhan vien\n";
+        cout << "2. Sua nam sinh nhan vien\n";
+        cout << "3. Sua mat khau nhan vien\n";
+        cout << "4. Sua so dien thoai nhan vien\n";
+        cout << "5. Sua toan bo thong tin nhan vien\n";
+        cout << "0. Quay lai\n";
+        cout << " =>> Moi ban nhap lua chon: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+        {
+            string newName;
+            cout << "Nhap ho ten moi: ";
+            cin.ignore();
+            getline(cin, newName);
+            nv->setHoTen(newName);
+            cout << "Da cap nhat ho ten nhan vien thanh cong.\n";
+            break;
+        }
+        case 2:
+        {
+            int newNamSinh;
+            int namHienTai = 2024;
+            do
+            {
+                cout << "Nhap nam sinh moi: ";
+                cin >> newNamSinh;
+                int tuoi = namHienTai - newNamSinh;
+                if (tuoi < 18 || tuoi > 70)
+                {
+                    cout << "Nam sinh khong hop le. Vui long nhap lai.\n";
+                }
+                else
+                {
+                    nv->setNamSinh(newNamSinh);
+                    cout << "Da cap nhat nam sinh nhan vien thanh cong.\n";
+                    break;
+                }
+            } while (true);
+            break;
+        }
+        case 3:
+        {
+            string newPass;
+            do
+            {
+                cout << "Nhap mat khau moi (4 ky tu tro len): ";
+                cin >> newPass;
+                if (newPass.length() < 4)
+                {
+                    cout << "Mat khau phai co it nhat 4 ky tu. Vui long nhap lai.\n";
+                }
+                else
+                {
+                    nv->setPass(newPass);
+                    cout << "Da cap nhat mat khau nhan vien thanh cong.\n";
+                    break;
+                }
+            } while (true);
+            break;
+        }
+        case 4:
+        {
+            string newSoDienThoai;
+            bool soDienThoaiHopLe = false;
+            do
+            {
+                cout << "Nhap so dien thoai moi: ";
+                cin >> newSoDienThoai;
+
+                if (newSoDienThoai.length() == 10 && newSoDienThoai[0] == '0')
+                {
+                    soDienThoaiHopLe = true;
+
+                    for (int i = 1; i < 10; i++)
+                    {
+                        if (newSoDienThoai[i] < '0' || newSoDienThoai[i] > '9')
+                        {
+                            soDienThoaiHopLe = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (!soDienThoaiHopLe)
+                {
+                    cout << "So dien thoai khong hop le. Vui long nhap so 0 + 9 chu so.\n";
+                }
+                else
+                {
+                    nv->setSoDienThoai(newSoDienThoai);
+                    cout << "Da cap nhat so dien thoai nhan vien thanh cong.\n";
+                    break;
+                }
+            } while (!soDienThoaiHopLe);
+            break;
+        }
+        case 5:
+        {
+            cout << "Nhap thong tin moi cho nhan vien:\n";
+            nv->nhapThongTin();
+            cout << "Da cap nhat thong tin nhan vien thanh cong.\n";
+            break;
+        }
+        case 0:
+            cout << "Quay lai menu chinh.\n";
+            break;
+        default:
+            cout << "Lua chon khong hop le. Vui long chon lai.\n";
+            break;
+        }
+    } while (choice != 0);
+
+    return true;
+}
+
 
     NhanVien *timKiemNhanVien(const string &maNV)
     {
@@ -2127,16 +2271,23 @@ int main()
                         case 15:
                             if (user->getChucVu() == "Quan ly")
                             {
-                                cout << "Chinh sua thong tin ca nhan cua quan ly:\n";
-                                user->nhapThongTin(); // Cap nhat thong tin quan ly
-                                cout << "          ~*.~*~*.~*=>> Cap nhat thong tin thanh cong. <<=~*.~*~*.~*\n";
+                                string maNV = user->getMaNV();
+                                if (dsNV.chinhSuaNhanVien(maNV))
+                                {
+                                    cout << "          ~*.~*~*.~*=>> Cập nhật thông tin thành công. <<=~*.~*~*.~*\n";
+                                }
+                                else
+                                {
+                                    cout << "***********=>> Chỉnh sửa thất bại hoặc không tìm thấy mã " << maNV << " <<==************.\n";
+                                }
                             }
                             else
                             {
-                                cout << "*********=>> Ban khong co quyen truy cap chuc nang nay. <<=************\n";
+                                cout << "*********=>> Bạn không có quyền truy cập chức năng này. <<=************\n";
                             }
                             loggedOut = false;
                             break;
+
 
                         case 16:
                         {
