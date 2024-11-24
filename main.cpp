@@ -655,22 +655,94 @@ bool chinhSuaNhanVien(const string &maNV)
         {
             if (p->getInfo()->getSoDienThoai() == sdtnv && p->getInfo()->getPass() == pass)
             {
-                // Kiểm tra chức vụ của nhân viên
+            
                 if (p->getInfo()->getChucVu() == "Quan ly")
                 {
-                    // Quản lý đăng nhập
                     cout << "Dang nhap thanh cong voi vai tro Quan Ly!" << endl;
                 }
                 else
                 {
-                    // Nhân viên bình thường
                     cout << "Dang nhap thanh cong voi vai tro Nhan Vien!" << endl;
                 }
-                return p->getInfo(); // Trả về thông tin nhân viên hoặc quản lý
+
+                string doiMatKhau;
+                while (true)
+                {
+                    cout << "Ban co muon doi mat khau khong? (y/n): ";
+                    cin >> doiMatKhau;
+
+                    for (auto &ch : doiMatKhau)
+                        ch = tolower(ch);
+
+                    if (doiMatKhau == "y")
+                    {
+                        string matKhauMoi;
+                        cout << "Nhap mat khau moi: ";
+                        cin >> matKhauMoi;
+                        p->getInfo()->setPass(matKhauMoi);
+                        cout << "Mat khau da duoc doi thanh cong!" << endl;
+                        break;
+                    }
+                    else if (doiMatKhau == "n")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        cout << "Nhap khong hop le. Vui long nhap 'y' hoac 'n'!" << endl;
+                    }
+                }
+
+                return p->getInfo(); 
             }
             p = p->getNext();
         }
-        return NULL; // Trả về NULL nếu không tìm thấy
+
+        // quen mat khau
+        string quenMatKhau;
+        while (true)
+        {
+            cout << "Sai thong tin dang nhap! Ban co muon khoi phuc mat khau khong? (y/n): ";
+            cin >> quenMatKhau;
+
+            for (auto &ch : quenMatKhau)
+                ch = tolower(ch);
+
+            if (quenMatKhau == "y")
+            {
+                cout << "Nhap so dien thoai cua ban: ";
+                string soDienThoai;
+                cin >> soDienThoai;
+                Node *p = phead;
+                while (p != NULL)
+                {
+                    if (p->getInfo()->getSoDienThoai() == soDienThoai)
+                    {
+                        cout << "So dien thoai hop le. Khoi phuc mat khau!" << endl;
+                        string matKhauMoi;
+                        cout << "Nhap mat khau moi: ";
+                        cin >> matKhauMoi;
+                        p->getInfo()->setPass(matKhauMoi);
+                        cout << "Mat khau cua ban da duoc cap nhat thanh cong!" << endl;
+                        cout << "Vui long dang nhap lai!" << endl;
+                        return NULL; 
+                    }
+                    p = p->getNext();
+                }
+                cout << "So dien thoai khong ton tai!" << endl;
+                break;
+            }
+            else if (quenMatKhau == "n")
+            {
+                break;
+            }
+            else
+            {
+                cout << "Nhap khong hop le. Vui long nhap 'y' hoac 'n'!" << endl;
+            }
+        }
+
+        return NULL; 
     }
 
     void printList()
