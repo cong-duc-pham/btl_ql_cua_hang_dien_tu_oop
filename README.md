@@ -1,4 +1,4 @@
-# Electronics Supermarket
+# DTL Supermarket
 
 ## Project Description
 This project is an electronics supermarket management system developed in C++ using object-oriented programming (OOP) principles. It utilizes a singly linked list to manage product information, customer data, and purchase records.
@@ -12,7 +12,7 @@ This project is an electronics supermarket management system developed in C++ us
 ## Installation
 1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/electronics-supermarket.git
+   git clone https://github.com/cong-duc-pham/btl_ql_cua_hang_dien_tu_oop
 Navigate to the project directory:
 cd electronics-supermarket
 Compile the source code:
@@ -20,7 +20,7 @@ Compile the source code:
 g++ main.cpp -o electronics_supermarket
 Run the executable:
 
-./electronics_supermarket
+./DTL_upermarket
 Usage
 Log in as a customer to browse products and make purchases.
 Use the administrator interface to manage products and customer information.
